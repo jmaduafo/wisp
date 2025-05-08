@@ -7,8 +7,8 @@ function Weather() {
   // default, 24 hour forecast, forecast,
   const weather: Nav[] = [
     {
-      title: "Default",
-      navLink: "default",
+      title: "Current",
+      navLink: "current",
       icon: <SunSnow className="w-7 h-7" strokeWidth={1} />,
     },
     {

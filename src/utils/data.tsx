@@ -14,13 +14,14 @@ import {
   CloudMoon,
 } from "lucide-react";
 
-export const weatherIcons = (code: number, isDay: number) => {
-  if (code === 0 && isDay === 1) {
+export const weatherIcons = (code: number, is_day: number) => {
+    // is_day === 1 => daytime; is_day === 0 => nighttime
+  if (code === 0 && is_day === 1) {
     // clear sky
     return <SunMedium strokeWidth={1} className="w-full" />;
-} else if (code >= 0 && code <= 1 && isDay === 0) {
-      return <CloudMoon strokeWidth={1} className="w-full" />;
-  } else if (code >= 1 && code <= 2) {
+  } else if (code >= 0 && code <= 2 && is_day === 0) {
+    return <CloudMoon strokeWidth={1} className="w-full" />;
+  } else if (code >= 1 && code <= 2 && is_day === 1) {
     // partly cloudy
     return <CloudSun strokeWidth={1} className="w-full" />;
   } else if (code === 3) {
