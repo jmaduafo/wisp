@@ -1,5 +1,4 @@
-import React, { Fragment } from "react";
-import MenuCard from "./MenuCard";
+import React from "react";
 import {
   CloudDrizzle,
   GalleryVerticalEnd,
@@ -8,10 +7,11 @@ import {
   List,
   BookUser,
 } from "lucide-react";
-import Header1 from "../../ui/headings/Header1";
+import Display from "../../ui/menu/Display";
+import { Nav } from "../../../types/types";
 
 function MainMenu() {
-  const nav = [
+  const nav: Nav[] = [
     {
       title: "Weather",
       navLink: "weather",
@@ -45,26 +45,7 @@ function MainMenu() {
   ];
 
   return (
-    <section className="flex items-end h-full">
-      <div className="w-full">
-        <div className="mb-4 border-b-[2px] border-b-textColor py-0.5 w-fit">
-          <Header1 text="Main Menu" className="font-medium" />
-        </div>
-        <div className="grid grid-cols-2 gap-3">
-          {nav.map((item) => {
-            return (
-              <Fragment key={item.navLink}>
-                <MenuCard
-                  title={item.title}
-                  icon={item.icon}
-                  link={item.navLink}
-                />
-              </Fragment>
-            );
-          })}
-        </div>
-      </div>
-    </section>
+    <Display text="Main menu" array={nav}/>
   );
 }
 
