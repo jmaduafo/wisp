@@ -1,0 +1,45 @@
+@import url("https://fonts.cdnfonts.com/css/br-cobane");
+@import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;500;600;700;800&family=Bayon&family=Micro+5&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.cdnfonts.com/css/satoshi');
+@import url('https://fonts.cdnfonts.com/css/swily-bright');
+@import "tailwindcss";
+/* @tailwind base;
+@tailwind components; */
+@tailwind utilities;
+
+@theme {
+  --color-bgColor: #F7EAE4;
+  --color-textColor: #2D2929;
+}
+
+:root {
+ 
+}
+
+.drag {
+  -webkit-app-region: drag;
+}
+
+.logo {
+  font-family: 'Swily Bright', sans-serif;
+}
+
+.classic {
+  font-family: 'Satoshi', sans-serif;
+}
+
+.elegant {
+  font-family: 'Abhaya Libre', sans-serif;
+}
+
+.bit {
+  font-family: 'Micro 5', sans-serif;
+}
+
+.bold {
+  font-family: 'Bayon', sans-serif;
+}
+
+.shadow {
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.15)
+}
