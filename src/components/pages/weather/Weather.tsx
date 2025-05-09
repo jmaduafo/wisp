@@ -8,17 +8,17 @@ function Weather() {
   const weather: Nav[] = [
     {
       title: "Current",
-      navLink: "current",
+      navLink: "weather/current",
       icon: <SunSnow className="w-7 h-7" strokeWidth={1} />,
     },
     {
       title: "24hr Forecast",
-      navLink: "hour-24",
+      navLink: "weather/hour-24",
       icon: <ChartNoAxesColumn className="w-7 h-7" strokeWidth={1} />,
     },
     {
       title: "7-day Forecast",
-      navLink: "day-7",
+      navLink: "weather/day-7",
       icon: <ChartNoAxesCombined className="w-7 h-7" strokeWidth={1} />,
     },
   ];

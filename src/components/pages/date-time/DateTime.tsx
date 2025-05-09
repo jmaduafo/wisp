@@ -7,17 +7,17 @@ function DateTime() {
   // time, date
   const data: Nav[] = [
     {
-      navLink: "date",
+      navLink: "date-time/date",
       icon: <Calendar1 strokeWidth={1} className='w-7 h-7'/>,
       title: "date"
     },
     {
-      navLink: "time",
+      navLink: "date-time/time",
       icon: <Clock8 strokeWidth={1} className='w-7 h-7'/>,
       title: "time"
     },
     {
-      navLink: "calendar",
+      navLink: "date-time/calendar",
       icon: <CalendarDays strokeWidth={1} className='w-7 h-7'/>,
       title: "calendar"
     },

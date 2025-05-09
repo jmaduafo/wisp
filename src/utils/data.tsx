@@ -53,3 +53,8 @@ export const weatherIcons = (code: number, is_day: number) => {
     return <CloudLightning strokeWidth={1} className="w-full" />;
   }
 };
+
+
+export const carouselData = [
+    
+]

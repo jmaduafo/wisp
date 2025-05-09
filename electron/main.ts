@@ -28,8 +28,10 @@ function createWindow(name = 'main', urlPath = '') {
   const win = new BrowserWindow({
     maxHeight: 700,
     minHeight: 700,
+    height: 700,
     minWidth: 400,
     maxWidth: 400,
+    width: 400,
     frame: false,
     titleBarStyle: 'hidden',
     webPreferences: {
