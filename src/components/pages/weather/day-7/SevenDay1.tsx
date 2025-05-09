@@ -7,7 +7,7 @@ function SevenDay1() {
       {[0, 1, 2, 3, 4, 5, 6].map((_, i) => {
         return (
           <Fragment key={`${i + 1}`}>
-            <ForecastCard />
+            {/* <ForecastCard /> */}
           </Fragment>
         );
       })}

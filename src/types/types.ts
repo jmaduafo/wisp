@@ -14,13 +14,30 @@ export type User = {
 export type Nav = {
   navLink: string;
   title: string;
-  icon: React.ReactNode
+  icon: React.ReactNode;
+};
+
+export type Widget = {
+  category:
+    | "weather"
+    | "date-time"
+    | "album"
+    | "misc"
+    | "to-do"
+    | "music-player";
+  sub_category: string | null;
+  title: string;
+  demo: React.ReactNode;
+  is_primary: boolean;
+  is_glassomorphic: boolean;
+  widget: React.ReactNode;
+  serial_num: number;
 };
 
 export type ComponentStyle = {
-    primaryColor?: string;
-    secondaryColor?: string;
-    is_primary?: boolean;
-    is_glassomorphic?: boolean;
-    index?: number;
-}
+  primaryColor?: string;
+  secondaryColor?: string;
+  is_primary?: boolean;
+  is_glassomorphic?: boolean;
+  index?: number;
+};

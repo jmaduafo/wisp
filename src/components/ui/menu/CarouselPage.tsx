@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import SevenDay1 from "../../pages/weather/7-day/SevenDay1";
 import { Button } from "../button";
 import Header1 from "../headings/Header1";
 import {
@@ -10,11 +9,21 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../../../components/ui/carousel";
+import Paragraph from "../headings/Paragraph";
+import { useParams, useLocation } from "react-router-dom";
+import { carouselData } from "../../../utils/data.tsx";
+import { Widget } from "../../../types/types";
 
 function CarouselPage() {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
+
+  const [data, setData] = useState<Widget[] | undefined>();
+
+  const { name } = useParams();
+  const { pathname } = useLocation();
+  const currentPath = pathname.split("/")[1];
 
   useEffect(() => {
     if (!api) {
@@ -29,35 +38,63 @@ function CarouselPage() {
     });
   }, [api]);
 
+  useEffect(() => {
+    setData(
+      carouselData.filter((item) => {
+        if (item.sub_category) {
+          return item.sub_category === name;
+        } else {
+          return item.category === currentPath;
+        }
+      })
+    );
+  }, []);
+
   return (
     <section className="flex flex-col h-full">
       <div className="mt-6 border-b-[2px] border-b-textColor w-fit">
-        <Header1 text="7-Day Forecast" className="font-medium" />
+        {data ? <Header1 text={data[0].title} className="font-medium capitalize" /> : null}
+      </div>
+      <div className="mt-2">
+        <Paragraph
+          text="Choose a design of your choice"
+          className="text-textColor/70 w-[40%] leading-[1]"
+        />
       </div>
       <div className="mt-auto">
-        <Carousel
-          opts={{
-            align: "start",
-            loop: true,
-          }}
-          setApi={setApi}
-          className="w-[70%] mx-auto max-w-xs"
-        >
-          <CarouselContent className="-mt-1 h-[200px]">
-            {Array.from({ length: 5 }).map((_, index) => (
-              <CarouselItem key={index + 1} className="pt-1">
-                <div className="p-1 h-full flex items-center justify-center">
-                  <p className="text-center">{index}</p>
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
-        <p className="text-center mb-8">{current} / {count}</p>
-        <SevenDay1 />
-        <div></div>
+        <div>
+          <p className="text-center opacity-70">Preview</p>
+        </div>
+        <div className="mb-24">
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            setApi={setApi}
+            className="w-[70%] mx-auto max-w-xs"
+          >
+            <CarouselContent className="-mt-1 h-[200px]">
+              {data?.map((item) => (
+                <CarouselItem
+                  key={
+                    item.sub_category
+                      ? `${item.sub_category}${item.serial_num}`
+                      : `${item.category}${item.serial_num}`
+                  }
+                  className="pt-1"
+                >
+                  <div className="p-1 h-full flex justify-center items-center">
+                    {item.demo}
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
+          <Paragraph text={`${current} / ${count}`} className="text-center" />
+        </div>
         <Button className="w-full">Select</Button>
       </div>
     </section>
