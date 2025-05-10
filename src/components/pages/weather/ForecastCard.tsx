@@ -30,7 +30,7 @@ function ForecastCard({
 }: CardProp) {
   return (
     <div
-      className={`rounded-md px-4 py-1.5 backdrop-blur-3xl ${checkGlassomorphism(
+      className={`rounded-md px-4 py-1.5 backdrop-blur-xl ${checkGlassomorphism(
         is_glassomorphic,
         index
       )}`}

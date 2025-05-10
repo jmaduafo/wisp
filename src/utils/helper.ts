@@ -24,9 +24,9 @@ export function checkBackground({
     secondaryColor.length
   ) {
     if (is_primary) {
-      return index === 0 ? secondaryColor : secondaryColor + "60";
+      return index === 0 ? secondaryColor : secondaryColor + "90";
     } else {
-      return index === 0 ? primaryColor : primaryColor + "60";
+      return index === 0 ? primaryColor : primaryColor + "90";
     }
   }
 }

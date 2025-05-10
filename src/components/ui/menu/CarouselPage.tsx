@@ -68,24 +68,25 @@ function CarouselPage() {
           <p className="text-center opacity-70">Preview</p>
         </div>
         <div className="mb-24">
+            {data && api  ? 
           <Carousel
-            opts={{
+          opts={{
               align: "start",
               loop: true,
             }}
             setApi={setApi}
             className="w-[70%] mx-auto max-w-xs"
-          >
+            >
             <CarouselContent className="-mt-1 h-[200px]">
               {data?.map((item, i) => (
-                <CarouselItem
+                  <CarouselItem
                   key={
-                    item.sub_category
+                      item.sub_category
                       ? `${item.sub_category}${item.serial_num}`
                       : `${item.category}${item.serial_num}`
-                  }
-                  className="pt-1"
-                >
+                    }
+                    className="pt-1"
+                    >
                   <div className="p-1 h-full flex justify-center items-center bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(../../images/preview.jpg)` }}>
                     <item.preview
                       is_glassomorphic={item.is_glassomorphic}
@@ -93,18 +94,19 @@ function CarouselPage() {
                       primaryColor="#F7EAE4"
                       secondaryColor="#2D2929"
                       data={item.data!}
-                    />
+                      />
                   </div>
                 </CarouselItem>
               ))}
             </CarouselContent>
             <CarouselPrevious />
             <CarouselNext />
-          </Carousel>
+          </Carousel> : null
+        }
           <Paragraph text={`${current} / ${count}`} className="text-center" />
-        </div>
-        <Button className="w-full">Select</Button>
-      </div>
+          </div>
+          <Button className="w-full">Select</Button>
+          </div>
     </section>
   );
 }

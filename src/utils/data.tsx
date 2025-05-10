@@ -19,6 +19,7 @@ import SevenDay2 from "../components/pages/weather/day-7/SevenDay2";
 import SevenDay1 from "../components/pages/weather/day-7/SevenDay1";
 import SevenDay4 from "../components/pages/weather/day-7/SevenDay4";
 import ForecastDummy from "../components/pages/weather/ForecastDummy";
+import AnalogDummy from "../components/pages/date-time/AnalogDummy";
 
 export const weatherIcons = (code: number, is_day: number) => {
     // is_day === 1 => daytime; is_day === 0 => nighttime
@@ -195,5 +196,15 @@ export const carouselData : Widget[] = [
         is_glassomorphic: false,
         is_primary: true,
         serial_num: 4,
+    },
+    {
+        category: "date-time",
+        title: "Time",
+        sub_category: "time",
+        preview: AnalogDummy,
+        widget: SevenDay1,
+        is_glassomorphic: true,
+        is_primary: true,
+        serial_num: 1,
     },
 ]
