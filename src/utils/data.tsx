@@ -14,14 +14,11 @@ import {
   CloudMoon,
 } from "lucide-react";
 import { Widget } from "../types/types";
-import SevenDummy1 from "../components/pages/weather/day-7/SevenDummy1";
-import SevenDummy2 from "../components/pages/weather/day-7/SevenDummy2";
-import SevenDummy3 from "../components/pages/weather/day-7/SevenDummy3";
-import HourDummy1 from "../components/pages/weather/hour-24/HourDummy1";
-import HourDummy2 from "../components/pages/weather/hour-24/HourDummy2";
-import HourDummy3 from "../components/pages/weather/hour-24/HourDummy3";
-import HourDummy4 from "../components/pages/weather/hour-24/HourDummy4";
-import SevenDummy4 from "../components/pages/weather/day-7/SevenDummy4";
+import SevenDay3 from "../components/pages/weather/day-7/SevenDay3";
+import SevenDay2 from "../components/pages/weather/day-7/SevenDay2";
+import SevenDay1 from "../components/pages/weather/day-7/SevenDay1";
+import SevenDay4 from "../components/pages/weather/day-7/SevenDay4";
+import ForecastDummy from "../components/pages/weather/ForecastDummy";
 
 export const weatherIcons = (code: number, is_day: number) => {
     // is_day === 1 => daytime; is_day === 0 => nighttime
@@ -65,17 +62,17 @@ export const weatherIcons = (code: number, is_day: number) => {
 
 export const dummy7Days = [
     {
-        day: "Tue",
+        top_text: "Today",
         icon: 47,
         temp: 34
     },
     {
-        day: "Wed",
+        top_text: "Wed",
         icon: 53,
         temp: 30
     },
     {
-        day: "Thu",
+        top_text: "Thu",
         icon: 1,
         temp: 32
     },
@@ -83,17 +80,17 @@ export const dummy7Days = [
 
 export const dummy24Hours = [
     {
-        day: "10 AM",
+        top_text: "Now",
         icon: 3,
         temp: 22
     },
     {
-        day: "11 AM",
+        top_text: "11 AM",
         icon: 80,
         temp: 28
     },
     {
-        day: "12 PM",
+        top_text: "12 PM",
         icon: 52,
         temp: 30
     },
@@ -105,78 +102,96 @@ export const carouselData : Widget[] = [
         category: "weather",
         sub_category: "day-7",
         title: "7-Day forecast",
-        demo: <SevenDummy1/>,
-        widget: "",
+        preview: ForecastDummy,
+        widget: SevenDay1,
         is_glassomorphic: true,
         is_primary: true,
         serial_num: 1,
+        data: dummy7Days
     },
     {
         category: "weather",
         title: "7-Day forecast",
         sub_category: "day-7",
-        demo: <SevenDummy2/>,
-        widget: "",
+        preview: ForecastDummy,
+        widget: SevenDay2,
         is_glassomorphic: true,
         is_primary: false,
         serial_num: 2,
+        data: dummy7Days
     },
     {
         category: "weather",
         title: "7-Day forecast",
         sub_category: "day-7",
-        demo: <SevenDummy3/>,
-        widget: "",
+        preview: ForecastDummy,
+        widget: SevenDay3,
         is_glassomorphic: false,
         is_primary: true,
         serial_num: 3,
+        data: dummy7Days
     },
     {
         category: "weather",
         title: "7-Day forecast",
         sub_category: "day-7",
-        demo: <SevenDummy4/>,
-        widget: "",
+        preview: ForecastDummy,
+        widget: SevenDay4,
         is_glassomorphic: false,
         is_primary: false,
         serial_num: 4,
+        data: dummy7Days
     },
     {
         category: "weather",
         title: "24-Hour forecast",
         sub_category: "hour-24",
-        demo: <HourDummy1/>,
-        widget: "",
-        is_glassomorphic: false,
+        preview: ForecastDummy,
+        widget: SevenDay1,
+        is_glassomorphic: true,
         is_primary: true,
         serial_num: 1,
+        data: dummy24Hours
     },
     {
         category: "weather",
         title: "24-Hour forecast",
         sub_category: "hour-24",
-        demo: <HourDummy2/>,
-        widget: "",
-        is_glassomorphic: false,
-        is_primary: true,
+        preview: ForecastDummy,
+        widget: SevenDay2,
+        is_glassomorphic: true,
+        is_primary: false,
         serial_num: 2,
+        data: dummy24Hours
     },
     {
         category: "weather",
         title: "24-Hour forecast",
         sub_category: "hour-24",
-        demo: <HourDummy3/>,
-        widget: "",
+        preview: ForecastDummy,
+        widget: SevenDay3,
         is_glassomorphic: false,
         is_primary: true,
         serial_num: 3,
+        data: dummy24Hours
     },
     {
         category: "weather",
         title: "24-Hour forecast",
         sub_category: "hour-24",
-        demo: <HourDummy4/>,
-        widget: "",
+        preview: ForecastDummy,
+        widget: SevenDay4,
+        is_glassomorphic: false,
+        is_primary: false,
+        serial_num: 4,
+        data: dummy24Hours
+    },
+    {
+        category: "weather",
+        title: "Current",
+        sub_category: "current",
+        preview: ForecastDummy,
+        widget: SevenDay1,
         is_glassomorphic: false,
         is_primary: true,
         serial_num: 4,

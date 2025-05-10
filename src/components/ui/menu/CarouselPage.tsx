@@ -52,8 +52,10 @@ function CarouselPage() {
 
   return (
     <section className="flex flex-col h-full">
-      <div className="mt-6 border-b-[2px] border-b-textColor w-fit">
-        {data ? <Header1 text={data[0].title} className="font-medium capitalize" /> : null}
+      <div className="mt-6 w-fit">
+        {data ? (
+          <Header1 text={data[0].title} className="font-medium capitalize" />
+        ) : null}
       </div>
       <div className="mt-2">
         <Paragraph
@@ -62,7 +64,7 @@ function CarouselPage() {
         />
       </div>
       <div className="mt-auto">
-        <div>
+        <div className="mb-4">
           <p className="text-center opacity-70">Preview</p>
         </div>
         <div className="mb-24">
@@ -75,7 +77,7 @@ function CarouselPage() {
             className="w-[70%] mx-auto max-w-xs"
           >
             <CarouselContent className="-mt-1 h-[200px]">
-              {data?.map((item) => (
+              {data?.map((item, i) => (
                 <CarouselItem
                   key={
                     item.sub_category
@@ -84,8 +86,14 @@ function CarouselPage() {
                   }
                   className="pt-1"
                 >
-                  <div className="p-1 h-full flex justify-center items-center">
-                    {item.demo}
+                  <div className="p-1 h-full flex justify-center items-center bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(../../images/preview.jpg)` }}>
+                    <item.preview
+                      is_glassomorphic={item.is_glassomorphic}
+                      is_primary={item.is_primary}
+                      primaryColor="#F7EAE4"
+                      secondaryColor="#2D2929"
+                      data={item.data!}
+                    />
                   </div>
                 </CarouselItem>
               ))}

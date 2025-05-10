@@ -24,18 +24,19 @@ export function checkBackground({
     secondaryColor.length
   ) {
     if (is_primary) {
-      return index === 0 ? secondaryColor : secondaryColor + "50";
+      return index === 0 ? secondaryColor : secondaryColor + "60";
     } else {
-      return index === 0 ? primaryColor : primaryColor + "50";
+      return index === 0 ? primaryColor : primaryColor + "60";
     }
   }
 }
+
 
 export function checkText({
   primaryColor,
   secondaryColor,
   is_primary,
-}: ComponentStyle) {
+}) {
   if (
     primaryColor &&
     primaryColor.length &&

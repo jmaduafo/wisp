@@ -27,11 +27,12 @@ export type Widget = {
     | "music-player";
   sub_category: string | null;
   title: string;
-  demo: React.ReactNode;
+  preview: React.ComponentType<ComponentStyle>;
   is_primary: boolean;
   is_glassomorphic: boolean;
-  widget: React.ReactNode;
+  widget: React.ComponentType<ComponentStyle>;
   serial_num: number;
+  data?: { top_text: string; icon: number; temp: number}[] | null
 };
 
 export type ComponentStyle = {
@@ -40,4 +41,5 @@ export type ComponentStyle = {
   is_primary?: boolean;
   is_glassomorphic?: boolean;
   index?: number;
+  data?: { top_text: string; icon: number; temp: number}[]
 };
