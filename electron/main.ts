@@ -1,17 +1,17 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import { app, BrowserWindow, ipcMain } from "electron";
+import path from "path";
+import { fileURLToPath } from "url";
 
 // __dirname workaround in ESM
 const __filename: string = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Auto-reload in development environment
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === "development") {
   (async () => {
-    const electronReload = await import('electron-reload');
-    electronReload.default(path.join(__dirname, '..'), {
-      electron: require.resolve('electron'),
+    const electronReload = await import("electron-reload");
+    electronReload.default(path.join(__dirname, ".."), {
+      electron: require.resolve("electron"),
     });
   })();
 }
@@ -19,7 +19,7 @@ if (process.env.NODE_ENV === 'development') {
 const isDev = !app.isPackaged;
 const widgetWindows: Record<string, BrowserWindow> = {};
 
-function createWindow(name = 'main', urlPath = '') {
+function createWindow(name = "main", urlPath = "") {
   if (widgetWindows[name]) {
     widgetWindows[name].show();
     return;
@@ -33,21 +33,24 @@ function createWindow(name = 'main', urlPath = '') {
     maxWidth: 400,
     width: 400,
     frame: false,
-    titleBarStyle: 'hidden',
+    transparent: true,
+    titleBarStyle: "hidden",
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
+      preload: path.join(__dirname, "preload.js"),
+      contextIsolation: true,
+      nodeIntegration: false,
     },
   });
 
   if (isDev) {
     win.loadURL(`http://localhost:5173/${urlPath}`);
   } else {
-    win.loadFile(path.join(__dirname, '../dist/index.html'));
+    win.loadFile(path.join(__dirname, "../dist/index.html"));
   }
 
   widgetWindows[name] = win;
 
-  win.on('closed', () => {
+  win.on("closed", () => {
     delete widgetWindows[name];
   });
 }
@@ -55,15 +58,29 @@ function createWindow(name = 'main', urlPath = '') {
 app.whenReady().then(() => {
   createWindow();
 
-  ipcMain.on('open-widget', (_event, name: string, urlPath: string) => {
+  ipcMain.on("open-widget", (_event, name: string, urlPath: string) => {
     createWindow(name, urlPath);
   });
 
-  app.on('activate', () => {
+  app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 });
 
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') app.quit();
+app.on("window-all-closed", () => {
+  if (process.platform !== "darwin") app.quit();
+});
+
+ipcMain.on("window:minimize", (event) => {
+  const win = BrowserWindow.fromWebContents(event.sender);
+  win?.minimize();
+});
+
+ipcMain.on("window:close", (event) => {
+  const win = BrowserWindow.fromWebContents(event.sender);
+  win?.close();
+});
+
+ipcMain.on("open-widget", (_event, name: string, urlPath: string) => {
+  createWindow(name, urlPath);
 });

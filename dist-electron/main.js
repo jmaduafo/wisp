@@ -58,3 +58,11 @@ app.on('window-all-closed', () => {
     if (process.platform !== 'darwin')
         app.quit();
 });
+ipcMain.on('window:minimize', (event) => {
+    const win = BrowserWindow.fromWebContents(event.sender);
+    win?.minimize();
+});
+ipcMain.on('window:close', (event) => {
+    const win = BrowserWindow.fromWebContents(event.sender);
+    win?.close();
+});

@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import Header1 from "../headings/Header1";
 import MenuCard from "./MenuCard";
 import { Nav } from "../../../types/types";
+import NavBar from "../navbar/Navbar";
 
 type Prop = {
   text: string;
@@ -11,6 +12,7 @@ type Prop = {
 function Display({ text, array }: Prop) {
   return (
     <section className="h-full flex flex-col">
+      <NavBar />
       <div className="mt-6 border-b-[2px] border-b-textColor w-fit">
         <Header1 text={text} className="font-medium" />
       </div>

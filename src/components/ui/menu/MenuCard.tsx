@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import Header4 from "../headings/Header4";
 import React from "react";
 
@@ -12,14 +11,12 @@ function MenuCard({
   readonly link: string;
 }) {
   return (
-    <Link to={`/${link}`}>
-      <div className="cursor-pointer hover:opacity-70 duration-300 w-full h-[150px] flex flex-col px-4 py-3 rounded-lg bg-bgColor shadow-lg">
-        <div>
-          <Header4 text={title} className="capitalize" />
-        </div>
-        <div className="mt-auto flex justify-end">{icon}</div>
+    <button onClick={() => window.api.openWidget(`${link}`, `${link}`)} className="cursor-pointer hover:opacity-70 duration-300 w-full h-[150px] flex flex-col px-4 py-3 rounded-lg bg-bgColor shadow-lg">
+      <div>
+        <Header4 text={title} className="capitalize text-left" />
       </div>
-    </Link>
+      <div className="mt-auto flex justify-end">{icon}</div>
+    </button>
   );
 }
 

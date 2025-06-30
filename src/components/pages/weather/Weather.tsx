@@ -24,7 +24,7 @@ function Weather() {
   ];
 
   return (
-    <Display text="Weather" array={weather}/>
+    <div>Hamburger</div>
   );
 }
 

@@ -2,7 +2,7 @@ import React from "react";
 import {
   checkBackground,
   checkGlassomorphism,
-  checkText,
+ 
 } from "../../../utils/helper";
 import Header6 from "../../ui/headings/Header6";
 import { weatherIcons } from "../../../utils/data";
@@ -35,11 +35,11 @@ function ForecastCard({
         index
       )}`}
       style={{
-        color: checkText({
-          primaryColor: primary_color,
-          secondaryColor: secondary_color,
-          is_primary,
-        }),
+        // color: checkText({
+        //   primaryColor: primary_color,
+        //   secondaryColor: secondary_color,
+        //   is_primary,
+        // }),
         backgroundColor: checkBackground({
           primaryColor: primary_color,
           secondaryColor: secondary_color,

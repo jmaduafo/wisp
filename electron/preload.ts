@@ -1,7 +1,11 @@
 const { contextBridge, ipcRenderer } = require("electron");
 
-contextBridge.exposeInMainWorld("electronAPI", {
+contextBridge.exposeInMainWorld("api", {
   ping: () => 'pong',
-  // openWidget: (name, urlPath) => ipcRenderer.send("open-widget", name, urlPath),
+  minimize: () => ipcRenderer.send('window:minimize'),
+  close: () => ipcRenderer.send('window:close'),
+  openWidget: (name: string, urlPath: string) => {
+    ipcRenderer.send('open-widget', name, urlPath);
+  }
 });
 

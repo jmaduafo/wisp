@@ -32,21 +32,21 @@ export function checkBackground({
 }
 
 
-export function checkText({
-  primaryColor,
-  secondaryColor,
-  is_primary,
-}) {
-  if (
-    primaryColor &&
-    primaryColor.length &&
-    secondaryColor &&
-    secondaryColor.length
-  ) {
-    if (is_primary) {
-      return primaryColor;
-    } else {
-      return secondaryColor;
-    }
-  }
-}
+// export function checkText({
+//   primaryColor,
+//   secondaryColor,
+//   is_primary,
+// }) {
+//   if (
+//     primaryColor &&
+//     primaryColor.length &&
+//     secondaryColor &&
+//     secondaryColor.length
+//   ) {
+//     if (is_primary) {
+//       return primaryColor;
+//     } else {
+//       return secondaryColor;
+//     }
+//   }
+// }

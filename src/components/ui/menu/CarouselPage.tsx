@@ -11,7 +11,7 @@ import {
 } from "../../../components/ui/carousel";
 import Paragraph from "../headings/Paragraph";
 import { useParams, useLocation } from "react-router-dom";
-import { carouselData } from "../../../utils/data.tsx";
+import { carouselData } from "../../../utils/data";
 import { Widget } from "../../../types/types";
 
 function CarouselPage() {
@@ -68,7 +68,7 @@ function CarouselPage() {
           <p className="text-center opacity-70">Preview</p>
         </div>
         <div className="mb-24">
-            {data && api  ? 
+            {data  ? 
           <Carousel
           opts={{
               align: "start",
