@@ -6,6 +6,9 @@ module.exports = {
     ],
     theme: {
       extend: {
+        backgroundColor: {
+          transparent: 'transparent',
+        },
         colors: {
           bgColor: "#F7EAE4",
           text: "#2D2929"

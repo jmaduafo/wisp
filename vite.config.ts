@@ -12,5 +12,11 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-  }
+  },
+  server: {
+    // If you're using Electron/Vite together with file protocol fallback
+    fs: {
+      allow: ['.'],
+    },
+  },
 })

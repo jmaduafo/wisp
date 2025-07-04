@@ -8,11 +8,20 @@
 @custom-variant dark (&:is(.dark *));
 @tailwind utilities;
 
-/* @theme {
-  --color-bgColor: #F7EAE4;
-  --color-textColor: #2D2929;
-} */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
 
+  .myBlur {
+    backdrop-filter: blur(50px);
+  }
+}
+/* #root {
+    background: transparent !important;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  } */
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
@@ -155,11 +164,4 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
+

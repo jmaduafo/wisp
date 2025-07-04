@@ -21,21 +21,27 @@ function createWindow(name = "main", urlPath = "") {
         return;
     }
     const win = new BrowserWindow({
-        maxHeight: 700,
-        minHeight: 700,
-        height: 700,
-        minWidth: 400,
-        maxWidth: 400,
-        width: 400,
+        maxHeight: urlPath === "" ? 700 : undefined,
+        minHeight: urlPath === "" ? 700 : 200,
+        height: urlPath === "" ? 700 : 200,
+        minWidth: urlPath === "" ? 400 : 300,
+        maxWidth: urlPath === "" ? 400 : 1000,
+        width: urlPath === "" ? 400 : 300,
         frame: false,
-        transparent: true,
-        titleBarStyle: "hidden",
+        resizable: true,
+        transparent: true, // On macOS, can be acrylic-like
+        backgroundColor: "#00000000",
+        titleBarStyle: 'hidden',
         webPreferences: {
             preload: path.join(__dirname, "preload.js"),
             contextIsolation: true,
             nodeIntegration: false,
+            backgroundThrottling: true,
+            experimentalFeatures: true,
         },
     });
+    win.setMenuBarVisibility(false);
+    win.removeMenu();
     if (isDev) {
         win.loadURL(`http://localhost:5173/${urlPath}`);
     }
