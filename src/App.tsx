@@ -14,18 +14,16 @@ function App() {
         pathname === "/" ? "bg-bgColor text-textColor" : "bg-red-300 text-white"
       } h-screen classic`}
     >
-      <main className={`${pathname === "/" ? "h-[88vh]" : "h-[83vh]"}`}>
-        <div className="h-full">
-          <Routes>
-            <Route path="/" element={<MainMenu />} />
-            <Route path="/weather" element={<Weather />} />
-            <Route path="/date-time" element={<DateTime />} />
-            <Route path="/music-player" element={<Weather />} />
-            <Route path="/to-do" element={<Weather />} />
-            <Route path="/album" element={<Weather />} />
-            <Route path="/misc" element={<Misc />} />
-          </Routes>
-        </div>
+      <main className={`h-full`}>
+        <Routes>
+          <Route path="/" element={<MainMenu />} />
+          <Route path="/weather" element={<Weather />} />
+          <Route path="/date-time" element={<DateTime />} />
+          <Route path="/music-player" element={<Weather />} />
+          <Route path="/to-do" element={<Weather />} />
+          <Route path="/album" element={<Weather />} />
+          <Route path="/misc" element={<Misc />} />
+        </Routes>
       </main>
     </div>
   );

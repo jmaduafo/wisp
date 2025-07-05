@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "tsc": "tsc",
     "electron": "npm run tsc && electron ./dist-electron/main.js",
     "start": "concurrently \"npm:dev\" \"npm:electron\""
@@ -25,6 +27,7 @@
     "firebase": "^11.7.1",
     "lucide-react": "^0.508.0",
     "next-themes": "^0.4.6",
+    "openmeteo": "^1.2.0",
     "react": "^19.1.0",
     "react-day-picker": "^8.10.1",
     "react-dom": "^19.1.0",

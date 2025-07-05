@@ -1,10 +1,10 @@
 import React from "react";
 
-function Widget({ children }: { readonly children: React.ReactNode }) {
+function Widget({ children, className }: { readonly children: React.ReactNode; readonly className?: string }) {
   return (
-    <div className="relative">
+    <div className="relative h-full overflow-y-hidden">
       <div className="absolute drag bg-red-300 w-full h-[22.5px] -z-1" />
-      <div className="py-2 px-3">{children}</div>
+      <div className={`pt-2 px-3 pb-[12vh] ${className} h-full`}>{children}</div>
     </div>
   );
 }
