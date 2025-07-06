@@ -16,16 +16,36 @@ import {
 } from "lucide-react";
 
 export const days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-]
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
 
-export const weatherIcon = (code: number, is_day: number, size: string, stroke: number) => {
+export const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+export const weatherIcon = (
+  code: number,
+  is_day: number,
+  size: string,
+  stroke: number
+) => {
   if (code === 0 && is_day === 0) {
     return <Moon strokeWidth={stroke} className={`${size}`} />;
   } else if (code === 0 && is_day === 1) {
@@ -53,16 +73,20 @@ export const weatherIcon = (code: number, is_day: number, size: string, stroke: 
   } else if (code >= 80 && code <= 82) {
     return <CloudRainWind strokeWidth={stroke} className={`${size}`} />;
   } else if (code >= 85 && code <= 86) {
-    return <CloudHail strokeWidth={stroke} className={`${size}`} />;
-  } else if (code >= 95 && code <= 99) {
+    return <CloudSnow strokeWidth={stroke} className={`${size}`} />;
+  } else if (code === 95) {
     return <CloudLightning strokeWidth={stroke} className={`${size}`} />;
+  } else if (code >= 96 && code <= 99) {
+    return <CloudHail strokeWidth={stroke} className={`${size}`} />;
   }
 };
 
 export const weatherForecast = (code: number) => {
   if (code >= 0 && code <= 1) {
     return "Clear sky";
-  } else if (code >= 2 && code <= 3) {
+  } else if (code === 2) {
+    return "Partly cloudy";
+  } else if (code === 3) {
     return "Cloudy";
   } else if (code >= 45 && code <= 48) {
     return "Fog";
@@ -73,10 +97,12 @@ export const weatherForecast = (code: number) => {
   } else if (code >= 71 && code <= 77) {
     return "Snow";
   } else if (code >= 80 && code <= 82) {
-    return "Rain showers"
+    return "Rain showers";
   } else if (code >= 85 && code <= 86) {
-    return "Snow showers"
-  } else if (code >= 95 && code <= 99) {
-    return "Thunderstorms"
+    return "Snow showers";
+  } else if (code === 95) {
+    return "Thunderstorm";
+  } else if (code >= 96 && code <= 99) {
+    return "Hail";
   }
 };

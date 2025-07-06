@@ -98,7 +98,7 @@ function Weather() {
               )}
               <div>
                 <div className="flex items-end gap-2">
-                  <div className="flex items-start">
+                  <div className="flex items-start gap-2">
                     <h1 className="elegant text-[25vw] leading-[.8]">
                       {isCelsius
                         ? round(data?.current?.temperature_2m)
@@ -147,7 +147,7 @@ function Weather() {
                                   : celsiusToFahrenheit(item)
                               }
                               code={data?.daily?.weather_code[i]}
-                              day={weatherDate(data?.daily?.time[i])}
+                              day={data?.daily?.time[i]}
                               today={data?.daily?.time[i]}
                             />
                           </Fragment>

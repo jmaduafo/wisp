@@ -1,6 +1,6 @@
 import React from "react";
 import { weatherIcon } from "@/utils/data";
-import { isToday } from "@/utils/weather";
+import { isToday, weatherDate } from "@/utils/weather";
 
 type Weather = {
     readonly day: string;
@@ -14,7 +14,7 @@ function WeatherCard({ day, code, temp, today }: Weather) {
   return (
     <div className={`w-[20vw] h-[30vh] ${isToday(today) ? "bg-white/30" : "bg-white/15"} rounded-lg p-0.5 flex flex-col justify-between items-center`}>
       {/* DAY */}
-      <p className="text-[4.5vw] font-light">{day}</p>
+      <p className="text-[4.5vw] font-light">{weatherDate(day)}</p>
       {/* WEATHER ICON */}
       <div className="">{weatherIcon(code, 1, "w-[9vw] h-[9vw]", 1)}</div>
       {/* HIGHEST TEMP */}

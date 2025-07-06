@@ -9,6 +9,20 @@ export const days = [
     "Friday",
     "Saturday",
 ];
+export const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+];
 export const weatherIcon = (code, is_day, size, stroke) => {
     if (code === 0 && is_day === 0) {
         return _jsx(Moon, { strokeWidth: stroke, className: `${size}` });
