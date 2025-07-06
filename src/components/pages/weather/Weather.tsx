@@ -2,7 +2,8 @@ import React, { Fragment, useState, useEffect } from "react";
 import Widget from "@/components/ui/widget/Widget";
 import { weatherForecast, weatherIcon } from "@/utils/data";
 import WeatherCard from "./WeatherCard";
-import { celsiusToFahrenheit, currentLocation, round, weatherDate } from "@/utils/weather";
+import { celsiusToFahrenheit, round, weatherDate } from "@/utils/weather";
+import Loader from "@/components/ui/loading/Loader";
 
 function Weather() {
   const [isCelsius, setIsCelsius] = useState(true);
@@ -14,19 +15,27 @@ function Weather() {
     try {
       setLoading(true);
 
-      currentLocation().then(async (coords) => {
-        if (coords) {
-          const response = await fetch(
-            `https://api.open-meteo.com/v1/forecast?latitude=${coords.latitude}&longitude=${coords.longitude}&daily=temperature_2m_max,temperature_2m_min,weather_code&current=is_day,weather_code,temperature_2m`
-          );
+      const location = await getLocation();
 
-          if (!response.ok) throw new Error("Weather fetch failed");
+      if (!location?.latitude || !location?.longitude) {
+        console.log("Could not get location");
+        return;
+      }
 
-          const rawData = await response.json();
-          console.log("Raw Open-Meteo response:", rawData);
-          setData(rawData);
-        }
-      });
+      await fetch(
+        `https://api.open-meteo.com/v1/forecast?latitude=${location?.latitude}&longitude=${location?.longitude}&daily=temperature_2m_max,temperature_2m_min,weather_code&current=is_day,weather_code,temperature_2m`
+      )
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          console.log("Parsed data", data);
+          setData(data); // or your transformed data structure
+          setLocation(location?.city);
+        })
+        .catch((err) => {
+          console.error("Error fetching weather:", err);
+        });
     } catch (err) {
       console.error("Error fetching weather data:", err);
     } finally {
@@ -36,33 +45,28 @@ function Weather() {
 
   const getLocation = async () => {
     try {
-      setLoading(true);
+      const res = await fetch("https://ipapi.co/json/");
+      const data = await res.json();
 
-      await fetch("https://ipapi.co/city/")
-        .then(function (response) {
-          response.text().then((txt) => {
-            setLocation(txt);
-          });
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      return {
+        latitude: data.latitude,
+        longitude: data.longitude,
+        city: data.city,
+      };
     } catch (err) {
-      console.error("Error fetching weather data:", err);
-    } finally {
-      setLoading(false);
+      console.error("Error fetching location:", err);
+      return null;
     }
   };
 
   useEffect(() => {
     getWeather();
-    getLocation();
   }, []);
 
   return (
     <Widget>
       {!data ? (
-        <div>loading...</div>
+        <Loader/>
       ) : (
         <>
           <div className="flex justify-end gap-2.5 items-end">
@@ -134,7 +138,6 @@ function Weather() {
                 </div>
               </div>
             </div>
-
             <div className="overflow-auto mt-auto scrollBar">
               <div className="w-fit flex gap-3">
                 {data?.daily?.temperature_2m_max
@@ -144,7 +147,9 @@ function Weather() {
                           <Fragment key={`${item}_${i + 1}`}>
                             <WeatherCard
                               temp={
-                                isCelsius ? round(item) : celsiusToFahrenheit(item)
+                                isCelsius
+                                  ? round(item)
+                                  : celsiusToFahrenheit(item)
                               }
                               code={data?.daily?.weather_code[i]}
                               day={weatherDate(data?.daily?.time[i])}

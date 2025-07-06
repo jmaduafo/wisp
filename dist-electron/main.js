@@ -21,21 +21,21 @@ function createWindow(name = "main", urlPath = "") {
     return;
   }
   const win = new BrowserWindow({
-    maxHeight: urlPath === "" ? 700 : 400,
+    maxHeight: urlPath === "" ? 700 : 300,
     minHeight: urlPath === "" ? 700 : 250,
     height: urlPath === "" ? 700 : 250,
+    maxWidth: urlPath === "" ? 400 : 350,
     minWidth: urlPath === "" ? 400 : 300,
-    maxWidth: urlPath === "" ? 400 : 450,
     width: urlPath === "" ? 400 : 300,
     // frame: false,
     resizable: true,
     // transparent: true,
-    titleBarStyle: 'hidden',
+    titleBarStyle: "hidden",
     // backgroundColor: "#00000000",
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       contextIsolation: true,
-      nodeIntegration: false,
+      nodeIntegration: false
     },
   });
 
@@ -44,8 +44,9 @@ function createWindow(name = "main", urlPath = "") {
 
   if (isDev) {
     win.loadURL(`http://localhost:5173/${urlPath}`);
+    win.webContents.openDevTools()
   } else {
-    win.loadFile(path.join(__dirname, "../dist/index.html"));
+    win.loadFile(path.join(__dirname, "../dist/index.html"))
   }
 
   widgetWindows[name] = win;

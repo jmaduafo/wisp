@@ -38,7 +38,7 @@ function createWindow(name = "main", urlPath = "") {
     backgroundColor: "#00000000",
     titleBarStyle: 'hidden',
     webPreferences: {
-      preload: path.join(__dirname, "preload.js"),
+      preload: path.join(__dirname, "preload.cjs"),
       contextIsolation: true,
       nodeIntegration: false,
       backgroundThrottling: true,

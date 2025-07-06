@@ -3,23 +3,32 @@ import { Fragment, useState, useEffect } from "react";
 import Widget from "@/components/ui/widget/Widget";
 import { weatherForecast, weatherIcon } from "@/utils/data";
 import WeatherCard from "./WeatherCard";
-import { celsiusToFahrenheit, currentLocation, round } from "@/utils/weather";
+import { celsiusToFahrenheit, round, weatherDate } from "@/utils/weather";
+import Loader from "@/components/ui/loading/Loader";
 function Weather() {
     const [isCelsius, setIsCelsius] = useState(true);
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState();
+    const [location, setLocation] = useState("");
     const getWeather = async () => {
         try {
             setLoading(true);
-            currentLocation().then(async (coords) => {
-                if (coords) {
-                    const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${coords.latitude}&longitude=${coords.longitude}&daily=temperature_2m_max,temperature_2m_min&current=is_day,weather_code,temperature_2m`);
-                    if (!response.ok)
-                        throw new Error("Weather fetch failed");
-                    const rawData = await response.json();
-                    console.log("Raw Open-Meteo response:", rawData);
-                    setData(rawData);
-                }
+            const location = await getLocation();
+            if (!location?.latitude || !location?.longitude) {
+                console.log("Could not get location");
+                return;
+            }
+            await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${location?.latitude}&longitude=${location?.longitude}&daily=temperature_2m_max,temperature_2m_min,weather_code&current=is_day,weather_code,temperature_2m`)
+                .then((res) => {
+                return res.json();
+            })
+                .then((data) => {
+                console.log("Parsed data", data);
+                setData(data); // or your transformed data structure
+                setLocation(location?.city);
+            })
+                .catch((err) => {
+                console.error("Error fetching weather:", err);
             });
         }
         catch (err) {
@@ -29,10 +38,25 @@ function Weather() {
             setLoading(false);
         }
     };
+    const getLocation = async () => {
+        try {
+            const res = await fetch("https://ipapi.co/json/");
+            const data = await res.json();
+            return {
+                latitude: data.latitude,
+                longitude: data.longitude,
+                city: data.city,
+            };
+        }
+        catch (err) {
+            console.error("Error fetching location:", err);
+            return null;
+        }
+    };
     useEffect(() => {
         getWeather();
     }, []);
-    return (_jsx(Widget, { children: !data ? (_jsx("div", { children: "loading..." })) : (_jsxs(_Fragment, { children: [_jsxs("div", { className: "flex justify-end gap-2.5 items-end", children: [_jsx("button", { onClick: () => setIsCelsius(true), disabled: isCelsius, className: `${isCelsius
+    return (_jsx(Widget, { children: !data ? (_jsx(Loader, {})) : (_jsxs(_Fragment, { children: [_jsxs("div", { className: "flex justify-end gap-2.5 items-end", children: [_jsx("button", { onClick: () => setIsCelsius(true), disabled: isCelsius, className: `${isCelsius
                                 ? "text-[5vw] opacity-100"
                                 : "text-[4.3vw] opacity-50 cursor-pointer"} leading-[1] cursor-pointer`, children: "C" }), _jsx("button", { onClick: () => setIsCelsius(false), disabled: !isCelsius, className: `${isCelsius
                                 ? "text-[4.3vw] opacity-50 cursor-pointer"
@@ -42,8 +66,12 @@ function Weather() {
                                                                 ? Math.floor(data?.daily?.temperature_2m_min[0])
                                                                 : celsiusToFahrenheit(data?.daily?.temperature_2m_min[0]), " ", "\u00B0 |", " ", isCelsius
                                                                 ? Math.ceil(data?.daily?.temperature_2m_max[0])
-                                                                : celsiusToFahrenheit(data?.daily?.temperature_2m_max[0]), " ", "\u00B0"] }) })] }), _jsxs("div", { className: "font-light", children: [_jsx("p", { className: "text-[5vw] leading-[1]", children: "San Francisco" }), _jsx("p", { className: "text-[4.6vw] opacity-70 leading-[1] mt-0.5", children: weatherForecast(data?.current?.weather_code) })] })] })] }), _jsx("div", { className: "overflow-auto mt-auto scrollBar", children: _jsx("div", { className: "w-fit flex gap-3", children: [6, 0, 1, 2, 3, 4, 5].map((item, i) => {
-                                    return (_jsx(Fragment, { children: _jsx(WeatherCard, { day: item }) }, `item_${i + 1}`));
-                                }) }) })] })] })) }));
+                                                                : celsiusToFahrenheit(data?.daily?.temperature_2m_max[0]), " ", "\u00B0"] }) })] }), _jsxs("div", { className: "font-light", children: [_jsx("p", { className: "text-[5vw] leading-[1]", children: location.length ? location : "--" }), _jsx("p", { className: "text-[4.6vw] opacity-70 leading-[1] mt-0.5", children: weatherForecast(data?.current?.weather_code) })] })] })] }), _jsx("div", { className: "overflow-auto mt-auto scrollBar", children: _jsx("div", { className: "w-fit flex gap-3", children: data?.daily?.temperature_2m_max
+                                    ? data?.daily?.temperature_2m_max.map((item, i) => {
+                                        return (_jsx(Fragment, { children: _jsx(WeatherCard, { temp: isCelsius
+                                                    ? round(item)
+                                                    : celsiusToFahrenheit(item), code: data?.daily?.weather_code[i], day: weatherDate(data?.daily?.time[i]), today: data?.daily?.time[i] }) }, `${item}_${i + 1}`));
+                                    })
+                                    : null }) })] })] })) }));
 }
 export default Weather;

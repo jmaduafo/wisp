@@ -1,5 +1,14 @@
 import { jsx as _jsx } from "react/jsx-runtime";
 import { Cloud, Cloudy, CloudDrizzle, CloudFog, CloudHail, CloudLightning, CloudMoon, CloudRain, CloudRainWind, CloudSnow, CloudSun, Snowflake, Sun, Moon, } from "lucide-react";
+export const days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+];
 export const weatherIcon = (code, is_day, size, stroke) => {
     if (code === 0 && is_day === 0) {
         return _jsx(Moon, { strokeWidth: stroke, className: `${size}` });
