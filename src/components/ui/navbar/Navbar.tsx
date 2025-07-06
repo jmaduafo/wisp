@@ -1,6 +1,6 @@
 import React from "react";
-import { Cog8ToothIcon } from "@heroicons/react/24/solid";
 import Header4 from "../headings/Header4";
+import Settings from "./settings/Settings";
 
 function NavBar() {
   return (
@@ -13,9 +13,7 @@ function NavBar() {
         <Header4 text="Hello"/>
       </div>
       {/* SETTINGS */}
-      <button>
-        <Cog8ToothIcon className="w-6"/>
-      </button>
+      <Settings/>
     </header>
   );
 }

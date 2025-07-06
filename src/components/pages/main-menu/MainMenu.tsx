@@ -48,14 +48,14 @@ function MainMenu() {
   ];
 
   return (
-    <section className="h-full flex flex-col">
+    <section className="h-full">
       <Controls />
       <div className="px-6">
         <NavBar />
-        <div className="mt-6 my-4 border-b-[2px] border-b-textColor w-fit">
+        {/* <div className="mt-6 my-4 border-b-[2px] border-b-textColor w-fit">
           <Header1 text="Main menu" className="font-medium" />
-        </div>
-        <div className="mt-auto w-full">
+        </div> */}
+        <div className="mt-[6em] w-full">
           <div className="grid grid-cols-2 gap-3">
             {nav.map((item) => {
               return (
