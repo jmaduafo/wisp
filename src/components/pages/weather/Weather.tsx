@@ -7,14 +7,11 @@ import Loader from "@/components/ui/loading/Loader";
 
 function Weather() {
   const [isCelsius, setIsCelsius] = useState(true);
-  const [loading, setLoading] = useState(false);
   const [data, setData] = useState<any>();
   const [location, setLocation] = useState("");
 
   const getWeather = async () => {
     try {
-      setLoading(true);
-
       const location = await getLocation();
 
       if (!location?.latitude || !location?.longitude) {
@@ -38,8 +35,6 @@ function Weather() {
         });
     } catch (err) {
       console.error("Error fetching weather data:", err);
-    } finally {
-      setLoading(false);
     }
   };
 
