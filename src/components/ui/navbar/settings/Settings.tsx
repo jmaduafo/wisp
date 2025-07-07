@@ -11,8 +11,15 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Button } from "../../button";
+import { User } from "@/types/types";
 
-function Settings() {
+function Settings({ user }: { readonly user: User | undefined}) {
+  // Change name
+  // Change background color
+  // Change text color
+  // Change font family (default or elegant)
+  // 
+
   return (
     <Dialog>
       <form>

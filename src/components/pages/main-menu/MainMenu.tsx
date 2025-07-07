@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import {
   CloudDrizzle,
   GalleryVerticalEnd,
@@ -7,12 +7,23 @@ import {
   List,
   BookUser,
 } from "lucide-react";
-import { Nav } from "../../../types/types";
+import { Nav, User } from "../../../types/types";
 import NavBar from "../../ui/navbar/Navbar";
 import MenuCard from "../../ui/menu/MenuCard";
 import Controls from "../../ui/controls/Controls";
+import { v4 as uuid } from "uuid";
+import {
+  doc,
+  getDoc,
+  onSnapshot,
+  serverTimestamp,
+  setDoc,
+} from "firebase/firestore";
+import { db } from "@/firebase/config";
 
 function MainMenu() {
+  const [userData, setUserData] = useState<User | undefined>();
+
   const nav: Nav[] = [
     {
       title: "Weather",
@@ -46,11 +57,67 @@ function MainMenu() {
     },
   ];
 
+  const getUID = async () => {
+    const uid = localStorage.getItem("wisp_uid");
+
+    if (!uid) {
+      try {
+        localStorage.setItem("wisp_uid", uuid());
+
+        const newId = localStorage.getItem("wisp_uid");
+
+        if (!newId) {
+          return;
+        }
+
+        const userRef = doc(db, "users", newId);
+
+        await setDoc(userRef, {
+          id: newId,
+          name: null,
+          primary_color: null,
+          secondary_color: null,
+          style: "default",
+          created_at: serverTimestamp(),
+        });
+      } catch (err: any) {
+        console.log(err.message);
+      }
+    }
+  };
+
+  const getUserData = async () => {
+    try {
+      const uid = localStorage.getItem("wisp_uid");
+
+      if (!uid) {
+        return;
+      }
+
+      const userRef = doc(db, "users", uid);
+
+      const unsubscribe = onSnapshot(userRef, (snap) => {
+        if (snap.exists()) {
+          setUserData(snap?.data() as User);
+        }
+
+        return () => unsubscribe();
+      });
+    } catch (err: any) {
+      console.log(err.message);
+    }
+  };
+
+  useEffect(() => {
+    getUID();
+    getUserData()
+  }, []);
+
   return (
     <section className="h-full">
       <Controls />
       <div className="px-6">
-        <NavBar />
+        <NavBar user={userData}/>
         {/* <div className="mt-6 my-4 border-b-[2px] border-b-textColor w-fit">
           <Header1 text="Main menu" className="font-medium" />
         </div> */}

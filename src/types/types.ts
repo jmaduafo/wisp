@@ -5,8 +5,7 @@ export type User = {
   id: string;
   primary_color: string | null;
   secondary_color: string | null;
-  is_celsius: boolean;
-  is_24hr: boolean;
+  style: "default" | "wisp";
   created_at: string;
   updated_at: string | null;
 };

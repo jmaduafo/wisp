@@ -35,10 +35,10 @@ function DateTime() {
           <Loader />
         ) : (
           // basic: text-[32vw] leading-[.9]
-          <div className="flex gap-3">
-            <div className="elegant flex-1 flex flex-col justify-center items-center">
-              <p className="text-[40vw] leading-[.70]">{hours}</p>
-              <p className="text-[40vw] leading-[.70]">{minutes}</p>
+          <div className="flex gap-3 w-full">
+            <div className="text-[40vw] elegant flex-1 flex flex-col justify-center items-center">
+              <p className="leading-[.70]">{hours}</p>
+              <p className="leading-[.70]">{minutes}</p>
             </div>
             <div className="flex-1 flex flex-col justify-center items-center gap-3">
               <Analog hourDeg={hourDeg} minDeg={minDeg} secDeg={secDeg} />

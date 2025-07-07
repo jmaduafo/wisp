@@ -24,8 +24,8 @@ function DateTime() {
         }, 1000);
         return () => clearInterval(time);
     }, []);
-    return (_jsx(Widget, { children: day === "--" ? (_jsx(Loader, {})) : (
+    return (_jsx(Widget, { className: "flex items-center justify-center", children: day === "--" ? (_jsx(Loader, {})) : (
         // basic: text-[32vw] leading-[.9]
-        _jsxs("div", { className: "flex gap-3 h-full", children: [_jsxs("div", { className: "elegant flex-1 flex flex-col justify-center items-center", children: [_jsx("p", { className: "text-[40vw] leading-[.70]", children: hours }), _jsx("p", { className: "text-[40vw] leading-[.70]", children: minutes })] }), _jsxs("div", { className: "flex-1 flex flex-col justify-center items-center gap-3", children: [_jsx(Analog, { hourDeg: hourDeg, minDeg: minDeg, secDeg: secDeg }), _jsxs("div", { children: [_jsxs("h2", { className: "text-center leading-[1] font-light text-[7vw]", children: [day, ","] }), _jsx("h3", { className: "text-center leading-[1] font-light text-[6vw] mt-0.5", children: display })] })] })] })) }));
+        _jsxs("div", { className: "flex gap-3 w-full", children: [_jsxs("div", { className: "text-[40vw] elegant flex-1 flex flex-col justify-center items-center", children: [_jsx("p", { className: "leading-[.70]", children: hours }), _jsx("p", { className: "leading-[.70]", children: minutes })] }), _jsxs("div", { className: "flex-1 flex flex-col justify-center items-center gap-3", children: [_jsx(Analog, { hourDeg: hourDeg, minDeg: minDeg, secDeg: secDeg }), _jsxs("div", { children: [_jsxs("h2", { className: "text-center leading-[1] font-light text-[7vw]", children: [day, ","] }), _jsx("h3", { className: "text-center leading-[1] font-light text-[6vw] mt-0.5", children: display })] })] })] })) }));
 }
 export default DateTime;
