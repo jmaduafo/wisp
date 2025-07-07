@@ -3,9 +3,10 @@ import React from "react";
 type Time = {
   readonly hourDeg: number | undefined;
   readonly minDeg: number | undefined;
+  readonly secDeg: number | undefined;
 };
 
-function Analog({ hourDeg, minDeg }: Time) {
+function Analog({ hourDeg, minDeg, secDeg }: Time) {
   return (
     <div className="relative w-[40vw] h-[40vw] rounded-full bg-white text-red-300">
       {/* ANALOG NUMBER POINTS */}
@@ -37,6 +38,11 @@ function Analog({ hourDeg, minDeg }: Time) {
       <div
         className={`w-[0.4vw] h-[15vh] absolute top-1/2 left-1/2 transform origin-top bg-red-300 rounded-full`}
         style={{ rotate: minDeg ? `${minDeg + 180}deg` : `180deg` }}
+      ></div>
+      {/* SECOND */}
+      <div
+        className={`w-[0.25vw] h-[15vh] absolute top-1/2 left-1/2 transform origin-top bg-red-300 rounded-full`}
+        style={{ rotate: secDeg ? `${secDeg + 180}deg` : `180deg` }}
       ></div>
     </div>
   );

@@ -7,11 +7,13 @@ import Analog from "./Analog";
 function DateTime() {
   const [hours, setHours] = useState("00");
   const [minutes, setMinutes] = useState("00");
-  const [hourDeg, setHourDeg] = useState<number | undefined>();
-  const [minDeg, setMinDeg] = useState<number | undefined>();
+  
   const [day, setDay] = useState("--");
   const [display, setDisplay] = useState("-----");
-  
+
+  const [hourDeg, setHourDeg] = useState<number | undefined>();
+  const [minDeg, setMinDeg] = useState<number | undefined>();
+  const [secDeg, setSecDeg] = useState<number | undefined>();
 
   useEffect(() => {
     const time = setInterval(() => {
@@ -21,6 +23,7 @@ function DateTime() {
       setDisplay(fullDate().display);
       setHourDeg(analogTime().hours)
       setMinDeg(analogTime().minutes)
+      setSecDeg(analogTime().seconds)
     }, 1000);
 
     return () => clearInterval(time);
@@ -38,7 +41,7 @@ function DateTime() {
             <p className="text-[40vw] leading-[.70]">{minutes}</p>
           </div>
           <div className="flex-1 flex flex-col justify-center items-center gap-3">
-            <Analog hourDeg={hourDeg} minDeg={minDeg}/>
+            <Analog hourDeg={hourDeg} minDeg={minDeg} secDeg={secDeg}/>
             <div>
               <h2 className="text-center leading-[1] font-light text-[7vw]">
                 {day},

@@ -50,9 +50,11 @@ export function analogTime() {
 
   let hDeg = hours * 30 + mins * (360 / 720);
   let mDeg = mins * 6 + secs * (360 / 3600);
+  let sDeg = secs * 6
 
   return {
     hours: hDeg,
-    minutes: mDeg
+    minutes: mDeg,
+    seconds: sDeg
   }
 }
