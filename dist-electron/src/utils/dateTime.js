@@ -33,3 +33,17 @@ export function fullDate() {
         display,
     };
 }
+export function analogTime() {
+    const date = new Date();
+    const hours = date.getHours();
+    const mins = date.getMinutes();
+    const secs = date.getSeconds();
+    let hDeg = hours * 30 + mins * (360 / 720);
+    let mDeg = mins * 6 + secs * (360 / 3600);
+    let sDeg = secs * 6;
+    return {
+        hours: hDeg,
+        minutes: mDeg,
+        seconds: sDeg
+    };
+}

@@ -4,6 +4,9 @@ import MainMenu from "./components/pages/main-menu/MainMenu";
 import Weather from "./components/pages/weather/Weather";
 import DateTime from "./components/pages/date-time/DateTime";
 import Misc from "./components/pages/misc/Misc";
+import MusicPlayer from "./components/pages/music-player/MusicPlayer";
+import ToDo from "./components/pages/to-do/ToDo";
+import Album from "./components/pages/album/Album";
 
 function App() {
   const { pathname } = useLocation();
@@ -19,9 +22,9 @@ function App() {
           <Route path="/" element={<MainMenu />} />
           <Route path="/weather" element={<Weather />} />
           <Route path="/date-time" element={<DateTime />} />
-          <Route path="/music-player" element={<Weather />} />
-          <Route path="/to-do" element={<Weather />} />
-          <Route path="/album" element={<Weather />} />
+          <Route path="/music-player" element={<MusicPlayer />} />
+          <Route path="/to-do" element={<ToDo />} />
+          <Route path="/album" element={<Album />} />
           <Route path="/misc" element={<Misc />} />
         </Routes>
       </main>

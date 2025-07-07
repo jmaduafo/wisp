@@ -64,17 +64,23 @@ export const weatherIcon = (code, is_day, size, stroke) => {
         return _jsx(CloudRainWind, { strokeWidth: stroke, className: `${size}` });
     }
     else if (code >= 85 && code <= 86) {
-        return _jsx(CloudHail, { strokeWidth: stroke, className: `${size}` });
+        return _jsx(CloudSnow, { strokeWidth: stroke, className: `${size}` });
     }
-    else if (code >= 95 && code <= 99) {
+    else if (code === 95) {
         return _jsx(CloudLightning, { strokeWidth: stroke, className: `${size}` });
+    }
+    else if (code >= 96 && code <= 99) {
+        return _jsx(CloudHail, { strokeWidth: stroke, className: `${size}` });
     }
 };
 export const weatherForecast = (code) => {
     if (code >= 0 && code <= 1) {
         return "Clear sky";
     }
-    else if (code >= 2 && code <= 3) {
+    else if (code === 2) {
+        return "Partly cloudy";
+    }
+    else if (code === 3) {
         return "Cloudy";
     }
     else if (code >= 45 && code <= 48) {
@@ -95,7 +101,10 @@ export const weatherForecast = (code) => {
     else if (code >= 85 && code <= 86) {
         return "Snow showers";
     }
-    else if (code >= 95 && code <= 99) {
-        return "Thunderstorms";
+    else if (code === 95) {
+        return "Thunderstorm";
+    }
+    else if (code >= 96 && code <= 99) {
+        return "Hail";
     }
 };

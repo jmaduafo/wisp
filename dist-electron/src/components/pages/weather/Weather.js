@@ -3,7 +3,7 @@ import { Fragment, useState, useEffect } from "react";
 import Widget from "@/components/ui/widget/Widget";
 import { weatherForecast, weatherIcon } from "@/utils/data";
 import WeatherCard from "./WeatherCard";
-import { celsiusToFahrenheit, round, weatherDate } from "@/utils/weather";
+import { celsiusToFahrenheit, round } from "@/utils/weather";
 import Loader from "@/components/ui/loading/Loader";
 function Weather() {
     const [isCelsius, setIsCelsius] = useState(true);
@@ -65,7 +65,7 @@ function Weather() {
                                     ? data?.daily?.temperature_2m_max.map((item, i) => {
                                         return (_jsx(Fragment, { children: _jsx(WeatherCard, { temp: isCelsius
                                                     ? round(item)
-                                                    : celsiusToFahrenheit(item), code: data?.daily?.weather_code[i], day: weatherDate(data?.daily?.time[i]), today: data?.daily?.time[i] }) }, `${item}_${i + 1}`));
+                                                    : celsiusToFahrenheit(item), code: data?.daily?.weather_code[i], day: data?.daily?.time[i], today: data?.daily?.time[i] }) }, `${item}_${i + 1}`));
                                     })
                                     : null }) })] })] })) }));
 }

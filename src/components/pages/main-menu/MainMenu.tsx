@@ -9,7 +9,6 @@ import {
 } from "lucide-react";
 import { Nav } from "../../../types/types";
 import NavBar from "../../ui/navbar/Navbar";
-import Header1 from "../../ui/headings/Header1";
 import MenuCard from "../../ui/menu/MenuCard";
 import Controls from "../../ui/controls/Controls";
 

@@ -15,18 +15,79 @@ if (process.env.NODE_ENV === "development") {
 }
 const isDev = !app.isPackaged;
 const widgetWindows = {};
+
+function measurements(name, path) {
+  if (name === "maxHeight") {
+    if (path === "") {
+      return 700
+    } else if (path === "weather") {
+      return 300
+    } else if (path === "date-time") {
+      return 300
+    } else if (path === "music-player") {
+      return 200
+    } else if (path === "to-do") {
+      return 400
+    } else if (path === "album") {
+      return 300
+    }
+  } else if (name === "minHeight" || name === "height") {
+    if (path === "") {
+      return 700
+    } else if (path === "weather") {
+      return 250
+    } else if (path === "date-time") {
+      return 230
+    } else if (path === "music-player") {
+      return 150
+    } else if (path === "to-do") {
+      return 300
+    } else if (path === "album") {
+      return 150
+    }
+  } else if (name === "maxWidth") {
+    if (path === "") {
+      return 400
+    } else if (path === "weather") {
+      return 350
+    } else if (path === "date-time") {
+      return 350
+    } else if (path === "music-player") {
+      return 350
+    } else if (path === "to-do") {
+      return 300
+    } else if (path === "album") {
+      return 300
+    }
+  } else if (name === "minWidth" || name === "width") {
+    if (path === "") {
+      return 400
+    } else if (path === "weather") {
+      return 300
+    } else if (path === "date-time") {
+      return 300
+    } else if (path === "music-player") {
+      return 300
+    } else if (path === "to-do") {
+      return 250
+    } else if (path === "album") {
+      return 150
+    }
+  }
+}
+
 function createWindow(name = "main", urlPath = "") {
   if (widgetWindows[name]) {
     widgetWindows[name].show();
     return;
   }
   const win = new BrowserWindow({
-    maxHeight: urlPath === "" ? 700 : 300,
-    minHeight: urlPath === "" ? 700 : 250,
-    height: urlPath === "" ? 700 : 250,
-    maxWidth: urlPath === "" ? 400 : 350,
-    minWidth: urlPath === "" ? 400 : 300,
-    width: urlPath === "" ? 400 : 300,
+    maxHeight: measurements("maxHeight", urlPath),
+    minHeight: measurements("minHeight", urlPath),
+    height: measurements("height", urlPath),
+    maxWidth: measurements("maxWidth", urlPath),
+    minWidth: measurements("minWidth", urlPath),
+    width: measurements("width", urlPath),
     // frame: false,
     resizable: true,
     // transparent: true,

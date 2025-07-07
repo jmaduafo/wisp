@@ -31,17 +31,17 @@ function Analog({ hourDeg, minDeg, secDeg }: Time) {
       </div>
       {/* HOUR */}
       <div
-        className={`w-[0.4vw] h-[10vh] absolute top-1/2 left-1/2 transform origin-top bg-red-300 rounded-full`}
+        className={`w-[0.4vw] h-[11vh] absolute top-1/2 left-1/2 transform origin-top bg-red-300 rounded-full`}
         style={{ rotate: hourDeg ? `${hourDeg + 180}deg` : `180deg` }}
       ></div>
       {/* MINUTE */}
       <div
-        className={`w-[0.4vw] h-[15vh] absolute top-1/2 left-1/2 transform origin-top bg-red-300 rounded-full`}
+        className={`w-[0.4vw] h-[17.5vh] absolute top-1/2 left-1/2 transform origin-top bg-red-300 rounded-full`}
         style={{ rotate: minDeg ? `${minDeg + 180}deg` : `180deg` }}
       ></div>
       {/* SECOND */}
       <div
-        className={`w-[0.25vw] h-[15vh] absolute top-1/2 left-1/2 transform origin-top bg-red-300 rounded-full`}
+        className={`w-[0.25vw] h-[17.5vh] absolute top-1/2 left-1/2 transform origin-top bg-red-300 rounded-full`}
         style={{ rotate: secDeg ? `${secDeg + 180}deg` : `180deg` }}
       ></div>
     </div>
