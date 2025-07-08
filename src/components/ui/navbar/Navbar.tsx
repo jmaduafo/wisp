@@ -1,9 +1,11 @@
 import React from "react";
-import Header4 from "../headings/Header4";
 import Settings from "./settings/Settings";
-import { User } from "@/types/types";
+import { useAuth } from "@/context/AuthContext";
+import Header5 from "../headings/Header5";
 
-function NavBar({ user }: { readonly user: User | undefined}) {
+function NavBar() {
+  const { userData } = useAuth()
+
   return (
     <header className="flex justify-between items-center">
       {/* LOGO WITH GREETING */}
@@ -11,10 +13,10 @@ function NavBar({ user }: { readonly user: User | undefined}) {
         <div className="w-8 h-8 rounded-full flex justify-center items-center bg-textColor text-bgColor">
           <h3 className="logo text-lg">w</h3>
         </div>
-        {user?.name ? <Header4 text={`Hello, ${user.name}`}/> : null}
+        {userData?.name ? <Header5 text={`Hello, ${userData.name}`}/> : null}
       </div>
       {/* SETTINGS */}
-      <Settings user={user}/>
+      <Settings/>
     </header>
   );
 }

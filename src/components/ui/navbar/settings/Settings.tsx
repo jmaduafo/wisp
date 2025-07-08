@@ -1,5 +1,5 @@
 import { Cog8ToothIcon } from "@heroicons/react/24/solid";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogClose,
@@ -10,12 +10,18 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "../../button";
-import { User } from "@/types/types";
 import { Switch } from "../../switch";
 import { color_themes } from "@/utils/data";
 import { toast } from "sonner";
+import { useAuth } from "@/context/AuthContext";
+import { doc, serverTimestamp, updateDoc } from "firebase/firestore";
+import { db } from "@/firebase/config";
+import Loading from "../../loading/Loading";
 
-function Settings({ user }: { readonly user: User | undefined }) {
+function Settings() {
+  const { userData } = useAuth();
+  const [loading, setLoading] = useState(false);
+
   const [isStyled, setIsStyled] = useState(false);
 
   const [settings, setSettings] = useState({
@@ -23,11 +29,18 @@ function Settings({ user }: { readonly user: User | undefined }) {
     primary_color: "",
     secondary_color: "",
   });
-  // Change name
-  // Change background color
-  // Change text color
-  // Change font family (default or elegant)
-  //
+
+  useEffect(() => {
+    if (userData) {
+      setSettings({
+        name: userData?.name ?? "",
+        primary_color: userData?.primary_color,
+        secondary_color: userData?.secondary_color,
+      });
+
+      userData.style === "default" ? setIsStyled(false) : setIsStyled(true)
+    }
+  }, [userData?.id ?? "guest"]);
 
   const updateSettings = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -36,6 +49,33 @@ function Settings({ user }: { readonly user: User | undefined }) {
       toast("Something went wrong", {
         description: "Please enter your name",
       });
+    }
+
+    try {
+      setLoading(true)
+      if (!userData) {
+        return;
+      }
+
+      const userRef = doc(db, "users", userData?.id);
+
+      await updateDoc(userRef, {
+        name: settings.name,
+        primary_color: settings.primary_color,
+        secondary_color: settings.secondary_color,
+        style: isStyled ? "wisp" : "default",
+        updated_at: serverTimestamp(),
+      });
+
+      toast("Success!", {
+        description: "Settings was updated successfully",
+      });
+    } catch (err: any) {
+      toast("Something went wrong", {
+        description: err.message,
+      });
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -144,7 +184,7 @@ function Settings({ user }: { readonly user: User | undefined }) {
               <DialogClose asChild>
                 <Button variant="outline">Cancel</Button>
               </DialogClose>
-              <Button type="submit">Save changes</Button>
+              <Button type="submit">{loading ? <Loading/> : "Save changes"}</Button>
             </DialogFooter>
           </form>
         </DialogContent>

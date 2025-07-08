@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import MainMenu from "./components/pages/main-menu/MainMenu";
 import Weather from "./components/pages/weather/Weather";
@@ -8,15 +8,23 @@ import MusicPlayer from "./components/pages/music-player/MusicPlayer";
 import ToDo from "./components/pages/to-do/ToDo";
 import Album from "./components/pages/album/Album";
 import { Toaster } from "sonner";
+import { useAuth } from "./context/AuthContext";
 
 function App() {
   const { pathname } = useLocation();
+  const { userData } = useAuth();
+
+  console.log(userData)
 
   return (
     <div
-      className={`${
-        pathname === "/" ? "bg-bgColor text-textColor" : "bg-red-300 text-white"
-      } h-screen classic`}
+      className={`h-screen classic`}
+      style={{
+        backgroundColor:
+          userData && pathname !== "/" ? userData.primary_color : "#F7EAE4",
+        color:
+          userData && pathname !== "/" ? userData.secondary_color : "#2D2929",
+      }}
     >
       <main className={`h-full`}>
         <Routes>

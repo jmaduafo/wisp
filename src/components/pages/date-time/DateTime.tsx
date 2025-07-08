@@ -1,7 +1,7 @@
+import React, { useEffect, useState } from "react";
 import Loader from "@/components/ui/loading/Loader";
 import Widget from "@/components/ui/widget/Widget";
 import { analogTime, fullDate, fullTime } from "@/utils/dateTime";
-import React, { useEffect, useState } from "react";
 import Analog from "./Analog";
 
 function DateTime() {

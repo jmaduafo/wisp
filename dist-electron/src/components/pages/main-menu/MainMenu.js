@@ -53,11 +53,12 @@ function MainMenu() {
                 await setDoc(userRef, {
                     id: newId,
                     name: null,
-                    primary_color: null,
-                    secondary_color: null,
+                    primary_color: "#A65858",
+                    secondary_color: "#FEDBCD",
+                    style: "default",
                     created_at: serverTimestamp(),
+                    updated_at: null,
                 });
-                console.log("Success!");
             }
             catch (err) {
                 console.log(err.message);
