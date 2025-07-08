@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import MainMenu from "./components/pages/main-menu/MainMenu";
 import Weather from "./components/pages/weather/Weather";
@@ -13,8 +13,6 @@ import { useAuth } from "./context/AuthContext";
 function App() {
   const { pathname } = useLocation();
   const { userData } = useAuth();
-
-  console.log(userData)
 
   return (
     <div

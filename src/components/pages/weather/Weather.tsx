@@ -4,11 +4,14 @@ import { weatherForecast, weatherIcon } from "@/utils/data";
 import WeatherCard from "./WeatherCard";
 import { celsiusToFahrenheit, round } from "@/utils/weather";
 import Loader from "@/components/ui/loading/Loader";
+import { useAuth } from "@/context/AuthContext";
 
 function Weather() {
   const [isCelsius, setIsCelsius] = useState(true);
   const [data, setData] = useState<any>();
   const [location, setLocation] = useState("");
+
+  const { userData } = useAuth()
 
   const getWeather = async () => {
     try {
@@ -102,7 +105,11 @@ function Weather() {
                 <div className="flex items-end gap-2">
                   {/* CURRENT TEMPERATURE */}
                   <div className="flex items-start gap-2">
-                    <h1 className="elegant text-[25vw] leading-[.8]">
+                    <h1 className={`${
+                    userData?.style === "default"
+                      ? "classic text-[20vw] leading-[1]"
+                      : "elegant text-[25vw] leading-[.8]"
+                  }`}>
                       {isCelsius
                         ? round(data?.current?.temperature_2m)
                         : celsiusToFahrenheit(data?.current?.temperature_2m)}

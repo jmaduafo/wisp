@@ -3,6 +3,7 @@ import Loader from "@/components/ui/loading/Loader";
 import Widget from "@/components/ui/widget/Widget";
 import { analogTime, fullDate, fullTime } from "@/utils/dateTime";
 import Analog from "./Analog";
+import { useAuth } from "@/context/AuthContext";
 
 function DateTime() {
   const [hours, setHours] = useState("00");
@@ -16,6 +17,8 @@ function DateTime() {
   const [secDeg, setSecDeg] = useState<number | undefined>();
 
   const [is12, setIs12] = useState(false);
+
+  const { userData } = useAuth();
 
   useEffect(() => {
     const time = setInterval(() => {
@@ -34,25 +37,24 @@ function DateTime() {
   const checkHours = () => {
     if (is12) {
       if (+hours % 12 === 0) {
-        return "12"
+        return "12";
       } else if (+hours > 12 && +hours < 22) {
-        return "0" + +hours % 12
+        return "0" + (+hours % 12);
       } else if (+hours >= 22 && +hours <= 23) {
-        return +hours % 12
+        return +hours % 12;
       } else {
-        return hours
+        return hours;
       }
     } else {
-      return hours
+      return hours;
     }
-  }
+  };
 
   return (
     <Widget className="">
       {day === "--" ? (
         <Loader />
       ) : (
-        // basic: text-[32vw] leading-[.9]
         <>
           {/* 12 OR 24 HOUR TIME CHOICE */}
           <div className="flex justify-end gap-2.5 items-end">
@@ -81,21 +83,32 @@ function DateTime() {
           </div>
           <div className="w-full h-full flex items-center justify-center">
             <div className={`flex ${is12 ? "gap-2" : "gap-5"}`}>
-              <div className="flex items-start elegant">
+              <div
+                className={`flex items-start ${
+                  userData?.style === "default" ? "classic" : "elegant"
+                }`}
+              >
                 {/* CHECKS IF IT'S A 24 OR 12 HOUR CLOCK AND PRINTS THE  */}
                 {/* APPROPRIATE TIME */}
                 <div
-                  className={`text-[38vw] flex-1 flex flex-col justify-start items-center`}
+                  className={`${
+                    userData?.style === "default"
+                      ? "text-[32vw] leading-[.8]"
+                      : "text-[38vw] leading-[.7]"
+                  } flex-1 flex flex-col justify-start items-center`}
                 >
-                  <p className="leading-[.7]">
-                    {checkHours()}
-                  </p>
-                  <p className="leading-[.7]">{minutes}</p>
+                  <p className="">{checkHours()}</p>
+                  <p className="">{minutes}</p>
                 </div>
-                <div className={`${is12 ? "block" : "hidden"}`}>
-                  <p className="text-[6.5vw] leading-[1]">
-                    {+hours < 12 ? "AM" : "PM"}
-                  </p>
+                {/* DISPLAYS 'AM' OR 'PM' */}
+                <div
+                  className={`${is12 ? "block" : "hidden"} leading-[1] ${
+                    userData?.style === "default"
+                      ? "text-[6vw]"
+                      : "text-[6.5vw]"
+                  }`}
+                >
+                  <p className="">{+hours < 12 ? "AM" : "PM"}</p>
                 </div>
               </div>
               <div className="flex-1 flex flex-col justify-center items-center gap-3">
