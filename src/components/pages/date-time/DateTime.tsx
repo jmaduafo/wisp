@@ -85,7 +85,7 @@ function DateTime() {
                 {/* CHECKS IF IT'S A 24 OR 12 HOUR CLOCK AND PRINTS THE  */}
                 {/* APPROPRIATE TIME */}
                 <div
-                  className={`text-[38vw] flex-1 flex flex-col justify-center items-center`}
+                  className={`text-[38vw] flex-1 flex flex-col justify-start items-center`}
                 >
                   <p className="leading-[.7]">
                     {checkHours()}
@@ -94,7 +94,7 @@ function DateTime() {
                 </div>
                 <div className={`${is12 ? "block" : "hidden"}`}>
                   <p className="text-[6.5vw] leading-[1]">
-                    {+hours % 24 < 12 ? "AM" : "PM"}
+                    {+hours < 12 ? "AM" : "PM"}
                   </p>
                 </div>
               </div>

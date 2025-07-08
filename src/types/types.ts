@@ -1,13 +1,13 @@
-export type WeatherProps = {};
+import { Timestamp } from "firebase/firestore";
 
 export type User = {
   name: string | null;
   id: string;
-  primary_color: string | null;
-  secondary_color: string | null;
+  primary_color: string;
+  secondary_color: string;
   style: "default" | "wisp";
-  created_at: string;
-  updated_at: string | null;
+  created_at: Timestamp;
+  updated_at: Timestamp | null;
 };
 
 export type Nav = {

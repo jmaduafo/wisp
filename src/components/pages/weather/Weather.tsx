@@ -2,7 +2,7 @@ import React, { Fragment, useState, useEffect } from "react";
 import Widget from "@/components/ui/widget/Widget";
 import { weatherForecast, weatherIcon } from "@/utils/data";
 import WeatherCard from "./WeatherCard";
-import { celsiusToFahrenheit, round, weatherDate } from "@/utils/weather";
+import { celsiusToFahrenheit, round } from "@/utils/weather";
 import Loader from "@/components/ui/loading/Loader";
 
 function Weather() {
@@ -61,9 +61,10 @@ function Weather() {
   return (
     <Widget>
       {!data ? (
-        <Loader/>
+        <Loader />
       ) : (
         <>
+        {/* CELSIUS & FAHRENHEIT SWITCH */}
           <div className="flex justify-end gap-2.5 items-end">
             <button
               onClick={() => setIsCelsius(true)}
@@ -90,6 +91,7 @@ function Weather() {
           </div>
           <div className="flex flex-col h-full">
             <div className="flex items-start justify-center gap-3 mt-3">
+              {/* WEATHER FORECAST ICON */}
               {weatherIcon(
                 data?.current?.weather_code,
                 data.current.is_day,
@@ -98,6 +100,7 @@ function Weather() {
               )}
               <div>
                 <div className="flex items-end gap-2">
+                  {/* CURRENT TEMPERATURE */}
                   <div className="flex items-start gap-2">
                     <h1 className="elegant text-[25vw] leading-[.8]">
                       {isCelsius
@@ -106,6 +109,7 @@ function Weather() {
                     </h1>
                     <h3 className="elegant text-[15vw] leading-[1]">&deg;</h3>
                   </div>
+                  {/* MIN AND MAX CURRENT TEMPERATURE */}
                   <div>
                     <p className="text-[4.5vw] opacity-75 font-light">
                       {isCelsius
@@ -124,6 +128,7 @@ function Weather() {
                   </div>
                 </div>
                 <div className="font-light">
+                  {/* USER LOCATION & WEATHER FORECAST DESCRIPTION */}
                   <p className="text-[5vw] leading-[1]">
                     {location.length ? location : "--"}
                   </p>
@@ -134,6 +139,7 @@ function Weather() {
               </div>
             </div>
             <div className="overflow-auto mt-auto scrollBar">
+              {/* SCROLLING DAILY FORECAST FOR THE WEEK */}
               <div className="w-fit flex gap-3">
                 {data?.daily?.temperature_2m_max
                   ? data?.daily?.temperature_2m_max.map(

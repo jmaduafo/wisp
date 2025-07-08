@@ -12,13 +12,9 @@ import NavBar from "../../ui/navbar/Navbar";
 import MenuCard from "../../ui/menu/MenuCard";
 import Controls from "../../ui/controls/Controls";
 import { v4 as uuid } from "uuid";
-import {
-  doc,
-  onSnapshot,
-  serverTimestamp,
-  setDoc,
-} from "firebase/firestore";
+import { doc, onSnapshot, serverTimestamp, setDoc } from "firebase/firestore";
 import { db } from "@/firebase/config";
+import { Toaster } from "sonner";
 
 function MainMenu() {
   const [userData, setUserData] = useState<User | undefined>();
@@ -74,11 +70,11 @@ function MainMenu() {
         await setDoc(userRef, {
           id: newId,
           name: null,
-          primary_color: null,
-          secondary_color: null,
+          primary_color: "#A65858",
+          secondary_color: "#FEDBCD",
           style: "default",
           created_at: serverTimestamp(),
-          updated_at: null
+          updated_at: null,
         });
       } catch (err: any) {
         console.log(err.message);
@@ -110,14 +106,14 @@ function MainMenu() {
 
   useEffect(() => {
     getUID();
-    getUserData()
+    getUserData();
   }, []);
 
   return (
     <section className="h-full">
       <Controls />
       <div className="px-6">
-        <NavBar user={userData}/>
+        <NavBar user={userData} />
         {/* <div className="mt-6 my-4 border-b-[2px] border-b-textColor w-fit">
           <Header1 text="Main menu" className="font-medium" />
         </div> */}
@@ -136,6 +132,7 @@ function MainMenu() {
             })}
           </div>
         </div>
+        <Toaster />
       </div>
     </section>
   );

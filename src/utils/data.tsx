@@ -40,6 +40,35 @@ export const months = [
   "December",
 ];
 
+export const color_themes = [
+    {
+        title: "maple",
+        primary: "#A65858",
+        secondary: "#FEDBCD",
+    },
+    {
+        title: "chrome",
+        primary: "#1E1E1E",
+        secondary: "#FFF8F8",
+    },
+    {
+        title: "flush",
+        primary: "#5C6D70",
+        secondary: "#FFD2BE",
+    },
+    {
+        title: "lavish",
+        primary: "#ADA8B6",
+        secondary: "#FFEEDB",
+    },
+    {
+        title: "spots",
+        primary: "#FFEEDB",
+        secondary: "#1E1E1E",
+    },
+    
+]
+
 export const weatherIcon = (
   code: number,
   is_day: number,
