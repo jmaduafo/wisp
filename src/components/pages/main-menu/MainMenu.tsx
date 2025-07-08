@@ -14,7 +14,6 @@ import Controls from "../../ui/controls/Controls";
 import { v4 as uuid } from "uuid";
 import { doc, onSnapshot, serverTimestamp, setDoc } from "firebase/firestore";
 import { db } from "@/firebase/config";
-import { Toaster } from "sonner";
 
 function MainMenu() {
   const [userData, setUserData] = useState<User | undefined>();
@@ -132,7 +131,6 @@ function MainMenu() {
             })}
           </div>
         </div>
-        <Toaster />
       </div>
     </section>
   );

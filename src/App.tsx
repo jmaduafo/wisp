@@ -7,6 +7,7 @@ import Misc from "./components/pages/misc/Misc";
 import MusicPlayer from "./components/pages/music-player/MusicPlayer";
 import ToDo from "./components/pages/to-do/ToDo";
 import Album from "./components/pages/album/Album";
+import { Toaster } from "sonner";
 
 function App() {
   const { pathname } = useLocation();
@@ -27,6 +28,8 @@ function App() {
           <Route path="/album" element={<Album />} />
           <Route path="/misc" element={<Misc />} />
         </Routes>
+
+        <Toaster />
       </main>
     </div>
   );
