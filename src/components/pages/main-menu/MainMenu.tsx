@@ -14,7 +14,6 @@ import Controls from "../../ui/controls/Controls";
 import { v4 as uuid } from "uuid";
 import {
   doc,
-  getDoc,
   onSnapshot,
   serverTimestamp,
   setDoc,
@@ -79,6 +78,7 @@ function MainMenu() {
           secondary_color: null,
           style: "default",
           created_at: serverTimestamp(),
+          updated_at: null
         });
       } catch (err: any) {
         console.log(err.message);
