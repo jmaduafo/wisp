@@ -1,4 +1,5 @@
 import { Timestamp } from "firebase/firestore";
+import React from "react";
 
 export type User = {
   name: string | null;
@@ -19,7 +20,9 @@ export type Nav = {
 export type List = {
   id: string;
   text: string;
-  is_edit: boolean;
+  // setEditText: React.Dispatch<React.SetStateAction<string>>;
+  // editText: string
+  // isEdit: boolean;
 }
 
 export type Todo = {

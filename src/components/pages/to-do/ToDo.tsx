@@ -12,6 +12,7 @@ import {
   orderBy,
   query,
   serverTimestamp,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { db } from "@/firebase/config";
@@ -26,6 +27,7 @@ function ToDo() {
 
   const { userData } = useAuth();
 
+  // READ ALL TODOS BY THE CURRENT USER
   const getReminders = async () => {
     if (!userData) {
       return;
@@ -61,20 +63,19 @@ function ToDo() {
         <Loader />
       ) : (
         <>
-          <div className="h-[90%] overflow-y-auto">
+          <div className="h-[90%] overflow-y-auto verticalScroll">
+            {/* RENDER OF ALL TODOS LISTED IN ASCENDING ORDER */}
             {data.length
               ? data.map((item) => {
                   return (
                     <Fragment key={item.id}>
-                      <SingleList
-                        id={item.id}
-                        text={item.text}
-                        is_edit={false}
-                      />
+                      <SingleList id={item.id} text={item.text} />
                     </Fragment>
                   );
                 })
               : null}
+            {/* ONCE "ADD REMINDER" IS CLICKED, AN INPUT POPS UP FOR USER */}
+            {/* TO INSERT A NEW REMINDER */}
             {isAdd ? (
               <AddList
                 setText={setText}
@@ -83,15 +84,21 @@ function ToDo() {
                 isAdd={isAdd}
               />
             ) : null}
+            {/* SHOW 'NO REMINDERS' MESSAGE IF THERE'S NO DATA AND IF */}
+            {/* 'ADD REMINDER' HAS NOT BEEN SELECTED */}
             {!data.length && !isAdd ? (
               <div className="flex justify-center items-center py-2">
                 <p className="text-[5.5vw] opacity-70">No reminders yet</p>
               </div>
             ) : null}
           </div>
+          {/* ADD REMINDER BUTTON */}
           <button
             className="h-[10%] flex items-center gap-1 cursor-pointer shade"
-            onClick={() => setIsAdd(true)}
+            onClick={() => {
+              setIsAdd(true);
+              setText("");
+            }}
           >
             <span>
               <CirclePlus strokeWidth={1.4} className="w-[6vw] h-[6vw]" />
@@ -106,6 +113,7 @@ function ToDo() {
 
 export default ToDo;
 
+// POPS UP WHEN "ADD REMINDER" IS SELECTED
 function AddList({
   setIsAdd,
   setText,
@@ -120,14 +128,18 @@ function AddList({
   const { userData } = useAuth();
   const [loading, setLoading] = useState(false);
 
+  // REMOVE INPUT ROW WHEN X BUTTON IS CLICKED
   function cancelText() {
     setIsAdd(false);
     setText("");
   }
 
+  // CREATE A NEW TO-DO
   const createReminder = async () => {
     try {
       setLoading(true);
+      setText("");
+
       if (!userData) {
         return;
       }
@@ -140,8 +152,6 @@ function AddList({
         created_at: serverTimestamp(),
         updated_at: null,
       });
-
-      setText("");
     } catch (err: any) {
       console.log(err.message);
     } finally {
@@ -152,8 +162,8 @@ function AddList({
   return (
     <div
       className={`${
-        text.length >= 70 ? "bg-red-500/20" : "bg-transparent"
-      } py-1.5 px-2 rounded-md border-b flex items-start gap-1.5`}
+        text.length >= 50 ? "bg-red-500/20" : "bg-transparent"
+      } py-1.5 px-2 rounded-sm border-b flex items-center gap-2`}
       style={{
         borderBottomColor: userData
           ? userData.secondary_color + "15"
@@ -170,19 +180,18 @@ function AddList({
         {loading ? (
           <Loading className="w-[7vw] h-[7vw]" />
         ) : (
-          <Check strokeWidth={1.4} className="w-[7vw] h-[7vw]" />
+          <Check strokeWidth={1.5} className="w-[7vw] h-[7vw]" />
         )}
       </button>
-      <div className="flex-[1]">
-        <textarea
-          onChange={(e) => setText(e.target.value)}
-          value={text}
-          autoFocus
-          rows={1}
-          maxLength={70}
-          className="bg-transparent py-0.5 outline-none border-none leading-[1] text-[6vw] w-full resize-none"
-        ></textarea>
-      </div>
+      <textarea
+        onChange={(e) => setText(e.target.value)}
+        value={text}
+        autoFocus
+        rows={1}
+        maxLength={50}
+        className="flex-[1] bg-transparent py-0.5 outline-none border-none leading-[1] text-[6vw] resize-none"
+      ></textarea>
+
       <button className="cursor-pointer shade" onClick={cancelText}>
         <X strokeWidth={1.5} className="w-[7vw] h-[7vw]" />
       </button>
@@ -190,10 +199,15 @@ function AddList({
   );
 }
 
-function SingleList({ id, text, is_edit }: Readonly<List>) {
+// RENDERS EACH REMINDER IN ASCENDING ORDER
+function SingleList({ id, text }: Readonly<List>) {
   const { userData } = useAuth();
   const [loading, setLoading] = useState(false);
+  const [editLoading, setEditLoading] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [editText, setEditText] = useState("");
 
+  // DELETE TO-DO
   const deleteReminder = async () => {
     try {
       setLoading(true);
@@ -208,29 +222,101 @@ function SingleList({ id, text, is_edit }: Readonly<List>) {
     }
   };
 
+  // UPDATE TO-DO
+  const updateReminder = async () => {
+    try {
+      setEditLoading(true);
+
+      const updateRef = doc(db, "todo", id);
+
+      await updateDoc(updateRef, {
+        text: editText,
+        updated_at: serverTimestamp(),
+      });
+
+      setIsEdit(false);
+    } catch (err: any) {
+      console.log(err.message);
+    } finally {
+      setEditLoading(false);
+    }
+  };
+
+  function loadingState() {
+    if (loading || editLoading) {
+      return (
+        <button>
+          <Loading className="w-[7vw] h-[7vw]" />
+        </button>
+      );
+    } else {
+      if (isEdit) {
+        return (
+          <button
+            className={`${
+              editLoading || !editText.length
+                ? "cursor-default opacity-50"
+                : "cursor-pointer opacity-80 shade"
+            }`}
+            disabled={editLoading || !editText.length}
+            onClick={updateReminder}
+          >
+            <Check strokeWidth={1.5} className="w-[7vw] h-[7vw]" />
+          </button>
+        );
+      } else {
+        return (
+          <button
+            className="cursor-pointer shade opacity-80"
+            disabled={loading}
+            onClick={deleteReminder}
+          >
+            <X strokeWidth={1.5} className="w-[7vw] h-[7vw]" />
+          </button>
+        );
+      }
+    }
+  }
+
+  function editChange() {
+    setIsEdit(true);
+    setEditText(text);
+  }
+
   return (
     <div
-      className="py-1.5 px-2 border-b flex items-center gap-1.5"
+      className="py-1.5 px-2 border-b flex items-center gap-2"
       style={{
         borderBottomColor: userData
           ? userData.secondary_color + "15"
           : "#2D292915",
       }}
     >
-      <button
-        className="cursor-pointer shade opacity-80"
-        disabled={loading}
-        onClick={deleteReminder}
-      >
-        {loading ? (
-          <Loading className="w-[7vw] h-[7vw]" />
-        ) : (
+      {loadingState()}
+
+      {isEdit ? (
+        <textarea
+          onChange={(e) => setEditText(e.target.value)}
+          value={editText}
+          autoFocus
+          rows={1}
+          maxLength={50}
+          className="flex-[1] bg-transparent py-0.5 outline-none border-none leading-[1] text-[6vw] resize-none"
+        ></textarea>
+      ) : (
+        <button onClick={editChange}>
+          <p className="text-[6vw]">{text}</p>
+        </button>
+      )}
+      {isEdit ? (
+        <button
+          className="cursor-pointer shade opacity-80"
+          disabled={editLoading}
+          onClick={() => setIsEdit(false)}
+        >
           <X strokeWidth={1.5} className="w-[7vw] h-[7vw]" />
-        )}
-      </button>
-      <div>
-        <p className="text-[6vw]">{text}</p>
-      </div>
+        </button>
+      ) : null}
     </div>
   );
 }

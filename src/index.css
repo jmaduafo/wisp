@@ -71,6 +71,10 @@
   height: 2px;
 }
 
+.verticalScroll::-webkit-scrollbar {
+  width: 2px;
+}
+
 .drag {
   -webkit-app-region: drag;
 }
