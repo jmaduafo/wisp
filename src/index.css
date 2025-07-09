@@ -99,6 +99,11 @@
   box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.15);
 }
 
+.shade:hover {
+  opacity: .8;
+  transition-duration: 300ms;
+}
+
 @theme inline {
   --color-bgColor: #f7eae4;
   --color-textColor: #2d2929;

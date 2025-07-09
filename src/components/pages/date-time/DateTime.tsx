@@ -85,7 +85,7 @@ function DateTime() {
             <div className={`flex ${is12 ? "gap-2" : "gap-5"}`}>
               <div
                 className={`flex items-start ${
-                  userData?.style === "default" ? "classic" : "elegant"
+                  userData?.style === "default" ? "classic gap-2" : "elegant gap-0"
                 }`}
               >
                 {/* CHECKS IF IT'S A 24 OR 12 HOUR CLOCK AND PRINTS THE  */}

@@ -16,6 +16,20 @@ export type Nav = {
   icon: React.ReactNode;
 };
 
+export type List = {
+  id: string;
+  text: string;
+  is_edit: boolean;
+}
+
+export type Todo = {
+  id: string;
+  text: string;
+  user_id: string;
+  created_at: Timestamp;
+  updated_at: Timestamp | null;
+}
+
 export type Widget = {
   category:
     | "weather"
