@@ -6,6 +6,8 @@ import { Check, X, CirclePlus } from "lucide-react";
 import {
   addDoc,
   collection,
+  deleteDoc,
+  doc,
   onSnapshot,
   orderBy,
   query,
@@ -43,7 +45,7 @@ function ToDo() {
       });
 
       setData(todo);
-      console.log(todo)
+      console.log(todo);
     });
 
     return () => unsubscribe();
@@ -139,7 +141,7 @@ function AddList({
         updated_at: null,
       });
 
-      console.log("Success");
+      setText("");
     } catch (err: any) {
       console.log(err.message);
     } finally {
@@ -151,7 +153,7 @@ function AddList({
     <div
       className={`${
         text.length >= 70 ? "bg-red-500/20" : "bg-transparent"
-      } py-3 px-2 rounded-md border-b flex items-start gap-1.5`}
+      } py-1.5 px-2 rounded-md border-b flex items-start gap-1.5`}
       style={{
         borderBottomColor: userData
           ? userData.secondary_color + "15"
@@ -163,8 +165,13 @@ function AddList({
           text.length ? "visible" : "invisible"
         } cursor-pointer shade`}
         onClick={createReminder}
+        disabled={loading}
       >
-        {loading ? <Loading className="w-[6vw] h-[6vw]"/> : <Check strokeWidth={1.4} className="w-[7vw] h-[7vw]" />}
+        {loading ? (
+          <Loading className="w-[7vw] h-[7vw]" />
+        ) : (
+          <Check strokeWidth={1.4} className="w-[7vw] h-[7vw]" />
+        )}
       </button>
       <div className="flex-[1]">
         <textarea
@@ -173,7 +180,7 @@ function AddList({
           autoFocus
           rows={1}
           maxLength={70}
-          className="bg-transparent py-0.5 outline-none border-none leading-[1] text-[5.7vw] w-full resize-none"
+          className="bg-transparent py-0.5 outline-none border-none leading-[1] text-[6vw] w-full resize-none"
         ></textarea>
       </div>
       <button className="cursor-pointer shade" onClick={cancelText}>
@@ -185,21 +192,44 @@ function AddList({
 
 function SingleList({ id, text, is_edit }: Readonly<List>) {
   const { userData } = useAuth();
+  const [loading, setLoading] = useState(false);
+
+  const deleteReminder = async () => {
+    try {
+      setLoading(true);
+
+      const deleteRef = doc(db, "todo", id);
+
+      await deleteDoc(deleteRef);
+    } catch (err: any) {
+      console.log(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div
-      className="py-3 px-2 border-b flex items-center gap-1.5"
+      className="py-1.5 px-2 border-b flex items-center gap-1.5"
       style={{
         borderBottomColor: userData
           ? userData.secondary_color + "15"
           : "#2D292915",
       }}
     >
-      <button className="flex-1 cursor-pointer" onClick={() => {}}>
-        <X strokeWidth={1.4} className="w-[7vw] h-[7vw]" />
+      <button
+        className="cursor-pointer shade opacity-80"
+        disabled={loading}
+        onClick={deleteReminder}
+      >
+        {loading ? (
+          <Loading className="w-[7vw] h-[7vw]" />
+        ) : (
+          <X strokeWidth={1.5} className="w-[7vw] h-[7vw]" />
+        )}
       </button>
       <div>
-        <p>{text}</p>
+        <p className="text-[6vw]">{text}</p>
       </div>
     </div>
   );
