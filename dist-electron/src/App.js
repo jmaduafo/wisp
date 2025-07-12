@@ -12,7 +12,6 @@ import { useAuth } from "./context/AuthContext";
 function App() {
     const { pathname } = useLocation();
     const { userData } = useAuth();
-    console.log(userData);
     return (_jsx("div", { className: `h-screen classic`, style: {
             backgroundColor: userData && pathname !== "/" ? userData.primary_color : "#F7EAE4",
             color: userData && pathname !== "/" ? userData.secondary_color : "#2D2929",

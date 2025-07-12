@@ -7,6 +7,7 @@ export type User = {
   primary_color: string;
   secondary_color: string;
   style: "default" | "wisp";
+  album: string[];
   created_at: Timestamp;
   updated_at: Timestamp | null;
 };
@@ -20,9 +21,6 @@ export type Nav = {
 export type List = {
   id: string;
   text: string;
-  // setEditText: React.Dispatch<React.SetStateAction<string>>;
-  // editText: string
-  // isEdit: boolean;
 }
 
 export type Todo = {

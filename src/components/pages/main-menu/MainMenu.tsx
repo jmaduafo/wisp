@@ -71,6 +71,7 @@ function MainMenu() {
           primary_color: "#A65858",
           secondary_color: "#FEDBCD",
           style: "default",
+          album: [],
           created_at: serverTimestamp(),
           updated_at: null,
         });

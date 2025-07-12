@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { useAuth } from "@/context/AuthContext";
 import { doc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { db } from "@/firebase/config";
-import Loading from "../../loading/Loading";
+import Loading from "../../loading/ButtonLoading";
 function Settings() {
     const { userData } = useAuth();
     const [loading, setLoading] = useState(false);

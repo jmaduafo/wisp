@@ -58,7 +58,7 @@ function ToDo() {
   }, [userData?.id ?? "guest"]);
 
   return (
-    <Widget padding_bottom="pb-[3vh]">
+    <Widget padding="pb-[3vh] px-3 pt-2">
       {!data ? (
         <Loader />
       ) : (
