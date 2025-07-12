@@ -52,6 +52,8 @@ function Album() {
         photos.push(result.response);
       });
 
+      console.log(photos)
+
       const userRef = doc(db, "users", userData.id);
 
       await updateDoc(userRef, {

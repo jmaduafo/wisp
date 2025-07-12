@@ -13,7 +13,7 @@ export async function uploadImage(file: File, path: string) {
     };
   } catch (err: any) {
     return {
-      response: err.message,
+      response: err.message as string,
       success: false,
     };
   }
