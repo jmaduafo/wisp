@@ -13,6 +13,7 @@ import { db } from "@/firebase/config";
 import { doc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { Repeat2, CirclePlus, Trash, Camera } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
+import Autoplay from "embla-carousel-autoplay";
 
 function Album() {
   const [selectedPhotos, setSelectedPhotos] = useState<File[] | null>(null);
@@ -40,26 +41,33 @@ function Album() {
         return;
       }
 
-      const photos: string[] = userData.album;
+      const uploadedUrls = await Promise.all(
+        selectedPhotos.map(async (item) => {
+          const result = await uploadImage(item, `users/${userData.id}/album`);
+          if (!result.success) {
+            console.log(result.response);
+            return null;
+          }
+          return result.response;
+        })
+      );
 
-      selectedPhotos.forEach(async (item) => {
-        const result = await uploadImage(item, `users/${userData.id}/album`);
+      // Filter out any failed uploads (nulls)
+      const validUrls = uploadedUrls.filter((url): url is string =>
+        Boolean(url)
+      );
 
-        if (!result.success) {
-          console.log(result.response)
-        }
-
-        photos.push(result.response);
-      });
-
-      console.log(photos)
+      // Merge with existing photos
+      const updatedPhotos = [...userData.album, ...validUrls];
 
       const userRef = doc(db, "users", userData.id);
 
       await updateDoc(userRef, {
-        album: photos,
+        album: updatedPhotos,
         updated_at: serverTimestamp(),
       });
+
+      setSelectedPhotos(null);
     } catch (err: any) {
       console.log(err.message);
     } finally {
@@ -109,28 +117,35 @@ function Album() {
   const albumCarousel = userData?.album?.length ? (
     <>
       {/* IMAGE SLIDE */}
-      <div className="h-full group-hover:h-[85%]">
+      <div className="h-screen group-hover:h-[85vh] ">
         <Carousel
           opts={{
             align: "start",
             loop: true,
           }}
+          plugins={[
+            Autoplay({
+              delay: 8000,
+            }),
+          ]}
           setApi={setApi}
-          className="h-full w-full"
+          className=" w-full h-full"
         >
-          <CarouselContent>
+          <CarouselContent className="h-screen group-hover:h-[85vh]">
             {userData.album.map((item, i) => {
               return (
-                <CarouselItem key={`${item}-${i + 1}`}>
-                  <img src={item} alt={`${userData.name}'s album ${i + 1}`} />
-                </CarouselItem>
+                <CarouselItem
+                  key={`${item}-${i + 1}`}
+                  className="h-full w-full bg-cover bg-center bg-no-repeat"
+                  style={{ backgroundImage: `url(${item})` }}
+                ></CarouselItem>
               );
             })}
           </CarouselContent>
         </Carousel>
       </div>
       {/* ACTIONS CONTAINER */}
-      <div className="h-0 invisible group-hover:h-[15%] group-hover:visible flex justify-between items-center px-2">
+      <div className="h-0 invisible group-hover:h-[15vh] group-hover:visible flex justify-between items-center px-2">
         <FilePicker
           className="flex items-center gap-1 cursor-pointer shade"
           inputRef={inputRef}
@@ -173,7 +188,7 @@ function Album() {
   );
 
   return (
-    <Widget padding="p-0" className="group duration-300">
+    <Widget padding="p-0" className="group duration-300 w-full h-full">
       {!userData || loading ? <Loader /> : albumCarousel}
     </Widget>
   );
