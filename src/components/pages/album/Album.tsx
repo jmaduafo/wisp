@@ -8,7 +8,7 @@ import FilePicker from "@/components/ui/file-picker/FilePicker";
 import Loader from "@/components/ui/loading/Loader";
 import Widget from "@/components/ui/widget/Widget";
 import { useAuth } from "@/context/AuthContext";
-import { uploadImage } from "@/firebase/actions";
+import { deleteImageFromStorage, uploadImage } from "@/firebase/actions";
 import { db } from "@/firebase/config";
 import { doc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { Repeat2, CirclePlus, Trash, Camera } from "lucide-react";
@@ -89,7 +89,33 @@ function Album() {
     try {
       setLoading(true);
 
-      console.log("");
+      if (!userData) {
+        return
+      }
+
+      // GET EXACT PATH OF URL IN THE FORM OF 'USERS/ALBUM/IMAGE.JPG'
+      const noHash = userData.album[index].split('/').pop()
+      const reformat = noHash?.split('%2F').join('/').split('?')[0]
+
+      // FILTER OUT THE SPECIFIC IMAGE FROM ARRAY
+      const filterAlbum = userData.album.filter(item => item !== userData.album[index])
+
+      const userRef = doc(db, "users", userData.id)
+
+      // CALL FOR DELETION OF IMAGE FROM STORAGE AND UPDATE THE USER DOCUMENT
+      const [deleteRes] = await Promise.all([
+        deleteImageFromStorage(reformat as string),
+        updateDoc(userRef, {
+          album: filterAlbum,
+          updated_at: serverTimestamp()
+        })
+      ])
+
+      if (!deleteRes.success) {
+        setMessage(deleteRes.response)
+        return;
+      }
+
     } catch (err: any) {
       console.log(err.message);
     } finally {
@@ -141,6 +167,7 @@ function Album() {
                 ></CarouselItem>
               );
             })}
+            {message.length ? <p>{message}</p> : null}
           </CarouselContent>
         </Carousel>
       </div>
@@ -156,18 +183,19 @@ function Album() {
           </span>
           <span className="text-[7vw] font-medium">Add</span>
         </FilePicker>
+        <p className="text-[6vw]">{current} / {count}</p>
         <div className="flex items-center gap-1.5">
           <button
             className="cursor-pointer shade"
             title="Replace"
-            onClick={() => replaceImage(current)}
+            onClick={() => replaceImage(current - 1)}
           >
             <Repeat2 strokeWidth={1.4} className="w-[10vw] h-[10vw]" />
           </button>
           <button
             className="cursor-pointer shade"
             title="Delete"
-            onClick={() => deleteImage(current)}
+            onClick={() => deleteImage(current - 1)}
           >
             <Trash strokeWidth={1.4} className="w-[8vw] h-[8vw]" />
           </button>
@@ -176,7 +204,7 @@ function Album() {
     </>
   ) : (
     <div className="relative w-full h-full flex justify-center items-center group">
-      <p className="group-hover:invisible visible">No images</p>
+      <p className="group-hover:invisible visible">{message.length ? <p>{message}</p> : "No photos yet"}</p>
       <FilePicker
         className="absolute bg-black/25 w-full h-full flex justify-center items-center invisible group-hover:visible cursor-pointer"
         inputRef={inputRef}
