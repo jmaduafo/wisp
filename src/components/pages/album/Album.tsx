@@ -17,6 +17,7 @@ import Autoplay from "embla-carousel-autoplay";
 
 function Album() {
   const [selectedPhotos, setSelectedPhotos] = useState<File[] | null>(null);
+
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -25,9 +26,11 @@ function Album() {
   const [count, setCount] = React.useState(0);
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const replaceRef = useRef<HTMLInputElement>(null);
 
   const { userData } = useAuth();
 
+  // ADDS UP TO 15 IMAGES TO ALBUM
   const addImages = async () => {
     try {
       setLoading(true);
@@ -75,9 +78,44 @@ function Album() {
     }
   };
 
-  const replaceImage = async (index: number) => {
+  // REPLACES AN OLD SELECTED IMAGE WITH A NEW ONE 
+  const replaceImage = async (index: number, file: File) => {
     try {
       setLoading(true);
+
+      if (!userData || !file) {
+        return;
+      }
+
+      // GET EXACT PATH OF URL IN THE FORM OF 'USERS/ALBUM/IMAGE.JPG'
+      const noHash = userData.album[index].split("/").pop();
+      const reformat = noHash?.split("%2F").join("/").split("?")[0];
+
+      const image = await uploadImage(file, `users/${userData.id}/album`);
+
+      if (!image.success) {
+        console.log(image.response);
+        return;
+      }
+
+      let replacedAlbum = [...userData.album];
+      replacedAlbum[index] = image.response;
+
+      const userRef = doc(db, "users", userData.id);
+
+      // CALL FOR DELETION OF IMAGE FROM STORAGE AND UPDATE THE USER DOCUMENT
+      const [deleteRes] = await Promise.all([
+        deleteImageFromStorage(reformat as string),
+        updateDoc(userRef, {
+          album: replacedAlbum,
+          updated_at: serverTimestamp(),
+        }),
+      ]);
+
+      if (!deleteRes.success) {
+        setMessage(deleteRes.response);
+        return;
+      }
     } catch (err: any) {
       console.log(err.message);
     } finally {
@@ -85,37 +123,39 @@ function Album() {
     }
   };
 
+  // DELETES IMAGE FROM ALBUM
   const deleteImage = async (index: number) => {
     try {
       setLoading(true);
 
       if (!userData) {
-        return
+        return;
       }
 
       // GET EXACT PATH OF URL IN THE FORM OF 'USERS/ALBUM/IMAGE.JPG'
-      const noHash = userData.album[index].split('/').pop()
-      const reformat = noHash?.split('%2F').join('/').split('?')[0]
+      const noHash = userData.album[index].split("/").pop();
+      const reformat = noHash?.split("%2F").join("/").split("?")[0];
 
       // FILTER OUT THE SPECIFIC IMAGE FROM ARRAY
-      const filterAlbum = userData.album.filter(item => item !== userData.album[index])
+      const filterAlbum = userData.album.filter(
+        (item) => item !== userData.album[index]
+      );
 
-      const userRef = doc(db, "users", userData.id)
+      const userRef = doc(db, "users", userData.id);
 
       // CALL FOR DELETION OF IMAGE FROM STORAGE AND UPDATE THE USER DOCUMENT
       const [deleteRes] = await Promise.all([
         deleteImageFromStorage(reformat as string),
         updateDoc(userRef, {
           album: filterAlbum,
-          updated_at: serverTimestamp()
-        })
-      ])
+          updated_at: serverTimestamp(),
+        }),
+      ]);
 
       if (!deleteRes.success) {
-        setMessage(deleteRes.response)
+        setMessage(deleteRes.response);
         return;
       }
-
     } catch (err: any) {
       console.log(err.message);
     } finally {
@@ -127,6 +167,7 @@ function Album() {
     addImages();
   }, [selectedPhotos]);
 
+  // CAROUSEL
   useEffect(() => {
     if (!api) {
       return;
@@ -173,6 +214,7 @@ function Album() {
       </div>
       {/* ACTIONS CONTAINER */}
       <div className="h-0 invisible group-hover:h-[15vh] group-hover:visible flex justify-between items-center px-2">
+        {/* ADD NEW IMAGE */}
         <FilePicker
           className="flex items-center gap-1 cursor-pointer shade"
           inputRef={inputRef}
@@ -183,15 +225,37 @@ function Album() {
           </span>
           <span className="text-[7vw] font-medium">Add</span>
         </FilePicker>
-        <p className="text-[6vw]">{current} / {count}</p>
+        {/* SLIDES COUNTER */}
+        <p className="text-[6vw]">
+          {current} / {count}
+        </p>
         <div className="flex items-center gap-1.5">
-          <button
-            className="cursor-pointer shade"
-            title="Replace"
-            onClick={() => replaceImage(current - 1)}
-          >
-            <Repeat2 strokeWidth={1.4} className="w-[10vw] h-[10vw]" />
-          </button>
+          {/* REPLACE IMAGE */}
+          <div className="flex">
+            <button
+              className="cursor-pointer shade"
+              onClick={() => {
+                replaceRef.current?.click();
+              }}
+              title="Replace"
+            >
+              <Repeat2 strokeWidth={1.4} className="w-[10vw] h-[10vw]" />
+            </button>
+            <input
+              ref={replaceRef}
+              type="file"
+              className="hidden"
+              accept="image/*"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+
+                if (file) {
+                  replaceImage(current - 1, file);
+                }
+              }}
+            />
+          </div>
+          {/* DELETE IMAGE */}
           <button
             className="cursor-pointer shade"
             title="Delete"
@@ -204,7 +268,9 @@ function Album() {
     </>
   ) : (
     <div className="relative w-full h-full flex justify-center items-center group">
-      <p className="group-hover:invisible visible">{message.length ? <p>{message}</p> : "No photos yet"}</p>
+      <p className="group-hover:invisible visible">
+        {message.length ? <p>{message}</p> : "No photos yet"}
+      </p>
       <FilePicker
         className="absolute bg-black/25 w-full h-full flex justify-center items-center invisible group-hover:visible cursor-pointer"
         inputRef={inputRef}
