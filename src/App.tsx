@@ -9,6 +9,12 @@ import ToDo from "./components/pages/to-do/ToDo";
 import Album from "./components/pages/album/Album";
 import { Toaster } from "sonner";
 import { useAuth } from "./context/AuthContext";
+import MiniGame from "./components/pages/misc/links/MiniGame";
+import Calendar from "./components/pages/misc/links/Calendar";
+import Timer from "./components/pages/misc/links/Timer";
+import Quote from "./components/pages/misc/links/Quote";
+import Quiz from "./components/pages/misc/links/Quiz";
+import Calculator from "./components/pages/misc/links/Calculator";
 
 function App() {
   const { pathname } = useLocation();
@@ -33,7 +39,12 @@ function App() {
           <Route path="/to-do" element={<ToDo />} />
           <Route path="/album" element={<Album />} />
           <Route path="/misc/menu" element={<Misc />} />
-          {/* <Route path="/misc/notes" element={<Misc />} /> */}
+          <Route path="/misc/game" element={<MiniGame />} />
+          <Route path="/misc/calculator" element={<Calculator />} />
+          <Route path="/misc/calendar" element={<Calendar />} />
+          <Route path="/misc/timer" element={<Timer />} />
+          <Route path="/misc/quote" element={<Quote />} />
+          <Route path="/misc/quiz" element={<Quiz />} />
         </Routes>
 
         <Toaster />

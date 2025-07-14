@@ -19,59 +19,107 @@ const widgetWindows = {};
 function measurements(name, path) {
   if (name === "maxHeight") {
     if (path === "") {
-      return 700
+      return 700;
     } else if (path === "weather") {
-      return 300
+      return 300;
     } else if (path === "date-time") {
-      return 300
+      return 300;
     } else if (path === "music-player") {
-      return 200
+      return 200;
     } else if (path === "to-do") {
-      return 400
+      return 400;
     } else if (path === "album") {
-      return 300
+      return 300;
+    } else if (path === "misc/game") {
+      return 350;
+    } else if (path === "misc/calculator") {
+      return 350;
+    } else if (path === "misc/timer") {
+      return 300;
+    } else if (path === "misc/calendar") {
+      return 300;
+    } else if (path === "misc/quote") {
+      return 200;
+    } else if (path === "misc/quiz") {
+      return 300;
     }
   } else if (name === "minHeight" || name === "height") {
     if (path === "") {
-      return 700
+      return 700;
     } else if (path === "weather") {
-      return 250
+      return 250;
     } else if (path === "date-time") {
-      return 230
+      return 230;
     } else if (path === "music-player") {
-      return 150
+      return 150;
     } else if (path === "to-do") {
-      return 300
+      return 300;
     } else if (path === "album") {
-      return 150
+      return 150;
+    } else if (path === "misc/game") {
+      return 300;
+    } else if (path === "misc/calculator") {
+      return 330;
+    } else if (path === "misc/timer") {
+      return 250;
+    } else if (path === "misc/calendar") {
+      return 250;
+    } else if (path === "misc/quote") {
+      return 150;
+    } else if (path === "misc/quiz") {
+      return 250;
     }
   } else if (name === "maxWidth") {
     if (path === "") {
-      return 400
+      return 400;
     } else if (path === "weather") {
-      return 350
+      return 350;
     } else if (path === "date-time") {
-      return 350
+      return 350;
     } else if (path === "music-player") {
-      return 350
+      return 350;
     } else if (path === "to-do") {
-      return 300
+      return 300;
     } else if (path === "album") {
-      return 300
+      return 300;
+    } else if (path === "misc/game") {
+      return 350;
+    } else if (path === "misc/calculator") {
+      return 350;
+    } else if (path === "misc/timer") {
+      return 350;
+    } else if (path === "misc/calendar") {
+      return 350;
+    } else if (path === "misc/quote") {
+      return 325;
+    } else if (path === "misc/quiz") {
+      return 325;
     }
   } else if (name === "minWidth" || name === "width") {
     if (path === "") {
-      return 400
+      return 400;
     } else if (path === "weather") {
-      return 300
+      return 300;
     } else if (path === "date-time") {
-      return 300
+      return 300;
     } else if (path === "music-player") {
-      return 300
+      return 300;
     } else if (path === "to-do") {
-      return 250
+      return 250;
     } else if (path === "album") {
-      return 150
+      return 150;
+    } else if (path === "misc/game") {
+      return 270;
+    } else if (path === "misc/calculator") {
+      return 250;
+    } else if (path === "misc/timer") {
+      return 250;
+    } else if (path === "misc/calendar") {
+      return 250;
+    } else if (path === "misc/quote") {
+      return 270;
+    } else if (path === "misc/quiz") {
+      return 270;
     }
   }
 }
@@ -96,7 +144,7 @@ function createWindow(name = "main", urlPath = "") {
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       contextIsolation: true,
-      nodeIntegration: false
+      nodeIntegration: false,
     },
   });
 
@@ -107,7 +155,7 @@ function createWindow(name = "main", urlPath = "") {
     win.loadURL(`http://localhost:5173/${urlPath}`);
     // win.webContents.openDevTools()
   } else {
-    win.loadFile(path.join(__dirname, "../dist/index.html"))
+    win.loadFile(path.join(__dirname, "../dist/index.html"));
   }
 
   widgetWindows[name] = win;
