@@ -1,7 +1,7 @@
 import React from "react";
 import Settings from "./settings/Settings";
 import { useAuth } from "@/context/AuthContext";
-import Header5 from "../headings/Header5";
+import Header4 from "../headings/Header4";
 
 function NavBar() {
   const { userData } = useAuth()
@@ -13,7 +13,7 @@ function NavBar() {
         <div className="w-8 h-8 rounded-full flex justify-center items-center bg-textColor text-bgColor">
           <h3 className="logo text-lg">w</h3>
         </div>
-        {userData?.name ? <Header5 text={`Hello, ${userData.name}`}/> : null}
+        {userData?.name ? <Header4 text={`Hello, ${userData.name}`}/> : null}
       </div>
       {/* SETTINGS */}
       <Settings/>

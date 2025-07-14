@@ -7,7 +7,7 @@ function Header2({
   readonly text: string;
   readonly className?: string;
 }) {
-  return <h2 className={`text-2xl ${className}`}>{text}</h2>;
+  return <h2 className={`text-xl ${className}`}>{text}</h2>;
 }
 
 export default Header2;

@@ -8,7 +8,7 @@ function Header6({
   readonly className?: string;
 }) {
   return (
-    <h6 className={`text-[15px] ${className}`}>{text}</h6>
+    <h6 className={`text-xs ${className}`}>{text}</h6>
   )
 }
 

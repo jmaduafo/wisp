@@ -19,9 +19,9 @@ function App() {
       className={`h-screen classic`}
       style={{
         backgroundColor:
-          userData && pathname !== "/" ? userData.primary_color : "#F7EAE4",
+          userData && (pathname !== "/" && !pathname.includes("menu")) ? userData.primary_color : "#F7EAE4",
         color:
-          userData && pathname !== "/" ? userData.secondary_color : "#2D2929",
+          userData && (pathname !== "/" && !pathname.includes("menu"))  ? userData.secondary_color : "#2D2929",
       }}
     >
       <main className={`h-full`}>
@@ -32,7 +32,8 @@ function App() {
           <Route path="/music-player" element={<MusicPlayer />} />
           <Route path="/to-do" element={<ToDo />} />
           <Route path="/album" element={<Album />} />
-          <Route path="/misc" element={<Misc />} />
+          <Route path="/misc/menu" element={<Misc />} />
+          {/* <Route path="/misc/notes" element={<Misc />} /> */}
         </Routes>
 
         <Toaster />

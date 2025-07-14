@@ -7,7 +7,7 @@ function Header5({
   readonly text: string;
   readonly className?: string;
 }) {
-  return <h5 className={`text-base ${className}`}>{text}</h5>;
+  return <h5 className={`text-sm ${className}`}>{text}</h5>;
 }
 
 export default Header5;

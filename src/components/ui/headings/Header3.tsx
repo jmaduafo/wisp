@@ -8,7 +8,7 @@ function Header3({
   readonly className?: string;
 }) {
   return (
-    <h3 className={`text-xl ${className}`}>{text}</h3>
+    <h3 className={`text-lg ${className}`}>{text}</h3>
   )
 }
 

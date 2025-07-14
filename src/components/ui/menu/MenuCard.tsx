@@ -1,5 +1,6 @@
 import Header4 from "../headings/Header4";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 function MenuCard({
   title,
@@ -10,8 +11,17 @@ function MenuCard({
   readonly icon: React.ReactNode;
   readonly link: string;
 }) {
+  const navigate = useNavigate();
+
   return (
-    <button onClick={() => window.api.openWidget(`${link}`, `${link}`)} className="cursor-pointer hover:opacity-70 duration-300 w-full h-[150px] flex flex-col px-4 py-3 rounded-lg bg-bgColor shadow-lg">
+    <button
+      onClick={() =>
+        title.toLowerCase() !== "misc"
+          ? window.api.openWidget(`${link}`, `${link}`)
+          : navigate(`/${link}`)
+      }
+      className="cursor-pointer hover:opacity-70 duration-300 w-full h-[150px] flex flex-col px-4 py-3 rounded-lg bg-bgColor shadow-lg"
+    >
       <div>
         <Header4 text={title} className="capitalize text-left" />
       </div>

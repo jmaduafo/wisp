@@ -87,16 +87,17 @@ function Album() {
         return;
       }
 
-      // GET EXACT PATH OF URL IN THE FORM OF 'USERS/ALBUM/IMAGE.JPG'
-      const noHash = userData.album[index].split("/").pop();
-      const reformat = noHash?.split("%2F").join("/").split("?")[0];
-
+      // UPLOAD IMAGE TO ALBUM STORAGE
       const image = await uploadImage(file, `users/${userData.id}/album`);
 
       if (!image.success) {
         console.log(image.response);
         return;
       }
+
+      // GET EXACT PATH OF URL IN THE FORM OF 'USERS/ALBUM/IMAGE.JPG'
+      const noHash = userData.album[index].split("/").pop();
+      const reformat = noHash?.split("%2F").join("/").split("?")[0];
 
       let replacedAlbum = [...userData.album];
       replacedAlbum[index] = image.response;

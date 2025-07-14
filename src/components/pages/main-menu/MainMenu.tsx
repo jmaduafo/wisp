@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   CloudDrizzle,
   GalleryVerticalEnd,
@@ -8,12 +8,10 @@ import {
   BookUser,
 } from "lucide-react";
 import { Nav } from "../../../types/types";
-import NavBar from "../../ui/navbar/Navbar";
-import MenuCard from "../../ui/menu/MenuCard";
-import Controls from "../../ui/controls/Controls";
 import { v4 as uuid } from "uuid";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { db } from "@/firebase/config";
+import MenuDisplay from "@/components/ui/menu/MenuDisplay";
 
 function MainMenu() {
 
@@ -44,8 +42,8 @@ function MainMenu() {
       icon: <BookUser className="w-7 h-7" strokeWidth={1} />,
     },
     {
-      title: "misc",
-      navLink: "misc",
+      title: "Misc",
+      navLink: "misc/menu",
       icon: <GalleryVerticalEnd className="w-7 h-7" strokeWidth={1} />,
     },
   ];
@@ -87,30 +85,7 @@ function MainMenu() {
   }, []);
 
   return (
-    <section className="h-full">
-      <Controls />
-      <div className="px-6">
-        <NavBar />
-        {/* <div className="mt-6 my-4 border-b-[2px] border-b-textColor w-fit">
-          <Header1 text="Main menu" className="font-medium" />
-        </div> */}
-        <div className="mt-[6em] w-full">
-          <div className="grid grid-cols-2 gap-3">
-            {nav.map((item) => {
-              return (
-                <Fragment key={item.navLink}>
-                  <MenuCard
-                    title={item.title}
-                    icon={item.icon}
-                    link={item.navLink}
-                  />
-                </Fragment>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-    </section>
+    <MenuDisplay title="Main Menu" array={nav}/>
   );
 }
 
