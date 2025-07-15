@@ -20,6 +20,7 @@ function Calculator() {
     if (input === "delete") {
       setEquation("");
       setDisplay("");
+      setIsPositive(true)
     } else if (input === "switch") {
       setIsPositive((prev) => !prev);
 
@@ -33,6 +34,10 @@ function Calculator() {
     } else if (input === "backspace") {
       setEquation(equation.slice(0, -1));
       setDisplay(display.slice(0, -1));
+
+      if (equation === "") {
+        setIsPositive(true)
+      }
 
     } else if (input === "%") {
       if (equation.includes("+") || equation.includes("-")) {
@@ -53,6 +58,7 @@ function Calculator() {
       setIsResult(true);
       setEquation("");
       setDisplay("");
+      setIsPositive(true)
     } else {
       setEquation(equation + input);
       setDisplay(display + html);
@@ -62,7 +68,7 @@ function Calculator() {
   const formatResult = () => {
     if (isResult) {
       if (result.toString().includes(".")) {
-        return calculatorFormat(+Number(result).toFixed(5))
+        return calculatorFormat(+Number(result))
       }
       return calculatorFormat(+result);
     } else {

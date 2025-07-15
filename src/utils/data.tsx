@@ -92,9 +92,9 @@ export const calculator = [
   },
   {
     category: "outer",
-    text: "()",
+    text: "%",
     icon: null,
-    output: "%",
+    output: "/100",
     html: "%",
     
   },
