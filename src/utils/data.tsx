@@ -13,6 +13,12 @@ import {
   Snowflake,
   Sun,
   Moon,
+  Divide,
+  Equal,
+  Minus,
+  Plus,
+  X,
+  Delete
 } from "lucide-react";
 
 export const days = [
@@ -67,6 +73,150 @@ export const color_themes = [
         secondary: "#1E1E1E",
     },
     
+]
+
+export const calculator = [
+  {
+    category: "outer",
+    text: "AC",
+    icon: null,
+    output: "delete",
+    html: null
+  },
+  {
+    category: "outer",
+    text: "+ / -",
+    icon: null,
+    output: "switch",
+    html: null
+  },
+  {
+    category: "outer",
+    text: "()",
+    icon: null,
+    output: "%",
+    html: "%",
+    
+  },
+  {
+    category: "outer",
+    text: null,
+    icon: <Divide strokeWidth={1} className="w-[7vw] h-[7vw]"/>,
+    output: "/",
+    html: "÷"
+  },
+  {
+    category: "inner",
+    text: "7",
+    icon: null,
+    output: "7",
+    html: "7"
+  },
+  {
+    category: "inner",
+    text: "8",
+    icon: null,
+    output: "8",
+    html: "8"
+  },
+  {
+    category: "inner",
+    text: "9",
+    icon: null,
+    output: "9",
+    html: "9"
+  },
+  {
+    category: "outer",
+    text: null,
+    icon: <Plus strokeWidth={1} className="w-[7vw] h-[7vw]"/>,
+    output: "+",
+    html: "+"
+  },
+  {
+    category: "inner",
+    text: "4",
+    icon: null,
+    output: "4",
+    html: "4"
+  },
+  {
+    category: "inner",
+    text: "5",
+    icon: null,
+    output: "5",
+    html: "5"
+  },
+  {
+    category: "inner",
+    text: "6",
+    icon: null,
+    output: "6",
+    html: "6"
+  },
+  {
+    category: "outer",
+    text: null,
+    icon: <Minus strokeWidth={1} className="w-[7vw] h-[7vw]"/>,
+    output: "-",
+    html: "-"
+  },
+  {
+    category: "inner",
+    text: "1",
+    icon: null,
+    output: "1",
+    html: "1"
+  },
+  {
+    category: "inner",
+    text: "2",
+    icon: null,
+    output: "2",
+    html: "2"
+  },
+  {
+    category: "inner",
+    text: "3",
+    icon: null,
+    output: "3",
+    html: "3"
+  },
+  {
+    category: "outer",
+    text: null,
+    icon: <X strokeWidth={1} className="w-[7vw] h-[7vw]"/>,
+    output: "*",
+    html: "×"
+  },
+  {
+    category: "inner",
+    text: "0",
+    icon: null,
+    output: "0",
+    html: "0"
+  },
+  {
+    category: "inner",
+    text: ".",
+    icon: null,
+    output: ".",
+    html: "."
+  },
+  {
+    category: "inner",
+    text: null,
+    icon: <Delete strokeWidth={1} className="w-[7vw] h-[7vw]"/>,
+    output: "backspace",
+    html: null
+  },
+  {
+    category: "outer",
+    text: null,
+    icon: <Equal strokeWidth={1} className="w-[7vw] h-[7vw]"/>,
+    output: "=",
+    html: "="
+  },
 ]
 
 export const weatherIcon = (
