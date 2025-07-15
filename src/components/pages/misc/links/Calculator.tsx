@@ -7,21 +7,24 @@ import React, { useState } from "react";
 function Calculator() {
   const { userData } = useAuth();
 
+  // THE STRING THAT HAS THE ACTUAL EQUATION
   const [equation, setEquation] = useState("");
+  // THE PREVIEW THAT'S SHOWN TO THE USER
   const [display, setDisplay] = useState("");
+  // THE FINAL OUTPUT BASED ON THE "EQUATION" STRING
   const [result, setResult] = useState("");
 
   const [isResult, setIsResult] = useState(false);
   const [isPositive, setIsPositive] = useState(true);
 
-  const calculate = (input: string, html: string | null) => {
+  const calculate = (output: string, html: string | null) => {
     setIsResult(false);
 
-    if (input === "delete") {
+    if (output === "delete") {
       setEquation("");
       setDisplay("");
-      setIsPositive(true)
-    } else if (input === "switch") {
+      setIsPositive(true);
+    } else if (output === "switch") {
       setIsPositive((prev) => !prev);
 
       if (isPositive) {
@@ -31,45 +34,30 @@ function Calculator() {
         setEquation(equation.slice(1));
         setDisplay(display.slice(1));
       }
-    } else if (input === "backspace") {
+    } else if (output === "backspace") {
+      // TAKE OUT THE LAST CHARACTER IN STRING
       setEquation(equation.slice(0, -1));
       setDisplay(display.slice(0, -1));
 
       if (equation === "") {
-        setIsPositive(true)
+        setIsPositive(true);
       }
-
-    } else if (input === "%") {
-      if (equation.includes("+") || equation.includes("-")) {
-        const split = equation.split(input)
-
-        const percent = split.findIndex(item => item.includes("%"))
-
-        if (percent !== -1) {
-          const per = Number(split[percent].slice(0, -1)) * 100
-
-          setEquation(equation + per);
-        }
-        
-      }
-
-    } else if (input === "=") {
+    } else if (output === "=") {
       setResult(eval(equation));
       setIsResult(true);
+
       setEquation("");
       setDisplay("");
-      setIsPositive(true)
+      setIsPositive(true);
     } else {
-      setEquation(equation + input);
+      setEquation(equation + output);
       setDisplay(display + html);
     }
   };
 
   const formatResult = () => {
+    // SHOW THE FORMATTED FINAL OUTPUT ONCE THE EQUAL SIGN IS PRESSED
     if (isResult) {
-      if (result.toString().includes(".")) {
-        return calculatorFormat(+Number(result))
-      }
       return calculatorFormat(+result);
     } else {
       return display;
@@ -91,7 +79,6 @@ function Calculator() {
                 <button
                   key={item.output}
                   onClick={() => {
-                    equation === "0" && setEquation("");
                     calculate(item.output, item.html);
                   }}
                   className={`${
