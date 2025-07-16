@@ -18,12 +18,10 @@ export function countdownFormat(duration: number) {
     return hoursFormat + " : " + minutesFormat + " : " + secondsFormat
 }
 
-export function secondsFormat(countdown: string) {
-    const split = countdown.split(" : ")
-
-    const hours = Number(split[0]) * 3600
-    const minutes = Number(split[1]) * 60
-    const seconds = Number(split[2]) * 60
+export function secondsFormat(hour: number, minute: number, second: number) {
+    const hours = hour * 3600
+    const minutes = minute * 60
+    const seconds = second * 60
 
     let duration = Math.round(hours + minutes + seconds)
 
