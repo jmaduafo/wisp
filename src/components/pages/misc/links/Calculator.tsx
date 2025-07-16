@@ -83,7 +83,7 @@ function Calculator() {
                   }}
                   className={`${
                     item.category === "inner" ? "shadow-lg" : "shadow-none"
-                  } cursor-pointer rounded-2xl h-[11vh] flex justify-center items-center`}
+                  } cursor-pointer rounded-2xl h-[11vh] flex justify-center items-center hover:opacity-70 duration-300`}
                   style={{
                     backgroundColor:
                       item.category === "outer"
