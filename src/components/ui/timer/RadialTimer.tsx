@@ -38,8 +38,9 @@ export default function RadialTimer({
     return () => clearInterval(interval);
   }, [isRunning]);
 
-  const progress = timeLeft / duration;
-  const strokeDashoffset = circumference - progress * circumference;
+  
+  const progress = timeLeft / duration
+  const strokeDashoffset = Number.isNaN(progress) ? 0 : circumference - progress * circumference;
 
   return (
     <div className="relative flex flex-col items-center justify-center gap-4">
