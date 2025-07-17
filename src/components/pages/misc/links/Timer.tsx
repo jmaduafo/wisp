@@ -74,8 +74,8 @@ export default function Timer() {
           </div>
           <div className="mt-[6vh]">
             {isCounter ? (
-              <div className="flex justify-center items-end gap-3">
-                <div className="flex items-center gap-2">
+              <div className="flex justify-center items-end gap-2">
+                <div className="flex items-center gap-1.5">
                   <Counter
                     setCount={setHourCount}
                     count={hourCount}

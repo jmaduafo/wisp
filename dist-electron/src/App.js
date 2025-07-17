@@ -10,11 +10,11 @@ import Album from "./components/pages/album/Album";
 import { Toaster } from "sonner";
 import { useAuth } from "./context/AuthContext";
 import MiniGame from "./components/pages/misc/links/MiniGame";
-import { Calculator } from "lucide-react";
 import Calendar from "./components/pages/misc/links/Calendar";
 import Timer from "./components/pages/misc/links/Timer";
 import Quote from "./components/pages/misc/links/Quote";
 import Quiz from "./components/pages/misc/links/Quiz";
+import Calculator from "./components/pages/misc/links/Calculator";
 function App() {
     const { pathname } = useLocation();
     const { userData } = useAuth();

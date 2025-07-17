@@ -26,6 +26,9 @@ const buttonVariants = cva("inline-flex items-center justify-center gap-2 whites
 });
 function Button({ className, variant, size, asChild = false, ...props }) {
     const Comp = asChild ? Slot : "button";
-    return (_jsx(Comp, { "data-slot": "button", className: cn(buttonVariants({ variant, size, className })), ...props }));
+    return (_jsx(Comp, { "data-slot": "button", className: cn(buttonVariants({
+            variant,
+            size,
+        }), className), ...props }));
 }
 export { Button, buttonVariants };

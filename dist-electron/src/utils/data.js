@@ -1,5 +1,5 @@
 import { jsx as _jsx } from "react/jsx-runtime";
-import { Cloud, Cloudy, CloudDrizzle, CloudFog, CloudHail, CloudLightning, CloudMoon, CloudRain, CloudRainWind, CloudSnow, CloudSun, Snowflake, Sun, Moon, } from "lucide-react";
+import { Cloud, Cloudy, CloudDrizzle, CloudFog, CloudHail, CloudLightning, CloudMoon, CloudRain, CloudRainWind, CloudSnow, CloudSun, Snowflake, Sun, Moon, Divide, Equal, Minus, Plus, X, Delete } from "lucide-react";
 export const days = [
     "Sunday",
     "Monday",
@@ -48,6 +48,148 @@ export const color_themes = [
         title: "spots",
         primary: "#FFEEDB",
         secondary: "#1E1E1E",
+    },
+];
+export const calculator = [
+    {
+        category: "outer",
+        text: "AC",
+        icon: null,
+        output: "delete",
+        html: null
+    },
+    {
+        category: "outer",
+        text: "+ / -",
+        icon: null,
+        output: "switch",
+        html: null
+    },
+    {
+        category: "outer",
+        text: "%",
+        icon: null,
+        output: "/100",
+        html: "%",
+    },
+    {
+        category: "outer",
+        text: null,
+        icon: _jsx(Divide, { strokeWidth: 1, className: "w-[7vw] h-[7vw]" }),
+        output: "/",
+        html: "÷"
+    },
+    {
+        category: "inner",
+        text: "7",
+        icon: null,
+        output: "7",
+        html: "7"
+    },
+    {
+        category: "inner",
+        text: "8",
+        icon: null,
+        output: "8",
+        html: "8"
+    },
+    {
+        category: "inner",
+        text: "9",
+        icon: null,
+        output: "9",
+        html: "9"
+    },
+    {
+        category: "outer",
+        text: null,
+        icon: _jsx(Plus, { strokeWidth: 1, className: "w-[7vw] h-[7vw]" }),
+        output: "+",
+        html: "+"
+    },
+    {
+        category: "inner",
+        text: "4",
+        icon: null,
+        output: "4",
+        html: "4"
+    },
+    {
+        category: "inner",
+        text: "5",
+        icon: null,
+        output: "5",
+        html: "5"
+    },
+    {
+        category: "inner",
+        text: "6",
+        icon: null,
+        output: "6",
+        html: "6"
+    },
+    {
+        category: "outer",
+        text: null,
+        icon: _jsx(Minus, { strokeWidth: 1, className: "w-[7vw] h-[7vw]" }),
+        output: "-",
+        html: "-"
+    },
+    {
+        category: "inner",
+        text: "1",
+        icon: null,
+        output: "1",
+        html: "1"
+    },
+    {
+        category: "inner",
+        text: "2",
+        icon: null,
+        output: "2",
+        html: "2"
+    },
+    {
+        category: "inner",
+        text: "3",
+        icon: null,
+        output: "3",
+        html: "3"
+    },
+    {
+        category: "outer",
+        text: null,
+        icon: _jsx(X, { strokeWidth: 1, className: "w-[7vw] h-[7vw]" }),
+        output: "*",
+        html: "×"
+    },
+    {
+        category: "inner",
+        text: "0",
+        icon: null,
+        output: "0",
+        html: "0"
+    },
+    {
+        category: "inner",
+        text: ".",
+        icon: null,
+        output: ".",
+        html: "."
+    },
+    {
+        category: "inner",
+        text: null,
+        icon: _jsx(Delete, { strokeWidth: 1, className: "w-[7vw] h-[7vw]" }),
+        output: "backspace",
+        html: null
+    },
+    {
+        category: "outer",
+        text: null,
+        icon: _jsx(Equal, { strokeWidth: 1, className: "w-[7vw] h-[7vw]" }),
+        output: "=",
+        html: "="
     },
 ];
 export const weatherIcon = (code, is_day, size, stroke) => {
