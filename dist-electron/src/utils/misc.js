@@ -16,7 +16,7 @@ export function countdownFormat(duration) {
 export function secondsFormat(hour, minute, second) {
     const hours = hour * 3600;
     const minutes = minute * 60;
-    const seconds = second * 60;
-    let duration = Math.round(hours + minutes + seconds);
+    const seconds = second;
+    let duration = hours + minutes + seconds;
     return duration;
 }

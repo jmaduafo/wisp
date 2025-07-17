@@ -45,7 +45,7 @@ export default function RadialTimer({
   return (
     <div className="relative flex flex-col items-center justify-center gap-4">
       <div className="absolute transform translate-x-[-50%] translate-y-[-50%] top-1/2 left-1/2 ">
-        <p className="whitespace-nowrap text-[8vw] tracking-tighter">
+        <p className="whitespace-nowrap text-[1.4em] tracking-tighter">
           {countdownFormat(timeLeft)}
         </p>
       </div>

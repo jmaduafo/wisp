@@ -69,7 +69,6 @@ export default function Timer() {
     } else {
       // DON'T PLAY IF CONDITIONS ARE NOT MET
       audioRef.current?.pause();
-      audioRef.current!.currentTime = 0; // Reset audio when not needed
     }
   }, [timeLeft, isRunning, isVolumeOn]);
 
@@ -111,7 +110,7 @@ export default function Timer() {
                     setCount={setHourCount}
                     count={hourCount}
                     secondary_color={userData.secondary_color}
-                    max_count={12}
+                    max_count={23}
                     title="Hour"
                   />
                   <Counter
@@ -119,14 +118,14 @@ export default function Timer() {
                     count={minuteCount}
                     secondary_color={userData.secondary_color}
                     max_count={59}
-                    title="Mins"
+                    title="Min"
                   />
                   <Counter
                     setCount={setSecondCount}
                     count={secondCount}
                     secondary_color={userData.secondary_color}
                     max_count={59}
-                    title="Secs"
+                    title="Sec"
                   />
                 </div>
                 <button
@@ -141,7 +140,7 @@ export default function Timer() {
               <div className="flex justify-center items-center gap-2">
                 <button
                   onClick={pausePlay}
-                  className="cursor-pointer border rounded-md w-[10vw] h-[10vw] flex justify-center items-center hover:bg-white/10 duration-300"
+                  className="cursor-pointer border rounded-sm w-[9vw] h-[9vw] flex justify-center items-center hover:bg-white/10 duration-300"
                   style={{
                     borderColor: userData.secondary_color + "50",
                     color: userData.secondary_color,
@@ -149,20 +148,20 @@ export default function Timer() {
                 >
                   {isRunning ? (
                     <Pause
-                      className="w-[5.8vw] h-[5.8vw] opacity-100"
+                      className="w-[5vw] h-[5vw] opacity-100"
                       strokeWidth={1}
                     />
                   ) : (
-                    <Play className="w-[5.8vw] h-[5.8vw]" strokeWidth={1} />
+                    <Play className="w-[5vw] h-[5vw]" strokeWidth={1} />
                   )}
                 </button>
                 <button
                   onClick={stop}
-                  className="cursor-pointer border rounded-md w-[10vw] h-[10vw] flex justify-center items-center hover:bg-white/10 duration-300"
+                  className="cursor-pointer border rounded-sm w-[9vw] h-[9vw] flex justify-center items-center hover:bg-white/10 duration-300"
                   style={{ borderColor: userData.secondary_color + "50" }}
                 >
                   <span
-                    className="w-[4.55vw] h-[4.5vw] rounded-[3px] opacity-80"
+                    className="w-[4.5vw] h-[4.5vw] rounded-[3px] opacity-80"
                     style={{ backgroundColor: userData.secondary_color }}
                   ></span>
                 </button>

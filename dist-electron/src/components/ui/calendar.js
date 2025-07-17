@@ -2,14 +2,12 @@ import { jsx as _jsx } from "react/jsx-runtime";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { DayPicker } from "react-day-picker";
 import { cn } from "../../lib/utils";
-import { useAuth } from "@/context/AuthContext";
 function Calendar({ className, classNames, showOutsideDays = true, ...props }) {
-    const { userData } = useAuth();
     return (_jsx(DayPicker, { showOutsideDays: showOutsideDays, className: cn("p-3", className), classNames: {
             months: "flex flex-col sm:flex-row gap-2",
             month: "flex flex-col gap-4",
             caption: "flex justify-center pt-1 relative items-center w-full",
-            caption_label: `${userData?.style === "default" ? "classic text-[1rem]" : "elegant text-[1.15rem] font-light"} font-medium`,
+            caption_label: `font-medium`,
             nav: "flex items-center gap-1",
             // cn(buttonVariants({ variant: "outline" }),
             nav_button: "size-7 bg-transparent p-0 opacity-50 hover:opacity-100",

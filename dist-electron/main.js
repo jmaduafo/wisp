@@ -61,9 +61,9 @@ function measurements(name, path) {
     } else if (path === "misc/calculator") {
       return 330;
     } else if (path === "misc/timer") {
-      return 250;
+      return 280;
     } else if (path === "misc/calendar") {
-      return 250;
+      return 280;
     } else if (path === "misc/quote") {
       return 150;
     } else if (path === "misc/quiz") {
@@ -87,9 +87,9 @@ function measurements(name, path) {
     } else if (path === "misc/calculator") {
       return 300;
     } else if (path === "misc/timer") {
-      return 350;
+      return 300;
     } else if (path === "misc/calendar") {
-      return 350;
+      return 325;
     } else if (path === "misc/quote") {
       return 325;
     } else if (path === "misc/quiz") {
