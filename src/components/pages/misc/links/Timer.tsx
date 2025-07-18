@@ -6,6 +6,15 @@ import Loader from "@/components/ui/loading/Loader";
 import { Volume2, VolumeOff, Pause, Play, CircleCheck } from "lucide-react";
 import Counter from "@/components/ui/timer/Counter";
 import { secondsFormat } from "@/utils/misc";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectGroup,
+  SelectLabel,
+  SelectItem,
+} from "@/components/ui/select";
 
 export default function Timer() {
   const { userData } = useAuth();
@@ -17,6 +26,9 @@ export default function Timer() {
 
   const [isRunning, setIsRunning] = useState(false);
   const [isCounter, setIsCounter] = useState(true);
+  const [isChoices, setIsChoices] = useState(true);
+
+  const [choice, setChoice] = useState("");
 
   const [hourCount, setHourCount] = useState(0);
   const [minuteCount, setMinuteCount] = useState(0);
@@ -35,6 +47,7 @@ export default function Timer() {
     setTimeLeft(secondsFormat(hourCount, minuteCount, secondCount));
     setIsCounter(false);
     setIsRunning(true);
+    setIsChoices(false);
   }
 
   function pausePlay() {
@@ -46,6 +59,7 @@ export default function Timer() {
       setSecondCount(0);
       setIsRunning(false);
       setIsCounter(true);
+      setIsChoices(true);
     }
   }
 
@@ -55,6 +69,7 @@ export default function Timer() {
     setSecondCount(0);
     setIsRunning(false);
     setIsCounter(true);
+    setIsChoices(true);
   }
 
   // This effect watches timeLeft and plays the sound
@@ -93,6 +108,35 @@ export default function Timer() {
           <audio ref={audioRef} loop>
             <source src="/audio/digital_clock.wav" type="audio/wav" />
           </audio>
+          <div className="flex justify-center my-2">
+            {isChoices ? (
+              <Select onValueChange={setChoice} value={choice}>
+                <SelectTrigger
+                  className="w-[180px]"
+                  size="sm"
+                  style={{ borderColor: userData.secondary_color + "25" }}
+                >
+                  <SelectValue placeholder="Choose a task" />
+                </SelectTrigger>
+                <SelectContent className="">
+                  <SelectGroup>
+                    <SelectLabel>Tasks</SelectLabel>
+                    {["Pomodoro", "Break"].map((item) => {
+                      return (
+                        <SelectItem value={item} key={item}>
+                          {item}
+                        </SelectItem>
+                      );
+                    })}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            ) : (
+              <p className="text-sm">
+                {choice === "Pomodoro" || !choice.length ? "Focus" : choice}
+              </p>
+            )}
+          </div>
           <div className="flex justify-center items-center mt-[4vh]">
             <RadialTimer
               isRunning={isRunning}

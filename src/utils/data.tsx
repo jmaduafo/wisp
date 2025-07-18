@@ -75,6 +75,11 @@ export const color_themes = [
     
 ]
 
+export const timerTask = [
+  "Pomodoro",
+  "Break"
+]
+
 export const calculator = [
   {
     category: "outer",

@@ -35,7 +35,7 @@ function measurements(name, path) {
     } else if (path === "misc/calculator") {
       return 400;
     } else if (path === "misc/timer") {
-      return 300;
+      return 400;
     } else if (path === "misc/calendar") {
       return 300;
     } else if (path === "misc/quote") {
@@ -61,7 +61,7 @@ function measurements(name, path) {
     } else if (path === "misc/calculator") {
       return 330;
     } else if (path === "misc/timer") {
-      return 280;
+      return 330;
     } else if (path === "misc/calendar") {
       return 280;
     } else if (path === "misc/quote") {
