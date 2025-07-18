@@ -33,7 +33,7 @@ function Misc() {
       icon: <Hourglass className="w-7 h-7" strokeWidth={1} />,
     },
     {
-      title: "Daily quote",
+      title: "Quote",
       navLink: "misc/quote",
       icon: <Quote className="w-7 h-7" strokeWidth={1} />,
     },

@@ -108,13 +108,16 @@ export default function Timer() {
           <audio ref={audioRef} loop>
             <source src="/audio/digital_clock.wav" type="audio/wav" />
           </audio>
-          <div className="flex justify-center my-2">
+          <div className="flex justify-center mt-2">
             {isChoices ? (
               <Select onValueChange={setChoice} value={choice}>
                 <SelectTrigger
                   className="w-[180px]"
                   size="sm"
-                  style={{ borderColor: userData.secondary_color + "25" }}
+                  style={{
+                    borderColor: userData.secondary_color + "25",
+                    color: userData.secondary_color + "80",
+                  }}
                 >
                   <SelectValue placeholder="Choose a task" />
                 </SelectTrigger>
@@ -132,12 +135,18 @@ export default function Timer() {
                 </SelectContent>
               </Select>
             ) : (
-              <p className="text-sm">
+              <p
+                className="text-xs px-3 py-1 rounded-full"
+                style={{
+                  color: userData.primary_color,
+                  backgroundColor: userData.secondary_color,
+                }}
+              >
                 {choice === "Pomodoro" || !choice.length ? "Focus" : choice}
               </p>
             )}
           </div>
-          <div className="flex justify-center items-center mt-[4vh]">
+          <div className="flex justify-center items-center mt-[6vh]">
             <RadialTimer
               isRunning={isRunning}
               setTimeLeft={setTimeLeft}

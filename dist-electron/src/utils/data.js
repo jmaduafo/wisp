@@ -50,6 +50,10 @@ export const color_themes = [
         secondary: "#1E1E1E",
     },
 ];
+export const timerTask = [
+    "Pomodoro",
+    "Break"
+];
 export const calculator = [
     {
         category: "outer",

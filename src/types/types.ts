@@ -31,6 +31,12 @@ export type Todo = {
   updated_at: Timestamp | null;
 }
 
+export type RandQuote = {
+  id: number;
+  quote: string;
+  author: string;
+}
+
 export type Widget = {
   category:
     | "weather"
