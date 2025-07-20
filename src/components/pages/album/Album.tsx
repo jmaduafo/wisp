@@ -81,6 +81,8 @@ function Album() {
   // REPLACES AN OLD SELECTED IMAGE WITH A NEW ONE 
   const replaceImage = async (index: number, file: File) => {
     try {
+      const i = index
+
       setLoading(true);
 
       if (!userData || !file) {
@@ -96,11 +98,11 @@ function Album() {
       }
 
       // GET EXACT PATH OF URL IN THE FORM OF 'USERS/ALBUM/IMAGE.JPG'
-      const noHash = userData.album[index].split("/").pop();
+      const noHash = userData.album[i].split("/").pop();
       const reformat = noHash?.split("%2F").join("/").split("?")[0];
 
       let replacedAlbum = [...userData.album];
-      replacedAlbum[index] = image.response;
+      replacedAlbum[i] = image.response;
 
       const userRef = doc(db, "users", userData.id);
 

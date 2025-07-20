@@ -82,7 +82,7 @@ function DateTime() {
             </button>
           </div>
           <div className="w-full h-full flex items-center justify-center">
-            <div className={`flex ${is12 ? "gap-2" : "gap-5"}`}>
+            <div className={`flex ${is12 ? "gap-1" : "gap-5"}`}>
               <div
                 className={`flex items-start ${
                   userData?.style === "default" ? "classic gap-2" : "elegant gap-0"
@@ -93,7 +93,7 @@ function DateTime() {
                 <div
                   className={`${
                     userData?.style === "default"
-                      ? "text-[32vw] leading-[.8]"
+                      ? "text-[30.5vw] leading-[.8]"
                       : "text-[38vw] leading-[.7]"
                   } flex-1 flex flex-col justify-start items-center`}
                 >

@@ -5,13 +5,18 @@ import WeatherCard from "./WeatherCard";
 import { celsiusToFahrenheit, round } from "@/utils/weather";
 import Loader from "@/components/ui/loading/Loader";
 import { useAuth } from "@/context/AuthContext";
+import { RefreshCw } from "lucide-react";
 
 function Weather() {
   const [isCelsius, setIsCelsius] = useState(true);
+
+  const [isRefreshed, setIsRefreshed] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const [data, setData] = useState<any>();
   const [location, setLocation] = useState("");
 
-  const { userData } = useAuth()
+  const { userData } = useAuth();
 
   const getWeather = async () => {
     try {
@@ -61,36 +66,50 @@ function Weather() {
     getWeather();
   }, []);
 
+  useEffect(() => {
+    setIsLoading(true)
+    getWeather();
+    setIsLoading(false)
+  }, [isRefreshed]);
+
   return (
     <Widget>
       {!data ? (
         <Loader />
       ) : (
         <>
-        {/* CELSIUS & FAHRENHEIT SWITCH */}
-          <div className="flex justify-end gap-2.5 items-end">
-            <button
-              onClick={() => setIsCelsius(true)}
-              disabled={isCelsius}
-              className={`${
-                isCelsius
-                  ? "text-[5vw] opacity-100"
-                  : "text-[4.3vw] opacity-50 cursor-pointer"
-              } leading-[1] cursor-pointer`}
-            >
-              C
-            </button>
-            <button
-              onClick={() => setIsCelsius(false)}
-              disabled={!isCelsius}
-              className={`${
-                isCelsius
-                  ? "text-[4.3vw] opacity-50 cursor-pointer"
-                  : "text-[5vw] opacity-100"
-              } leading-[1]`}
-            >
-              F
-            </button>
+          {/* CELSIUS & FAHRENHEIT SWITCH */}
+          <div className="flex justify-between items-start">
+            <div>
+              {/* <button className={`${isLoading ? "animate-spin" : "animate-none"} cursor-pointer`} onClick={() => setIsRefreshed(prev => !prev)}>
+                <RefreshCw className="w-[5.5vw] h-[5.5vw]"/>
+              </button> */}
+
+            </div>
+            <div className="flex gap-2.5 items-end">
+              <button
+                onClick={() => setIsCelsius(true)}
+                disabled={isCelsius}
+                className={`${
+                  isCelsius
+                    ? "text-[5vw] opacity-100"
+                    : "text-[4.3vw] opacity-50 cursor-pointer"
+                } leading-[1] cursor-pointer`}
+              >
+                C
+              </button>
+              <button
+                onClick={() => setIsCelsius(false)}
+                disabled={!isCelsius}
+                className={`${
+                  isCelsius
+                    ? "text-[4.3vw] opacity-50 cursor-pointer"
+                    : "text-[5vw] opacity-100"
+                } leading-[1]`}
+              >
+                F
+              </button>
+            </div>
           </div>
           <div className="flex flex-col h-full">
             <div className="flex items-start justify-center gap-3 mt-3">
@@ -105,11 +124,13 @@ function Weather() {
                 <div className="flex items-end gap-2">
                   {/* CURRENT TEMPERATURE */}
                   <div className="flex items-start gap-2">
-                    <h1 className={`${
-                    userData?.style === "default"
-                      ? "classic text-[20vw] leading-[1]"
-                      : "elegant text-[25vw] leading-[.8]"
-                  }`}>
+                    <h1
+                      className={`${
+                        userData?.style === "default"
+                          ? "classic text-[20vw] leading-[1]"
+                          : "elegant text-[25vw] leading-[.8]"
+                      }`}
+                    >
                       {isCelsius
                         ? round(data?.current?.temperature_2m)
                         : celsiusToFahrenheit(data?.current?.temperature_2m)}
