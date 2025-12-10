@@ -24,7 +24,7 @@ function Misc() {
             icon: _jsx(Hourglass, { className: "w-7 h-7", strokeWidth: 1 }),
         },
         {
-            title: "Daily quote",
+            title: "Quote",
             navLink: "misc/quote",
             icon: _jsx(Quote, { className: "w-7 h-7", strokeWidth: 1 }),
         },

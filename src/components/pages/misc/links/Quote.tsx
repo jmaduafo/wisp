@@ -26,9 +26,7 @@ function Quote() {
 
   return (
     <Widget padding="py-3 px-4">
-      {!data ? (
-        <Loader />
-      ) : (
+      {data ? (
         <div className="flex flex-col h-full">
           <div>
             {/* QUOTATION MARK ICON */}
@@ -48,6 +46,8 @@ function Quote() {
             - {data.author}
           </p>
         </div>
+      ) : (
+        <Loader />
       )}
     </Widget>
   );

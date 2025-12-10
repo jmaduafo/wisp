@@ -28,3 +28,19 @@ export function secondsFormat(hour: number, minute: number, second: number) {
     return duration
 
 }
+
+export function decodeHTML(html: string) {
+  const txt = document.createElement("textarea");
+  txt.innerHTML = html;
+  return txt.value;
+}
+
+export function difficulty(level: string) {
+  if (level.toLowerCase() === "easy") {
+    return 1
+  } else if (level.toLowerCase() === "medium") {
+    return 2
+  } else {
+    return 3
+  }
+}

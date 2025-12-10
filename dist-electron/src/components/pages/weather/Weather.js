@@ -8,6 +8,8 @@ import Loader from "@/components/ui/loading/Loader";
 import { useAuth } from "@/context/AuthContext";
 function Weather() {
     const [isCelsius, setIsCelsius] = useState(true);
+    const [isRefreshed, setIsRefreshed] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [data, setData] = useState();
     const [location, setLocation] = useState("");
     const { userData } = useAuth();
@@ -53,11 +55,16 @@ function Weather() {
     useEffect(() => {
         getWeather();
     }, []);
-    return (_jsx(Widget, { children: !data ? (_jsx(Loader, {})) : (_jsxs(_Fragment, { children: [_jsxs("div", { className: "flex justify-end gap-2.5 items-end", children: [_jsx("button", { onClick: () => setIsCelsius(true), disabled: isCelsius, className: `${isCelsius
-                                ? "text-[5vw] opacity-100"
-                                : "text-[4.3vw] opacity-50 cursor-pointer"} leading-[1] cursor-pointer`, children: "C" }), _jsx("button", { onClick: () => setIsCelsius(false), disabled: !isCelsius, className: `${isCelsius
-                                ? "text-[4.3vw] opacity-50 cursor-pointer"
-                                : "text-[5vw] opacity-100"} leading-[1]`, children: "F" })] }), _jsxs("div", { className: "flex flex-col h-full", children: [_jsxs("div", { className: "flex items-start justify-center gap-3 mt-3", children: [weatherIcon(data?.current?.weather_code, data.current.is_day, "w-[18vw] h-[18vw]", 1.5), _jsxs("div", { children: [_jsxs("div", { className: "flex items-end gap-2", children: [_jsxs("div", { className: "flex items-start gap-2", children: [_jsx("h1", { className: `${userData?.style === "default"
+    useEffect(() => {
+        setIsLoading(true);
+        getWeather();
+        setIsLoading(false);
+    }, [isRefreshed]);
+    return (_jsx(Widget, { children: !data ? (_jsx(Loader, {})) : (_jsxs(_Fragment, { children: [_jsxs("div", { className: "flex justify-between items-start", children: [_jsx("div", {}), _jsxs("div", { className: "flex gap-2.5 items-end", children: [_jsx("button", { onClick: () => setIsCelsius(true), disabled: isCelsius, className: `${isCelsius
+                                        ? "text-[5vw] opacity-100"
+                                        : "text-[4.3vw] opacity-50 cursor-pointer"} leading-[1] cursor-pointer`, children: "C" }), _jsx("button", { onClick: () => setIsCelsius(false), disabled: !isCelsius, className: `${isCelsius
+                                        ? "text-[4.3vw] opacity-50 cursor-pointer"
+                                        : "text-[5vw] opacity-100"} leading-[1]`, children: "F" })] })] }), _jsxs("div", { className: "flex flex-col h-full", children: [_jsxs("div", { className: "flex items-start justify-center gap-3 mt-3", children: [weatherIcon(data?.current?.weather_code, data.current.is_day, "w-[18vw] h-[18vw]", 1.5), _jsxs("div", { children: [_jsxs("div", { className: "flex items-end gap-2", children: [_jsxs("div", { className: "flex items-start gap-2", children: [_jsx("h1", { className: `${userData?.style === "default"
                                                                 ? "classic text-[20vw] leading-[1]"
                                                                 : "elegant text-[25vw] leading-[.8]"}`, children: isCelsius
                                                                 ? round(data?.current?.temperature_2m)

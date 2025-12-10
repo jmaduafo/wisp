@@ -16,9 +16,9 @@ function MenuCard({
   return (
     <button
       onClick={() =>
-        title.toLowerCase() !== "misc"
-          ? window.api.openWidget(`${link}`, `${link}`)
-          : navigate(`/${link}`)
+        title.toLowerCase() === "misc"
+          ? navigate(`/${link}`)
+          : window.api.openWidget(`${link}`, `${link}`)
       }
       className="cursor-pointer hover:opacity-70 duration-300 w-full h-[150px] flex flex-col px-4 py-3 rounded-lg bg-bgColor shadow-lg"
     >
