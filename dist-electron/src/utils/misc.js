@@ -20,3 +20,19 @@ export function secondsFormat(hour, minute, second) {
     let duration = hours + minutes + seconds;
     return duration;
 }
+export function decodeHTML(html) {
+    const txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
+}
+export function difficulty(level) {
+    if (level.toLowerCase() === "easy") {
+        return 1;
+    }
+    else if (level.toLowerCase() === "medium") {
+        return 2;
+    }
+    else {
+        return 3;
+    }
+}

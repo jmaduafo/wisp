@@ -60,7 +60,7 @@ function Weather() {
         getWeather();
         setIsLoading(false);
     }, [isRefreshed]);
-    return (_jsx(Widget, { children: !data ? (_jsx(Loader, {})) : (_jsxs(_Fragment, { children: [_jsxs("div", { className: "flex justify-between items-start", children: [_jsx("div", {}), _jsxs("div", { className: "flex gap-2.5 items-end", children: [_jsx("button", { onClick: () => setIsCelsius(true), disabled: isCelsius, className: `${isCelsius
+    return (_jsx(Widget, { children: data ? (_jsxs(_Fragment, { children: [_jsxs("div", { className: "flex justify-between items-start", children: [_jsx("div", {}), _jsxs("div", { className: "flex gap-2.5 items-end", children: [_jsx("button", { onClick: () => setIsCelsius(true), disabled: isCelsius, className: `${isCelsius
                                         ? "text-[5vw] opacity-100"
                                         : "text-[4.3vw] opacity-50 cursor-pointer"} leading-[1] cursor-pointer`, children: "C" }), _jsx("button", { onClick: () => setIsCelsius(false), disabled: !isCelsius, className: `${isCelsius
                                         ? "text-[4.3vw] opacity-50 cursor-pointer"
@@ -78,6 +78,6 @@ function Weather() {
                                                     ? round(item)
                                                     : celsiusToFahrenheit(item), code: data?.daily?.weather_code[i], day: data?.daily?.time[i], today: data?.daily?.time[i] }) }, `${item}_${i + 1}`));
                                     })
-                                    : null }) })] })] })) }));
+                                    : null }) })] })] })) : (_jsx(Loader, {})) }));
 }
 export default Weather;

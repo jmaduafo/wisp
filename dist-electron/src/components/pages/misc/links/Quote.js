@@ -10,8 +10,10 @@ function Quote() {
     async function getAPI() {
         try {
             const response = await fetch(api_url);
-            const d = await response.json();
-            setData(d);
+            if (response.ok) {
+                const d = await response.json();
+                setData(d);
+            }
         }
         catch (err) {
             console.log(err.message);

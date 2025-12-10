@@ -17,21 +17,11 @@ export function checkBackground({ primaryColor, secondaryColor, is_glassomorphic
         }
     }
 }
-// export function checkText({
-//   primaryColor,
-//   secondaryColor,
-//   is_primary,
-// }) {
-//   if (
-//     primaryColor &&
-//     primaryColor.length &&
-//     secondaryColor &&
-//     secondaryColor.length
-//   ) {
-//     if (is_primary) {
-//       return primaryColor;
-//     } else {
-//       return secondaryColor;
-//     }
-//   }
-// }
+export function capitalize(text) {
+    const split = text.split(" ");
+    let new_text = [];
+    split.forEach(word => {
+        new_text.push(word.charAt(0).toUpperCase() + word.slice(1));
+    });
+    return new_text.join(" ");
+}

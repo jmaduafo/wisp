@@ -37,6 +37,11 @@ export type RandQuote = {
   author: string;
 }
 
+export type Alchemy = {
+  element: string;
+  icon: string;
+}
+
 export type Widget = {
   category:
     | "weather"

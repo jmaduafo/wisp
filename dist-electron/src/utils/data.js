@@ -1,5 +1,5 @@
 import { jsx as _jsx } from "react/jsx-runtime";
-import { Cloud, Cloudy, CloudDrizzle, CloudFog, CloudHail, CloudLightning, CloudMoon, CloudRain, CloudRainWind, CloudSnow, CloudSun, Snowflake, Sun, Moon, Divide, Equal, Minus, Plus, X, Delete } from "lucide-react";
+import { Cloud, Cloudy, CloudDrizzle, CloudFog, CloudHail, CloudLightning, CloudMoon, CloudRain, CloudRainWind, CloudSnow, CloudSun, Snowflake, Sun, Moon, Divide, Equal, Minus, Plus, X, Delete, } from "lucide-react";
 export const days = [
     "Sunday",
     "Monday",
@@ -50,24 +50,27 @@ export const color_themes = [
         secondary: "#1E1E1E",
     },
 ];
-export const timerTask = [
-    "Pomodoro",
-    "Break"
-];
+export const timerTask = ["Pomodoro", "Break"];
+// calculator is in grid format
+// outer: represents calculator buttons with a secondary color background
+// inner: represents calculator buttons with a primary color background
+// output: an action value or the javascript math operation to perform the calculation
+// html: what is shown to the user once buttons are clicked
+// either text or icon is displayed
 export const calculator = [
     {
         category: "outer",
         text: "AC",
         icon: null,
         output: "delete",
-        html: null
+        html: null,
     },
     {
         category: "outer",
         text: "+ / -",
         icon: null,
         output: "switch",
-        html: null
+        html: null,
     },
     {
         category: "outer",
@@ -81,119 +84,119 @@ export const calculator = [
         text: null,
         icon: _jsx(Divide, { strokeWidth: 1, className: "w-[7vw] h-[7vw]" }),
         output: "/",
-        html: "÷"
+        html: "÷",
     },
     {
         category: "inner",
         text: "7",
         icon: null,
         output: "7",
-        html: "7"
+        html: "7",
     },
     {
         category: "inner",
         text: "8",
         icon: null,
         output: "8",
-        html: "8"
+        html: "8",
     },
     {
         category: "inner",
         text: "9",
         icon: null,
         output: "9",
-        html: "9"
+        html: "9",
     },
     {
         category: "outer",
         text: null,
         icon: _jsx(Plus, { strokeWidth: 1, className: "w-[7vw] h-[7vw]" }),
         output: "+",
-        html: "+"
+        html: "+",
     },
     {
         category: "inner",
         text: "4",
         icon: null,
         output: "4",
-        html: "4"
+        html: "4",
     },
     {
         category: "inner",
         text: "5",
         icon: null,
         output: "5",
-        html: "5"
+        html: "5",
     },
     {
         category: "inner",
         text: "6",
         icon: null,
         output: "6",
-        html: "6"
+        html: "6",
     },
     {
         category: "outer",
         text: null,
         icon: _jsx(Minus, { strokeWidth: 1, className: "w-[7vw] h-[7vw]" }),
         output: "-",
-        html: "-"
+        html: "-",
     },
     {
         category: "inner",
         text: "1",
         icon: null,
         output: "1",
-        html: "1"
+        html: "1",
     },
     {
         category: "inner",
         text: "2",
         icon: null,
         output: "2",
-        html: "2"
+        html: "2",
     },
     {
         category: "inner",
         text: "3",
         icon: null,
         output: "3",
-        html: "3"
+        html: "3",
     },
     {
         category: "outer",
         text: null,
         icon: _jsx(X, { strokeWidth: 1, className: "w-[7vw] h-[7vw]" }),
         output: "*",
-        html: "×"
+        html: "×",
     },
     {
         category: "inner",
         text: "0",
         icon: null,
         output: "0",
-        html: "0"
+        html: "0",
     },
     {
         category: "inner",
         text: ".",
         icon: null,
         output: ".",
-        html: "."
+        html: ".",
     },
     {
         category: "inner",
         text: null,
         icon: _jsx(Delete, { strokeWidth: 1, className: "w-[7vw] h-[7vw]" }),
         output: "backspace",
-        html: null
+        html: null,
     },
     {
         category: "outer",
         text: null,
         icon: _jsx(Equal, { strokeWidth: 1, className: "w-[7vw] h-[7vw]" }),
         output: "=",
-        html: "="
+        html: "=",
     },
 ];
 export const weatherIcon = (code, is_day, size, stroke) => {
@@ -281,3 +284,104 @@ export const weatherForecast = (code) => {
         return "Hail";
     }
 };
+export const elements = [
+    {
+        element: "water",
+        icon: "/images/element_icons/water.png",
+    },
+    {
+        element: "fire",
+        icon: "/images/element_icons/fire.png",
+    },
+    {
+        element: "earth",
+        icon: "/images/element_icons/earth.png",
+    },
+    {
+        element: "air",
+        icon: "/images/element_icons/air.png",
+    },
+    {
+        element: "energy",
+        icon: "/images/element_icons/energy.png",
+    },
+    {
+        element: "mud",
+        icon: "/images/element_icons/mud.png",
+    },
+    {
+        element: "rain",
+        icon: "/images/element_icons/rain.png",
+    },
+    {
+        element: "pressure",
+        icon: "/images/element_icons/pressure.png",
+    },
+    {
+        element: "ocean",
+        icon: "/images/element_icons/ocean.png",
+    },
+    {
+        element: "volcano",
+        icon: "/images/element_icons/volcano.png",
+    },
+    {
+        element: "sea",
+        icon: "/images/element_icons/sea.png",
+    },
+    {
+        element: "plant",
+        icon: "/images/element_icons/plant.png",
+    },
+    {
+        element: "energy",
+        icon: "/images/element_icons/energy.png",
+    },
+];
+export const gameCombinations = [
+    {
+        item1: "water",
+        item2: "water",
+        result: "sea",
+    },
+    {
+        item1: "water",
+        item2: "sea",
+        result: "ocean",
+    },
+    {
+        item1: "sea",
+        item2: "sea",
+        result: "ocean",
+    },
+    {
+        item1: "water",
+        item2: "fire",
+        result: "steam",
+    },
+    {
+        item1: "water",
+        item2: "earth",
+        result: "mud",
+    },
+    {
+        item1: "water",
+        item2: "air",
+        result: "rain",
+    },
+    {
+        item1: "fire",
+        item2: "water",
+        result: "steam",
+    },
+    {
+        item1: "fire",
+        item2: "earth",
+        result: "lava",
+    },
+    {
+        item1: "fire",
+        item2: "air",
+        result: "energy",
+    }
+];
