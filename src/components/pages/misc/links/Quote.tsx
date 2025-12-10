@@ -8,13 +8,16 @@ function Quote() {
   const [data, setData] = useState<RandQuote | undefined>();
   const api_url = "https://random-quotes-freeapi.vercel.app/api/random";
 
-  const { userData } = useAuth()
+  const { userData } = useAuth();
 
   async function getAPI() {
     try {
       const response = await fetch(api_url);
-      const d = await response.json();
-      setData(d);
+
+      if (response.ok) {
+        const d = await response.json();
+        setData(d);
+      }
     } catch (err: any) {
       console.log(err.message);
     }

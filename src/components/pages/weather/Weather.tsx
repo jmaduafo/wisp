@@ -5,7 +5,6 @@ import WeatherCard from "./WeatherCard";
 import { celsiusToFahrenheit, round } from "@/utils/weather";
 import Loader from "@/components/ui/loading/Loader";
 import { useAuth } from "@/context/AuthContext";
-import { RefreshCw } from "lucide-react";
 
 function Weather() {
   const [isCelsius, setIsCelsius] = useState(true);
@@ -74,9 +73,7 @@ function Weather() {
 
   return (
     <Widget>
-      {!data ? (
-        <Loader />
-      ) : (
+      {data ? (
         <>
           {/* CELSIUS & FAHRENHEIT SWITCH */}
           <div className="flex justify-between items-start">
@@ -193,6 +190,8 @@ function Weather() {
             </div>
           </div>
         </>
+      ) : (
+        <Loader />
       )}
     </Widget>
   );

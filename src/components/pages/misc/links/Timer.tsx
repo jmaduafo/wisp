@@ -89,9 +89,7 @@ export default function Timer() {
 
   return (
     <Widget padding="p-2">
-      {!userData ? (
-        <Loader />
-      ) : (
+      {userData ? (
         <div>
           <div className="flex justify-end">
             <button
@@ -222,6 +220,8 @@ export default function Timer() {
             )}
           </div>
         </div>
+      ) : (
+        <Loader />
       )}
     </Widget>
   );
