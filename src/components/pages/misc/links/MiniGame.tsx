@@ -5,11 +5,13 @@ import { useAuth } from "@/context/AuthContext";
 import { Alchemy } from "@/types/types";
 import { elements, gameCombinations } from "@/utils/data";
 import { capitalize } from "@/utils/helper";
-import { Plus } from "lucide-react";
+import { Cog8ToothIcon } from "@heroicons/react/24/solid";
+import { Plus, Search } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
 export default function MiniGame() {
   const [userElements, setUserElements] = useState<Alchemy[] | undefined>();
+  const [filteredElements, setFilteredElements] = useState<Alchemy[]>([]);
 
   const [firstItem, setFirstItem] = useState<Alchemy | undefined>();
   const [secondItem, setSecondItem] = useState<Alchemy | undefined>();
@@ -18,6 +20,8 @@ export default function MiniGame() {
   const [isUnlocked, setIsUnlocked] = useState<boolean | undefined>();
 
   const [unlockedResult, setUnlockedResult] = useState<Alchemy | undefined>();
+
+  const [searchValue, setSearchValue] = useState("");
 
   const { userData } = useAuth();
   const STORAGE_TITLE = "wisp_unlocked_collection";
@@ -40,6 +44,7 @@ export default function MiniGame() {
           const parsed = JSON.parse(raw);
           if (Array.isArray(parsed)) {
             setUserElements(parsed);
+            setFilteredElements(parsed);
             return;
           } else {
             console.warn(
@@ -59,11 +64,13 @@ export default function MiniGame() {
       const initial = Array.isArray(elements) ? elements.slice(0, 4) : [];
       localStorage.setItem(STORAGE_TITLE, JSON.stringify(initial));
       setUserElements(initial);
+      setFilteredElements(initial);
     } catch (err) {
       console.error("Error accessing localStorage:", err);
       // fallback
       const fallback = Array.isArray(elements) ? elements.slice(0, 4) : [];
       setUserElements(fallback);
+      setFilteredElements(fallback);
     }
   };
 
@@ -71,22 +78,20 @@ export default function MiniGame() {
     getUnlockedElements();
   }, []);
 
+  // ALLOWS USER TO SELECT THE ELEMENTS AND ADD THEM TO
+  // APPROPRIATE SLOTS
   const selectElement = (selectedItem: Alchemy) => {
+    // If there's an element already added to the first slot,
+    // add the selected item to the second slot
+
     if (firstItem) {
       setSecondItem(selectedItem);
     } else {
-      const findItem = elements.find(
-        (item) => item.element === selectedItem.element
-      );
-
-      if (!findItem) {
-        return;
-      }
-
       setFirstItem(selectedItem);
     }
   };
 
+  // EVALUATES IF THERE'S A MATCH OR NOT
   const checkResult = (item1: Alchemy, item2: Alchemy) => {
     // Check if combo exists by seeing if element 1 and 2
     // are a match
@@ -106,25 +111,24 @@ export default function MiniGame() {
 
     const result = combo.result;
 
-    
-    // Checks if result is contained in element
+    // Checks if combination result is contained in element list
     const resultFind = elements.find((item) => item.element === result);
-    
+
     if (!resultFind) {
       return {
         correct: true,
         unlocked: false,
       };
     }
-    
+
     // Find if unlocked element is in user's collection
     const resultIndex = userElements?.findIndex(
       (item) => item.element === result
     );
 
     if (resultIndex && resultIndex > 0) {
-      setUnlockedResult(resultFind)
-      
+      setUnlockedResult(resultFind);
+
       return {
         correct: true,
         unlocked: false,
@@ -138,6 +142,8 @@ export default function MiniGame() {
         return user_elements;
       }
       const updated = [...user_elements, resultFind];
+
+      setFilteredElements([...filteredElements, resultFind])
 
       // persist if you use localStorage / electron store
       try {
@@ -181,14 +187,37 @@ export default function MiniGame() {
     }
   };
 
+  // SEARCH ELEMENTS AND FILTER BY SEARCH VALUE
+  const filterElements = (value: string) => {
+    setSearchValue(value);
+
+    if (!userElements) {
+      return;
+    }
+
+    if (value === "") {
+      setFilteredElements(userElements);
+    } else {
+      const filter = userElements.filter((item) =>
+        item.element.toLowerCase().includes(value.toLowerCase())
+      );
+
+      setFilteredElements(filter);
+    }
+  };
+
   useEffect(() => {
+    // Runs condition after two elements are selected
     if (firstItem && secondItem) {
+      // Check and return the result if it's a match or not
       const result = checkResult(firstItem, secondItem);
 
       if (result) {
         setIsCorrect(result.correct);
         setIsUnlocked(result.unlocked);
 
+        // Displays message to user if there's a match or not and
+        // sets all values to undefined after 3 seconds
         const wait = setTimeout(() => {
           setFirstItem(undefined);
           setSecondItem(undefined);
@@ -196,7 +225,7 @@ export default function MiniGame() {
 
           setIsCorrect(undefined);
           setIsUnlocked(undefined);
-        }, 4000);
+        }, 3000);
 
         return () => clearTimeout(wait);
       }
@@ -206,15 +235,18 @@ export default function MiniGame() {
   return (
     <Widget className="overflow-hidden h-full">
       <div className="h-[75%] flex flex-col items-center">
-        <div className="flex-[10%] flex justify-end w-full">
-          <button
-            className="text-[4.5vw] hover:opacity-100 opacity-90 duration-300 cursor-pointer px-2 font-light rounded-sm"
-            style={{
-              backgroundColor: userData?.secondary_color,
-              color: userData?.primary_color,
-            }}
-          >
-            Collection
+        <div className="flex-[10%] flex items-center w-full">
+          <div className="flex-[1] flex items-center gap-2">
+            <Search className="w-[6.5vw] h-[6.5vw]" strokeWidth={1} />
+            <input
+              placeholder="Search"
+              className="text-[5vw] flex-[1] outline-none border-none"
+              onChange={(e) => filterElements(e.target.value)}
+              value={searchValue}
+            />
+          </div>
+          <button className="cursor-pointer">
+            <Cog8ToothIcon className="w-5.5" />
           </button>
         </div>
         <div className="flex-[90%] flex flex-col justify-center items-center">
@@ -273,14 +305,18 @@ export default function MiniGame() {
         </div>
       </div>
       <div className="h-[25%] mt-2">
-        <Paragraph
-          text="Click an element"
-          className="text-center opacity-80 font-light"
-        />
+        {firstItem && secondItem ? (
+          <div className="h-4"></div>
+        ) : (
+          <Paragraph
+            text={`Select the ${firstItem ? "second" : "first"} element`}
+            className="text-center opacity-80 font-light"
+          />
+        )}
         <div>
-          <div className="mt-1 flex items-end gap-5 overflow-auto">
+          <div className="mt-1 flex items-end gap-5 overflow-auto scrollBar">
             {userElements ? (
-              userElements.map((item) => {
+              filteredElements.map((item) => {
                 return (
                   <button
                     key={item.element}
@@ -294,13 +330,13 @@ export default function MiniGame() {
                       firstItem !== undefined && secondItem !== undefined
                     }
                   >
-                    <div className="w-[12vw] h-[12vw] object-cover object-center">
+                    <span className="w-[12vw] h-[12vw] object-cover object-center">
                       <img
                         className="w-full h-full"
                         src={item.icon}
                         alt={item.element}
                       />
-                    </div>
+                    </span>
                     <Paragraph text={item.element} className="font-light" />
                   </button>
                 );
@@ -328,6 +364,18 @@ function Slot({ children }: { readonly children: React.ReactNode }) {
       <div className="w-[20vw] h-[20vw] object-cover object-center">
         {children}
       </div>
+    </div>
+  );
+}
+
+function Settings() {
+  const { userData } = useAuth();
+
+  return (
+    <div
+      className="w-[35vw] h-[35vw] border-[1.5px] rounded-full flex justify-center items-center"
+      style={{ borderColor: userData?.secondary_color + "30" }}
+    >
     </div>
   );
 }
