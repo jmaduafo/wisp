@@ -1,4 +1,4 @@
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { jsx as _jsx, Fragment as _Fragment, jsxs as _jsxs } from "react/jsx-runtime";
 import Paragraph from "@/components/ui/headings/Paragraph";
 import Loader from "@/components/ui/loading/Loader";
 import Widget from "@/components/ui/widget/Widget";
@@ -69,36 +69,55 @@ export default function MiniGame() {
         }
     };
     const checkResult = (item1, item2) => {
-        let correct = false;
-        let unlocked = false;
         // Check if combo exists by seeing if element 1 and 2
         // are a match
         const combo = gameCombinations.find((item) => item.item1 === item1.element && item.item2 === item2.element);
         // Return false if combo doesn't exist
         if (!combo) {
             return {
-                correct,
-                unlocked,
+                correct: false,
+                unlocked: false,
             };
         }
-        correct = true;
         const result = combo.result;
         // Find if unlocked element is in user's collection
         const resultIndex = userElements?.findIndex((item) => item.element === result);
+        if (resultIndex && resultIndex > 0) {
+            return {
+                correct: true,
+                unlocked: false,
+            };
+        }
         // If combined element isn't already added to unlocked list,
         // then add element to user's collection
-        if (!resultIndex) {
-            unlocked = true;
-            const resultFind = elements.find((item) => item.element === result);
-            if (!resultFind) {
-                return;
-            }
-            setUserElements((prev) => prev && [...prev, resultFind]);
-            setUnlockedResult(resultFind);
+        const resultFind = elements.find((item) => item.element === result);
+        if (!resultFind) {
+            return {
+                correct: true,
+                unlocked: false,
+            };
         }
+        setUserElements((prev) => {
+            const user_elements = Array.isArray(prev) ? prev : [];
+            // still double-check by element to avoid duplicates
+            if (user_elements.some((item) => item.element === resultFind.element)) {
+                return user_elements;
+            }
+            const updated = [...user_elements, resultFind];
+            // persist if you use localStorage / electron store
+            try {
+                localStorage.setItem(STORAGE_TITLE, JSON.stringify(updated));
+            }
+            catch (err) {
+                console.error("Failed to persist unlocked elements:", err);
+            }
+            return updated;
+        });
+        // set the unlocked result for UI effects
+        setUnlockedResult(resultFind);
         return {
-            correct,
-            unlocked,
+            correct: true,
+            unlocked: true,
         };
     };
     const showElement = (item1, item2) => {
@@ -106,28 +125,16 @@ export default function MiniGame() {
             return;
         }
         const combo = gameCombinations.find((item) => item.item1 === item1.element && item.item2 === item2.element);
-        if (!combo) {
-            return;
-        }
         if (isCorrect && isUnlocked) {
-            return `You have discovered ${combo.result}!`;
+            return `You have discovered ${combo?.result}!`;
         }
-        else if (isCorrect && !isUnlocked) {
-            return `${capitalize(combo.result)} has already been discovered. Select another match`;
+        else if (isCorrect === true && isUnlocked === false) {
+            return `${capitalize(combo?.result ?? "")} has already been discovered. Select another match`;
         }
-        else {
+        else if (isCorrect === false && isUnlocked === false) {
             return `Elements do not match. Please try again`;
         }
     };
-    // useEffect(() => {
-    //   if (userElements) {
-    //     localStorage.setItem(storage_title, JSON.stringify(userElements));
-    //     const collection = localStorage.getItem(storage_title);
-    //     if (collection) {
-    //       setUserElements(JSON.parse(collection));
-    //     }
-    //   }
-    // }, [userElements]);
     useEffect(() => {
         if (firstItem && secondItem) {
             const result = checkResult(firstItem, secondItem);
@@ -137,6 +144,9 @@ export default function MiniGame() {
                 const wait = setTimeout(() => {
                     setFirstItem(undefined);
                     setSecondItem(undefined);
+                    setUnlockedResult(undefined);
+                    setIsCorrect(undefined);
+                    setIsUnlocked(undefined);
                 }, 4000);
                 return () => clearTimeout(wait);
             }
@@ -145,11 +155,9 @@ export default function MiniGame() {
     return (_jsxs(Widget, { className: "overflow-hidden h-full", children: [_jsxs("div", { className: "h-[75%] flex flex-col items-center", children: [_jsx("div", { className: "flex-[10%] flex justify-end w-full", children: _jsx("button", { className: "text-[4.5vw] hover:opacity-100 opacity-90 duration-300 cursor-pointer px-2 font-light rounded-sm", style: {
                                 backgroundColor: userData?.secondary_color,
                                 color: userData?.primary_color,
-                            }, children: "Collection" }) }), _jsxs("div", { className: "flex-[90%] flex flex-col justify-center items-center", children: [_jsx("div", { className: "", children: firstItem && secondItem ? (_jsx(Paragraph, { text: showElement(firstItem, secondItem) ?? "", className: "text-center leading-[1]" })) : null }), _jsxs("div", { className: "mt-2 flex gap-2 items-center justify-center", children: [_jsx(Slot, { children: _jsx("div", { children: firstItem ? (_jsx("img", { src: firstItem.icon, alt: firstItem.element, className: "w-full h-full" })) : null }) }), _jsx("div", { className: `${firstItem &&
-                                            secondItem &&
-                                            checkResult(firstItem, secondItem)?.correct === false
-                                            ? "rotate-45"
-                                            : "rotate-0 "} duration-300`, children: firstItem ? (_jsx(Plus, { className: "w-[7vw] h-[7vw]" })) : (_jsx("div", { className: "w-[7vw] h-[7vw]" })) }), _jsx(Slot, { children: _jsx("div", { children: secondItem ? (_jsx("img", { src: secondItem.icon, alt: secondItem.element, className: "w-full h-full" })) : null }) })] })] })] }), _jsxs("div", { className: "h-[25%] mt-2", children: [_jsx(Paragraph, { text: "Click an element", className: "text-center opacity-80 font-light" }), _jsx("div", { children: _jsx("div", { className: "mt-1 flex items-end gap-5 overflow-auto", children: userElements ? (userElements.map((item) => {
+                            }, children: "Collection" }) }), _jsxs("div", { className: "flex-[90%] flex flex-col justify-center items-center", children: [_jsx("div", { className: "w-full flex justify-center", children: firstItem && secondItem ? (_jsx("p", { className: "text-center font-light leading-[1] text-[5.5vw] w-[75%]", children: showElement(firstItem, secondItem) ?? "" })) : null }), _jsx("div", { className: "mt-4 flex gap-1.5 items-center justify-center", children: unlockedResult ? (_jsx(Slot, { children: _jsx("img", { src: unlockedResult.icon, alt: unlockedResult.element, className: "w-full h-full" }) })) : (_jsxs(_Fragment, { children: [_jsx(Slot, { children: firstItem ? (_jsx("img", { src: firstItem.icon, alt: firstItem.element, className: "w-full h-full" })) : null }), _jsx("div", { className: `${isCorrect === false && isUnlocked === false
+                                                ? "rotate-45"
+                                                : "rotate-0 "} duration-300`, children: firstItem ? (_jsx(Plus, { className: "w-[9vw] h-[9vw]" })) : (_jsx("div", { className: "w-[9vw] h-[9vw]" })) }), _jsx(Slot, { children: secondItem ? (_jsx("img", { src: secondItem.icon, alt: secondItem.element, className: "w-full h-full" })) : null })] })) })] })] }), _jsxs("div", { className: "h-[25%] mt-2", children: [_jsx(Paragraph, { text: "Click an element", className: "text-center opacity-80 font-light" }), _jsx("div", { children: _jsx("div", { className: "mt-1 flex items-end gap-5 overflow-auto", children: userElements ? (userElements.map((item) => {
                                 return (_jsxs("button", { className: `${firstItem && secondItem
                                         ? "cursor-not-allowed"
                                         : "cursor-pointer"} flex flex-col items-center cursor-pointer`, onClick: () => selectElement(item), disabled: firstItem !== undefined && secondItem !== undefined, children: [_jsx("div", { className: "w-[12vw] h-[12vw] object-cover object-center", children: _jsx("img", { className: "w-full h-full", src: item.icon, alt: item.element }) }), _jsx(Paragraph, { text: item.element, className: "font-light" })] }, item.element));

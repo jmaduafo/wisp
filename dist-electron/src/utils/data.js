@@ -284,60 +284,34 @@ export const weatherForecast = (code) => {
         return "Hail";
     }
 };
-export const elements = [
-    {
-        element: "water",
-        icon: "/images/element_icons/water.png",
-    },
-    {
-        element: "fire",
-        icon: "/images/element_icons/fire.png",
-    },
-    {
-        element: "earth",
-        icon: "/images/element_icons/earth.png",
-    },
-    {
-        element: "air",
-        icon: "/images/element_icons/air.png",
-    },
-    {
-        element: "energy",
-        icon: "/images/element_icons/energy.png",
-    },
-    {
-        element: "mud",
-        icon: "/images/element_icons/mud.png",
-    },
-    {
-        element: "rain",
-        icon: "/images/element_icons/rain.png",
-    },
-    {
-        element: "pressure",
-        icon: "/images/element_icons/pressure.png",
-    },
-    {
-        element: "ocean",
-        icon: "/images/element_icons/ocean.png",
-    },
-    {
-        element: "volcano",
-        icon: "/images/element_icons/volcano.png",
-    },
-    {
-        element: "sea",
-        icon: "/images/element_icons/sea.png",
-    },
-    {
-        element: "plant",
-        icon: "/images/element_icons/plant.png",
-    },
-    {
-        element: "energy",
-        icon: "/images/element_icons/energy.png",
-    },
+const all_elements = [
+    "water",
+    "fire",
+    "earth",
+    "air",
+    "energy",
+    "mud",
+    "rain",
+    "pressure",
+    "ocean",
+    "volcano",
+    "sea",
+    "plant",
+    "ocean",
+    "lava",
+    "brick",
+    "dust",
+    "geyser",
+    "steam",
+    "grass",
 ];
+export const elements = [];
+all_elements.forEach((element) => {
+    elements.push({
+        element: element.toLowerCase(),
+        icon: `/images/element_icons/${element.toLowerCase()}.png`,
+    });
+});
 export const gameCombinations = [
     {
         item1: "water",
@@ -371,11 +345,6 @@ export const gameCombinations = [
     },
     {
         item1: "fire",
-        item2: "water",
-        result: "steam",
-    },
-    {
-        item1: "fire",
         item2: "earth",
         result: "lava",
     },
@@ -383,5 +352,45 @@ export const gameCombinations = [
         item1: "fire",
         item2: "air",
         result: "energy",
-    }
+    },
+    {
+        item1: "fire",
+        item2: "mud",
+        result: "brick",
+    },
+    {
+        item1: "water",
+        item2: "air",
+        result: "rain",
+    },
+    {
+        item1: "earth",
+        item2: "earth",
+        result: "pressure",
+    },
+    {
+        item1: "earth",
+        item2: "air",
+        result: "dust",
+    },
+    {
+        item1: "earth",
+        item2: "rain",
+        result: "plant",
+    },
+    {
+        item1: "earth",
+        item2: "plant",
+        result: "grass",
+    },
+    // {
+    //   item1: "fire",
+    //   item2: "water",
+    //   result: "steam",
+    // },
+    // {
+    //   item1: "fire",
+    //   item2: "earth",
+    //   result: "lava",
+    // },
 ];

@@ -88,11 +88,12 @@ export default function MiniGame() {
   };
 
   const checkResult = (item1: Alchemy, item2: Alchemy) => {
-
     // Check if combo exists by seeing if element 1 and 2
     // are a match
     const combo = gameCombinations.find(
-      (item) => item.item1 === item1.element && item.item2 === item2.element
+      (item) =>
+        (item.item1 === item1.element && item.item2 === item2.element) ||
+        (item.item1 === item2.element && item.item2 === item1.element)
     );
 
     // Return false if combo doesn't exist
@@ -105,24 +106,25 @@ export default function MiniGame() {
 
     const result = combo.result;
 
+    
+    // Checks if result is contained in element
+    const resultFind = elements.find((item) => item.element === result);
+    
+    if (!resultFind) {
+      return {
+        correct: true,
+        unlocked: false,
+      };
+    }
+    
     // Find if unlocked element is in user's collection
     const resultIndex = userElements?.findIndex(
       (item) => item.element === result
     );
 
     if (resultIndex && resultIndex > 0) {
-      return {
-        correct: true,
-        unlocked: false,
-      };
-    }
-
-    // If combined element isn't already added to unlocked list,
-    // then add element to user's collection
-
-    const resultFind = elements.find((item) => item.element === result)
-
-    if (!resultFind) {
+      setUnlockedResult(resultFind)
+      
       return {
         correct: true,
         unlocked: false,
@@ -143,7 +145,7 @@ export default function MiniGame() {
       } catch (err) {
         console.error("Failed to persist unlocked elements:", err);
       }
-      
+
       return updated;
     });
 
@@ -156,13 +158,16 @@ export default function MiniGame() {
     };
   };
 
+  // DISPLAYS A MESSAGE ONCE A COMBINATION IS MADE
   const showElement = (item1: Alchemy, item2: Alchemy) => {
     if (isCorrect === undefined || isUnlocked === undefined) {
       return;
     }
 
     const combo = gameCombinations.find(
-      (item) => item.item1 === item1.element && item.item2 === item2.element
+      (item) =>
+        (item.item1 === item1.element && item.item2 === item2.element) ||
+        (item.item1 === item2.element && item.item2 === item1.element)
     );
 
     if (isCorrect && isUnlocked) {
