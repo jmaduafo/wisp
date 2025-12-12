@@ -88,6 +88,10 @@
   font-family: "Swily Bright", sans-serif;
 }
 
+button {
+  cursor: pointer;
+}
+
 .classic {
   font-family: "Satoshi", sans-serif;
 }

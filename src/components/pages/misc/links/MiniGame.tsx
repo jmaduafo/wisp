@@ -1,17 +1,24 @@
+import Header2 from "@/components/ui/headings/Header2";
+import Header3 from "@/components/ui/headings/Header3";
 import Paragraph from "@/components/ui/headings/Paragraph";
 import Loader from "@/components/ui/loading/Loader";
 import Widget from "@/components/ui/widget/Widget";
 import { useAuth } from "@/context/AuthContext";
-import { Alchemy } from "@/types/types";
+import { Alchemy, AlchemyCollection } from "@/types/types";
 import { elements, gameCombinations } from "@/utils/data";
-import { capitalize } from "@/utils/helper";
+import { capitalize, sortArray } from "@/utils/helper";
 import { Cog8ToothIcon } from "@heroicons/react/24/solid";
-import { Plus, Search } from "lucide-react";
+import { Equal, Plus, Search, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
+
+const STORAGE_TITLE = "wisp_unlocked_collection";
+const STORAGE_COMBOS = "wisp_combination_list";
 
 export default function MiniGame() {
   const [userElements, setUserElements] = useState<Alchemy[] | undefined>();
   const [filteredElements, setFilteredElements] = useState<Alchemy[]>([]);
+
+  const [userCollection, setUserCollection] = useState<AlchemyCollection[]>([]);
 
   const [firstItem, setFirstItem] = useState<Alchemy | undefined>();
   const [secondItem, setSecondItem] = useState<Alchemy | undefined>();
@@ -23,8 +30,10 @@ export default function MiniGame() {
 
   const [searchValue, setSearchValue] = useState("");
 
-  const { userData } = useAuth();
-  const STORAGE_TITLE = "wisp_unlocked_collection";
+  const [openSettings, setOpenSettings] = useState(false);
+  const [openCollection, setOpenCollection] = useState(false);
+
+  const [isRestarted, setIsRestarted] = useState(false);
 
   const getUnlockedElements = () => {
     if (
@@ -39,12 +48,18 @@ export default function MiniGame() {
 
     try {
       const raw = localStorage.getItem(STORAGE_TITLE);
-      if (raw) {
+      const rawCombo = localStorage.getItem(STORAGE_COMBOS);
+
+      if (raw && rawCombo) {
         try {
           const parsed = JSON.parse(raw);
+          const parsedCombo = JSON.parse(rawCombo);
+
           if (Array.isArray(parsed)) {
-            setUserElements(parsed);
-            setFilteredElements(parsed);
+            setUserElements(sortArray(parsed, "element"));
+            setFilteredElements(sortArray(parsed, "element"));
+
+            setUserCollection(parsedCombo);
             return;
           } else {
             console.warn(
@@ -52,25 +67,30 @@ export default function MiniGame() {
               parsed
             );
           }
-        } catch (parseErr) {
+        } catch (err: any) {
           console.warn(
             "Failed to parse stored unlocked elements, resetting.",
-            parseErr
+            err
           );
         }
       }
 
       // No valid storage; set initial default
       const initial = Array.isArray(elements) ? elements.slice(0, 4) : [];
+
       localStorage.setItem(STORAGE_TITLE, JSON.stringify(initial));
-      setUserElements(initial);
-      setFilteredElements(initial);
+      localStorage.setItem(STORAGE_COMBOS, JSON.stringify([]));
+
+      setUserElements(sortArray(initial, "element"));
+      setFilteredElements(sortArray(initial, "element"));
+      setUserCollection([]);
     } catch (err) {
       console.error("Error accessing localStorage:", err);
       // fallback
       const fallback = Array.isArray(elements) ? elements.slice(0, 4) : [];
       setUserElements(fallback);
       setFilteredElements(fallback);
+      setUserCollection([]);
     }
   };
 
@@ -141,9 +161,12 @@ export default function MiniGame() {
       if (user_elements.some((item) => item.element === resultFind.element)) {
         return user_elements;
       }
-      const updated = [...user_elements, resultFind];
 
-      setFilteredElements([...filteredElements, resultFind])
+      const updated = sortArray([...user_elements, resultFind], "element");
+
+      setFilteredElements(
+        sortArray([...filteredElements, resultFind], "element")
+      );
 
       // persist if you use localStorage / electron store
       try {
@@ -157,6 +180,12 @@ export default function MiniGame() {
 
     // set the unlocked result for UI effects
     setUnlockedResult(resultFind);
+
+    setUserCollection([combo, ...userCollection]);
+    localStorage.setItem(
+      STORAGE_COMBOS,
+      JSON.stringify([combo, ...userCollection])
+    );
 
     return {
       correct: true,
@@ -232,6 +261,26 @@ export default function MiniGame() {
     }
   }, [firstItem, secondItem]);
 
+  const restartGame = () => {
+    // Remove items for storage once selected
+    localStorage.removeItem(STORAGE_TITLE);
+
+    // Close settings page
+    setOpenSettings(false);
+
+    // Get elements again with just the first four elements
+    getUnlockedElements();
+
+    // Reset restart state
+    setIsRestarted(false);
+  };
+
+  useEffect(() => {
+    if (isRestarted) {
+      restartGame();
+    }
+  }, [isRestarted]);
+
   return (
     <Widget className="overflow-hidden h-full">
       <div className="h-[75%] flex flex-col items-center">
@@ -245,9 +294,27 @@ export default function MiniGame() {
               value={searchValue}
             />
           </div>
-          <button className="cursor-pointer">
+          <button
+            className="cursor-pointer"
+            onClick={() => setOpenSettings(true)}
+          >
             <Cog8ToothIcon className="w-5.5" />
           </button>
+          {openSettings && (
+            <Settings
+              setOpenCollection={setOpenCollection}
+              setOpenSettings={setOpenSettings}
+              setIsRestarted={setIsRestarted}
+              userElements={userElements}
+            />
+          )}
+          {openCollection && (
+            <Collection
+              setOpenCollection={setOpenCollection}
+              setOpenSettings={setOpenSettings}
+              collectionList={userCollection}
+            />
+          )}
         </div>
         <div className="flex-[90%] flex flex-col justify-center items-center">
           <div className="w-full flex justify-center">
@@ -368,14 +435,148 @@ function Slot({ children }: { readonly children: React.ReactNode }) {
   );
 }
 
-function Settings() {
+function Container({ children }: { readonly children: React.ReactNode }) {
   const { userData } = useAuth();
 
   return (
     <div
-      className="w-[35vw] h-[35vw] border-[1.5px] rounded-full flex justify-center items-center"
-      style={{ borderColor: userData?.secondary_color + "30" }}
+      className="absolute top-0 left-0 w-full h-full z-50 p-2"
+      style={{ backgroundColor: userData?.primary_color }}
     >
+      {children}
     </div>
+  );
+}
+
+function Settings({
+  setOpenSettings,
+  setIsRestarted,
+  setOpenCollection,
+  userElements,
+}: {
+  readonly setOpenSettings: React.Dispatch<React.SetStateAction<boolean>>;
+  readonly setOpenCollection: React.Dispatch<React.SetStateAction<boolean>>;
+  readonly setIsRestarted: React.Dispatch<React.SetStateAction<boolean>>;
+  readonly userElements: Alchemy[] | undefined;
+}) {
+  return (
+    <Container>
+      <div className="h-full">
+        <div className="flex justify-end h-[10%]">
+          <button
+            className="cursor-pointer"
+            onClick={() => setOpenSettings(false)}
+          >
+            <X className="w-6 h-6" strokeWidth={1} />
+          </button>
+        </div>
+        <div className=" h-[90%] flex flex-col gap-2 justify-center items-center">
+          <div>
+            <button
+              onClick={() => {
+                setOpenCollection(true);
+                setOpenSettings(false);
+              }}
+              className="hover:opacity-70 opacity-100 duration-300"
+            >
+              <Header3 text="View Collection" />
+            </button>
+          </div>
+          <div>
+            <button
+              className="text-red-600 hover:opacity-70 opacity-100 duration-300"
+              onClick={() => setIsRestarted(true)}
+            >
+              <Header3 text="Restart" />
+            </button>
+          </div>
+          <div className="mt-[8vh]">
+            <Header2
+              text={`${userElements?.length} / ${elements.length}`}
+              className="text-center"
+            />
+            <Paragraph text={`elements found`} className="text-center opacity-60" />
+          </div>
+        </div>
+      </div>
+    </Container>
+  );
+}
+
+function Collection({
+  setOpenSettings,
+  setOpenCollection,
+  collectionList,
+}: {
+  readonly setOpenSettings: React.Dispatch<React.SetStateAction<boolean>>;
+  readonly setOpenCollection: React.Dispatch<React.SetStateAction<boolean>>;
+  readonly collectionList: AlchemyCollection[];
+}) {
+  return (
+    <Container>
+      <div className="h-full overflow-y-auto verticalScroll">
+        <div className="flex justify-end h-[10%]">
+          <button
+            className="cursor-pointer"
+            onClick={() => {
+              setOpenSettings(true);
+              setOpenCollection(false);
+            }}
+          >
+            <X className="w-6 h-6" strokeWidth={1} />
+          </button>
+        </div>
+        <div className="w-[90%] mx-auto flex flex-col gap-2">
+          {collectionList.map((item) => {
+            const findItem1 = elements.find((el) => el.element === item.item1);
+            const findItem2 = elements.find((el) => el.element === item.item2);
+            const findResult = elements.find(
+              (el) => el.element === item.result
+            );
+            return (
+              <div
+                key={item.id}
+                className="flex justify-between items-center gap-3"
+              >
+                <div className="flex items-center gap-2">
+                  <div className="flex flex-col items-center">
+                    <div className="w-[11vw] h-[11vw] object-cover objectt-center">
+                      <img
+                        src={findItem1?.icon}
+                        alt={item.item1}
+                        className="w-full h-full"
+                      />
+                    </div>
+                    <Paragraph text={item.item1} />
+                  </div>
+                  <Plus className="w-4 h-4" strokeWidth={1} />
+                  <div className="flex flex-col items-center">
+                    <div className="w-[11vw] h-[11vw] object-cover objectt-center">
+                      <img
+                        src={findItem2?.icon}
+                        alt={item.item2}
+                        className="w-full h-full"
+                      />
+                    </div>
+                    <Paragraph text={item.item2} />
+                  </div>
+                </div>
+                <Equal className="w-4 h-4" strokeWidth={1} />
+                <div className="flex flex-col items-center">
+                  <div className="w-[11vw] h-[11vw] object-cover objectt-center">
+                    <img
+                      src={findResult?.icon}
+                      alt={item.result}
+                      className="w-full h-full"
+                    />
+                  </div>
+                  <Paragraph text={item.result} />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </Container>
   );
 }

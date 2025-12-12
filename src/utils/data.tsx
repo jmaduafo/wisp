@@ -1,4 +1,4 @@
-import { Alchemy } from "@/types/types";
+import { Alchemy, AlchemyCollection } from "@/types/types";
 import {
   Cloud,
   Cloudy,
@@ -364,7 +364,7 @@ all_elements.forEach((element) => {
   });
 });
 
-export const gameCombinations = [
+const combo_list = [
   {
     item1: "water",
     item2: "water",
@@ -551,8 +551,8 @@ export const gameCombinations = [
     result: "diamond",
   },
   {
-    item1: "pressure",
-    item2: "coal",
+    item1: "cloud",
+    item2: "earth",
     result: "fog",
   },
   {
@@ -661,3 +661,10 @@ export const gameCombinations = [
     result: "metal",
   },
 ];
+
+
+export const gameCombinations: AlchemyCollection[] = []
+
+combo_list.forEach((item, i) => {
+  gameCombinations.push({ ...item, id: i + 1 })
+})

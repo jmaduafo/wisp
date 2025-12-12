@@ -537,8 +537,8 @@ export const gameCombinations = [
         result: "diamond",
     },
     {
-        item1: "pressure",
-        item2: "coal",
+        item1: "cloud",
+        item2: "earth",
         result: "fog",
     },
     {

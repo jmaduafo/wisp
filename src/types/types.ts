@@ -42,6 +42,13 @@ export type Alchemy = {
   icon: string;
 }
 
+export type AlchemyCollection = {
+  id: number;
+  item1: string;
+  item2: string;
+  result: string;
+}
+
 export type Widget = {
   category:
     | "weather"

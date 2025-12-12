@@ -25,3 +25,22 @@ export function capitalize(text) {
     });
     return new_text.join(" ");
 }
+export function sortArray(array, key) {
+    // Set all the values of the entered key to an array of
+    // of only the values
+    const arr = array.map(item => item[key]);
+    // Sort the array in descending order
+    const sorted = arr.sort();
+    const sortedArr = [];
+    sorted.forEach(item => {
+        // Find where the item in sorted array is found
+        // in the original array
+        // Then append the object to the new array
+        const findItem = array.find(obj => obj[key] === item);
+        if (!findItem) {
+            return;
+        }
+        sortedArr.push(findItem);
+    });
+    return sortedArr;
+}
