@@ -38,6 +38,13 @@ export async function loginWithSpotify() {
   const challenge = base64urlencode(await sha256(verifier));
   const uid = localStorage.getItem("wisp_uid")
 
+  const state = btoa(
+  JSON.stringify({
+    uid,
+    ver: verifier,
+  })
+);
+
   const params = new URLSearchParams({
     response_type: "code",
     client_id: CLIENT_ID,
@@ -45,8 +52,7 @@ export async function loginWithSpotify() {
     redirect_uri: REDIRECT_URI,
     code_challenge_method: "S256",
     code_challenge: challenge,
-    uid: uid ?? "", 
-    state: verifier, // pass PKCE verifier to callback
+    state, // pass PKCE verifier to callback
   });
 
   authUrl.search = new URLSearchParams(params).toString();

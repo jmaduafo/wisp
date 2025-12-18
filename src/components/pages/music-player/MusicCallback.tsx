@@ -8,23 +8,27 @@ function MusicCallback() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const code = params.get("code");
-    const verifier = params.get("state");
-    const uid = params.get("wisp_uid");
+    const stateParam = params.get("state");
+
+    const { uid, ver } = JSON.parse(atob(stateParam!));
 
     console.log("Spotify code:", code);
-    console.log("PKCE verifier:", verifier);
+    console.log("PKCE verifier:", ver);
 
-    if (!code || !verifier || !uid) {
+    if (!code || !ver) {
       console.error("Missing code or PKCE verifier in callback URL");
       return;
     }
 
-    exchangeCodeForTokens(code, verifier, uid)
+    exchangeCodeForTokens(code, ver, uid)
       .then((data) => {
         console.log("Access token:", data.access_token);
         console.log("Refresh token:", data.refresh_token);
 
-        window.location.replace("/music-player");
+        // ngrok callback page
+        window.location.replace(
+          `/music-player`
+        );
       })
       .catch(console.error);
   }, []);

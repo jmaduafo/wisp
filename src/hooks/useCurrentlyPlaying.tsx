@@ -3,26 +3,38 @@ import { getNowPlaying } from "../lib/spotify/spotifyApi";
 
 export function useCurrentlyPlaying(interval = 5000) {
   const [track, setTrack] = useState<any>(null);
+  const [progress, setProgress] = useState(0);
+
+  const isPlaying = track?.is_playing ?? false;
 
   useEffect(() => {
-    let timer: NodeJS.Timeout;
-
-    const fetchTrack = async () => {
-      try {
-        const data = await getNowPlaying();
-        console.log(data)
+    const fetchNowPlaying = async () => {
+      const data = await getNowPlaying();
+      if (data) {
         setTrack(data);
-      } catch (err) {
-        console.error(err);
-        return
+        setProgress(data?.progress_ms ?? 0);
       }
     };
 
-    fetchTrack();
-    // timer = setInterval(fetchTrack, interval);
+    fetchNowPlaying(); // initial fetch
 
-    // return () => clearInterval(timer);
-  }, [interval]);
+    const interval = setInterval(fetchNowPlaying, 10_000); // 15s
+    return () => clearInterval(interval);
+  }, []);
 
-  return track;
+  useEffect(() => {
+    if (!isPlaying || !track) return;
+
+    const interval = setInterval(() => {
+      if (track.progress_ms < track.item.duration_ms) {
+        setProgress((p) => p + 1000);
+      } else {
+        setProgress(track.progress_ms);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [isPlaying]);
+
+  return { track, progress };
 }
