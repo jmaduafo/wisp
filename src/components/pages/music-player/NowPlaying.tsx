@@ -21,14 +21,28 @@ function NowPlaying() {
           className="w-full h-full flex flex-col bg-cover bg-top bg-no-repeat"
           style={{ backgroundImage: `url(${track.item.album.images[0].url})` }}
         >
+          {/* EXPLICIT LABEL */}
+          {track.item.explicit && (
+            <div className="flex justify-end p-2">
+              <div
+                className="w-[7vw] h-[7vw] rounded-sm flex justify-center items-center"
+                style={{
+                  backgroundColor: userData?.secondary_color ?? "#2D2929",
+                  color: userData?.primary_color ?? "#F7EAE4",
+                }}
+              >
+                <p className="text-[4.5vw] font-medium">E</p>
+              </div>
+            </div>
+          )}
           <div
             className="absolute w-full h-full"
             style={{
               backgroundImage: `linear-gradient(to bottom, transparent, ${
-                  userData?.primary_color
-                    ? userData?.primary_color + "90"
-                    : "#F7EAE490"
-                })`,
+                userData?.primary_color
+                  ? userData?.primary_color + "90"
+                  : "#F7EAE490"
+              })`,
             }}
           ></div>
           <div
@@ -46,15 +60,19 @@ function NowPlaying() {
                     ? userData?.primary_color + " 50%"
                     : "#F7EAE4 50%"
                 }, transparent 100%)`,
-                
               }}
             ></div>
             <div className="z-5 mt-[7vh] w-full px-4">
               {/* SONG NAME AND ARTIST */}
-              <div>
-                <p className="text-center leading-[1] text-[4.8vw]">{track.item.name}</p>
-                <p className="text-center leading-[1] text-[4vw] opacity-80">{track.item.artists[0].name}</p>
+              <div className="">
+                <p className="text-center leading-[1] text-[4.8vw]">
+                  {track.item.name}
+                </p>
+                <p className="text-center leading-[1] text-[4vw] opacity-80">
+                  {track.item.artists[0].name}
+                </p>
               </div>
+
               {/* TRACK DURATIONS AND PROGRESS BAR */}
               <div className="w-full flex justify-between items-center gap-3">
                 <p className="text-[4vw] min-w-[10vw]">
