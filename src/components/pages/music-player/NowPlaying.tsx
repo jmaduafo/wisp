@@ -18,15 +18,17 @@ function NowPlaying() {
     <Widget padding="px-0">
       {track ? (
         <div
-          className="w-full h-full flex flex-col bg-cover bg-center bg-no-repeat"
+          className="w-full h-full flex flex-col bg-cover bg-top bg-no-repeat"
           style={{ backgroundImage: `url(${track.item.album.images[0].url})` }}
         >
           <div
             className="absolute w-full h-full"
             style={{
-              backgroundColor: userData?.primary_color
-                ? userData?.primary_color + "20"
-                : "#F7EAE420",
+              backgroundImage: `linear-gradient(to bottom, transparent, ${
+                  userData?.primary_color
+                    ? userData?.primary_color + "90"
+                    : "#F7EAE490"
+                })`,
             }}
           ></div>
           <div
@@ -35,6 +37,7 @@ function NowPlaying() {
               color: userData?.secondary_color ?? "#2D2929",
             }}
           >
+            {/* BACKGROUND BLUR MASK */}
             <div
               className="absolute top-0 left-0 w-full h-full backdrop-blur-md -z-0"
               style={{
@@ -43,9 +46,16 @@ function NowPlaying() {
                     ? userData?.primary_color + " 50%"
                     : "#F7EAE4 50%"
                 }, transparent 100%)`,
+                
               }}
             ></div>
-            <div className="z-5 mt-[7vh] w-full px-2">
+            <div className="z-5 mt-[7vh] w-full px-4">
+              {/* SONG NAME AND ARTIST */}
+              <div>
+                <p className="text-center leading-[1] text-[4.8vw]">{track.item.name}</p>
+                <p className="text-center leading-[1] text-[4vw] opacity-80">{track.item.artists[0].name}</p>
+              </div>
+              {/* TRACK DURATIONS AND PROGRESS BAR */}
               <div className="w-full flex justify-between items-center gap-3">
                 <p className="text-[4vw] min-w-[10vw]">
                   {formatTime(
@@ -79,10 +89,13 @@ function NowPlaying() {
                   {formatTime(track.item.duration_ms)}
                 </p>
               </div>
-              <div className="flex items-center justify-center gap-6 mt-[2vh]">
+              {/* BUTTON OPERATIONS */}
+              <div className="flex items-center justify-center gap-6 mt-[1vh]">
+                {/* BACKWARD BUTTON */}
                 <button onClick={prevTrack} className="hoverButton">
                   <BackwardIcon className="size-[9vw]" />
                 </button>
+                {/* PAUSE AND PLAY BUTTONS */}
                 <button onClick={playPause} className="hoverButton">
                   {track.is_playing ? (
                     <PauseIcon className="size-[12vw]" />
@@ -90,6 +103,7 @@ function NowPlaying() {
                     <PlayIcon className="size-[12vw]" />
                   )}
                 </button>
+                {/* FORWARD BUTTON */}
                 <button onClick={nextTrack} className="hoverButton">
                   <ForwardIcon className="size-[9vw]" />
                 </button>

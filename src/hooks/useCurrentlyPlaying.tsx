@@ -26,11 +26,7 @@ export function useCurrentlyPlaying(interval = 5000) {
     if (!isPlaying || !track) return;
 
     const interval = setInterval(() => {
-      if (track.progress_ms < track.item.duration_ms) {
-        setProgress((p) => p + 1000);
-      } else {
-        setProgress(track.progress_ms);
-      }
+      setProgress((p) => p + 1000);
     }, 1000);
 
     return () => clearInterval(interval);
