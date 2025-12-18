@@ -1,4 +1,5 @@
 import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
+import Header2 from "@/components/ui/headings/Header2";
 import Header3 from "@/components/ui/headings/Header3";
 import Paragraph from "@/components/ui/headings/Paragraph";
 import Loader from "@/components/ui/loading/Loader";
@@ -7,7 +8,7 @@ import { useAuth } from "@/context/AuthContext";
 import { elements, gameCombinations } from "@/utils/data";
 import { capitalize, sortArray } from "@/utils/helper";
 import { Cog8ToothIcon } from "@heroicons/react/24/solid";
-import { Plus, Search, X } from "lucide-react";
+import { Equal, Plus, Search, X } from "lucide-react";
 import { useEffect, useState } from "react";
 const STORAGE_TITLE = "wisp_unlocked_collection";
 const STORAGE_COMBOS = "wisp_combination_list";
@@ -42,7 +43,7 @@ export default function MiniGame() {
                     if (Array.isArray(parsed)) {
                         setUserElements(sortArray(parsed, "element"));
                         setFilteredElements(sortArray(parsed, "element"));
-                        setFilteredElements(parsedCombo);
+                        setUserCollection(parsedCombo);
                         return;
                     }
                     else {
@@ -135,8 +136,8 @@ export default function MiniGame() {
         });
         // set the unlocked result for UI effects
         setUnlockedResult(resultFind);
-        setUserCollection([resultFind, ...userCollection]);
-        localStorage.setItem(STORAGE_COMBOS, JSON.stringify([resultFind, ...userCollection]));
+        setUserCollection([combo, ...userCollection]);
+        localStorage.setItem(STORAGE_COMBOS, JSON.stringify([combo, ...userCollection]));
         return {
             correct: true,
             unlocked: true,
@@ -209,7 +210,7 @@ export default function MiniGame() {
             restartGame();
         }
     }, [isRestarted]);
-    return (_jsxs(Widget, { className: "overflow-hidden h-full", children: [_jsxs("div", { className: "h-[75%] flex flex-col items-center", children: [_jsxs("div", { className: "flex-[10%] flex items-center w-full", children: [_jsxs("div", { className: "flex-[1] flex items-center gap-2", children: [_jsx(Search, { className: "w-[6.5vw] h-[6.5vw]", strokeWidth: 1 }), _jsx("input", { placeholder: "Search", className: "text-[5vw] flex-[1] outline-none border-none", onChange: (e) => filterElements(e.target.value), value: searchValue })] }), _jsx("button", { className: "cursor-pointer", onClick: () => setOpenSettings(true), children: _jsx(Cog8ToothIcon, { className: "w-5.5" }) }), openSettings && (_jsx(Settings, { setOpenCollection: setOpenCollection, setOpenSettings: setOpenSettings, setIsRestarted: setIsRestarted })), openCollection && (_jsx(Collection, { setOpenCollection: setOpenCollection, setOpenSettings: setOpenSettings, collectionList: userCollection }))] }), _jsxs("div", { className: "flex-[90%] flex flex-col justify-center items-center", children: [_jsx("div", { className: "w-full flex justify-center", children: firstItem && secondItem ? (_jsx("p", { className: "text-center font-light leading-[1] text-[5.5vw] w-[75%]", children: showElement(firstItem, secondItem) ?? "" })) : null }), _jsx("div", { className: "mt-4 flex gap-1.5 items-center justify-center", children: unlockedResult ? (_jsx(Slot, { children: _jsx("img", { src: unlockedResult.icon, alt: unlockedResult.element, className: "w-full h-full" }) })) : (_jsxs(_Fragment, { children: [_jsx(Slot, { children: firstItem ? (_jsx("img", { src: firstItem.icon, alt: firstItem.element, className: "w-full h-full" })) : null }), _jsx("div", { className: `${isCorrect === false && isUnlocked === false
+    return (_jsxs(Widget, { className: "overflow-hidden h-full", children: [_jsxs("div", { className: "h-[75%] flex flex-col items-center", children: [_jsxs("div", { className: "flex-[10%] flex items-center w-full", children: [_jsxs("div", { className: "flex-[1] flex items-center gap-2", children: [_jsx(Search, { className: "w-[6.5vw] h-[6.5vw]", strokeWidth: 1 }), _jsx("input", { placeholder: "Search", className: "text-[5vw] flex-[1] outline-none border-none", onChange: (e) => filterElements(e.target.value), value: searchValue })] }), _jsx("button", { className: "cursor-pointer", onClick: () => setOpenSettings(true), children: _jsx(Cog8ToothIcon, { className: "w-5.5" }) }), openSettings && (_jsx(Settings, { setOpenCollection: setOpenCollection, setOpenSettings: setOpenSettings, setIsRestarted: setIsRestarted, userElements: userElements })), openCollection && (_jsx(Collection, { setOpenCollection: setOpenCollection, setOpenSettings: setOpenSettings, collectionList: userCollection }))] }), _jsxs("div", { className: "flex-[90%] flex flex-col justify-center items-center", children: [_jsx("div", { className: "w-full flex justify-center", children: firstItem && secondItem ? (_jsx("p", { className: "text-center font-light leading-[1] text-[5.5vw] w-[75%]", children: showElement(firstItem, secondItem) ?? "" })) : null }), _jsx("div", { className: "mt-4 flex gap-1.5 items-center justify-center", children: unlockedResult ? (_jsx(Slot, { children: _jsx("img", { src: unlockedResult.icon, alt: unlockedResult.element, className: "w-full h-full" }) })) : (_jsxs(_Fragment, { children: [_jsx(Slot, { children: firstItem ? (_jsx("img", { src: firstItem.icon, alt: firstItem.element, className: "w-full h-full" })) : null }), _jsx("div", { className: `${isCorrect === false && isUnlocked === false
                                                 ? "rotate-45"
                                                 : "rotate-0 "} duration-300`, children: firstItem ? (_jsx(Plus, { className: "w-[9vw] h-[9vw]" })) : (_jsx("div", { className: "w-[9vw] h-[9vw]" })) }), _jsx(Slot, { children: secondItem ? (_jsx("img", { src: secondItem.icon, alt: secondItem.element, className: "w-full h-full" })) : null })] })) })] })] }), _jsxs("div", { className: "h-[25%] mt-2", children: [firstItem && secondItem ? (_jsx("div", { className: "h-4" })) : (_jsx(Paragraph, { text: `Select the ${firstItem ? "second" : "first"} element`, className: "text-center opacity-80 font-light" })), _jsx("div", { children: _jsx("div", { className: "mt-1 flex items-end gap-5 overflow-auto scrollBar", children: userElements ? (filteredElements.map((item) => {
                                 return (_jsxs("button", { className: `${firstItem && secondItem
@@ -225,17 +226,20 @@ function Container({ children }) {
     const { userData } = useAuth();
     return (_jsx("div", { className: "absolute top-0 left-0 w-full h-full z-50 p-2", style: { backgroundColor: userData?.primary_color }, children: children }));
 }
-function Settings({ setOpenSettings, setIsRestarted, setOpenCollection, }) {
-    return (_jsx(Container, { children: _jsxs("div", { className: "h-full", children: [_jsx("div", { className: "flex justify-end h-[10%]", children: _jsx("button", { className: "cursor-pointer", onClick: () => setOpenSettings(false), children: _jsx(X, { className: "w-6 h-6", strokeWidth: 1 }) }) }), _jsxs("div", { className: "pb-[8vh] h-[90%] flex flex-col gap-4 justify-center items-center", children: [_jsx("div", { children: _jsx("button", { onClick: () => {
+function Settings({ setOpenSettings, setIsRestarted, setOpenCollection, userElements, }) {
+    return (_jsx(Container, { children: _jsxs("div", { className: "h-full", children: [_jsx("div", { className: "flex justify-end h-[10%]", children: _jsx("button", { className: "cursor-pointer", onClick: () => setOpenSettings(false), children: _jsx(X, { className: "w-6 h-6", strokeWidth: 1 }) }) }), _jsxs("div", { className: " h-[90%] flex flex-col gap-2 justify-center items-center", children: [_jsx("div", { children: _jsx("button", { onClick: () => {
                                     setOpenCollection(true);
                                     setOpenSettings(false);
-                                }, className: "hover:opacity-70 opacity-100 duration-300", children: _jsx(Header3, { text: "View Collection" }) }) }), _jsx("div", { children: _jsx("button", { className: "hover:opacity-70 opacity-100 duration-300", onClick: () => setIsRestarted(true), children: _jsx(Header3, { text: "Restart" }) }) })] })] }) }));
+                                }, className: "hover:opacity-70 opacity-100 duration-300", children: _jsx(Header3, { text: "View Collection" }) }) }), _jsx("div", { children: _jsx("button", { className: "text-red-600 hover:opacity-70 opacity-100 duration-300", onClick: () => setIsRestarted(true), children: _jsx(Header3, { text: "Restart" }) }) }), _jsxs("div", { className: "mt-[8vh]", children: [_jsx(Header2, { text: `${userElements?.length} / ${elements.length}`, className: "text-center" }), _jsx(Paragraph, { text: `elements found`, className: "text-center opacity-60" })] })] })] }) }));
 }
 function Collection({ setOpenSettings, setOpenCollection, collectionList, }) {
-    return (_jsx(Container, { children: _jsxs("div", { className: "h-full", children: [_jsx("div", { className: "flex justify-end h-[10%]", children: _jsx("button", { className: "cursor-pointer", onClick: () => {
+    return (_jsx(Container, { children: _jsxs("div", { className: "h-full overflow-y-auto verticalScroll", children: [_jsx("div", { className: "flex justify-end h-[10%]", children: _jsx("button", { className: "cursor-pointer", onClick: () => {
                             setOpenSettings(true);
                             setOpenCollection(false);
-                        }, children: _jsx(X, { className: "w-6 h-6", strokeWidth: 1 }) }) }), _jsx("div", { children: collectionList.map(item => {
-                        return (_jsx("div", {}, item.element));
+                        }, children: _jsx(X, { className: "w-6 h-6", strokeWidth: 1 }) }) }), _jsx("div", { className: "w-[90%] mx-auto flex flex-col gap-2", children: collectionList.map((item) => {
+                        const findItem1 = elements.find((el) => el.element === item.item1);
+                        const findItem2 = elements.find((el) => el.element === item.item2);
+                        const findResult = elements.find((el) => el.element === item.result);
+                        return (_jsxs("div", { className: "flex justify-between items-center gap-3", children: [_jsxs("div", { className: "flex items-center gap-2", children: [_jsxs("div", { className: "flex flex-col items-center", children: [_jsx("div", { className: "w-[11vw] h-[11vw] object-cover objectt-center", children: _jsx("img", { src: findItem1?.icon, alt: item.item1, className: "w-full h-full" }) }), _jsx(Paragraph, { text: item.item1 })] }), _jsx(Plus, { className: "w-4 h-4", strokeWidth: 1 }), _jsxs("div", { className: "flex flex-col items-center", children: [_jsx("div", { className: "w-[11vw] h-[11vw] object-cover objectt-center", children: _jsx("img", { src: findItem2?.icon, alt: item.item2, className: "w-full h-full" }) }), _jsx(Paragraph, { text: item.item2 })] })] }), _jsx(Equal, { className: "w-4 h-4", strokeWidth: 1 }), _jsxs("div", { className: "flex flex-col items-center", children: [_jsx("div", { className: "w-[11vw] h-[11vw] object-cover objectt-center", children: _jsx("img", { src: findResult?.icon, alt: item.result, className: "w-full h-full" }) }), _jsx(Paragraph, { text: item.result })] })] }, item.id));
                     }) })] }) }));
 }

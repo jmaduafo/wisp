@@ -1,6 +1,9 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import path from "path";
 import { fileURLToPath } from "url";
+import dotenv from "dotenv";
+
+dotenv.config();
 // __dirname workaround in ESM
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -25,7 +28,7 @@ function measurements(name, path) {
     } else if (path === "date-time") {
       return 300;
     } else if (path === "music-player") {
-      return 200;
+      return 300;
     } else if (path === "to-do") {
       return 400;
     } else if (path === "album") {
@@ -51,7 +54,7 @@ function measurements(name, path) {
     } else if (path === "date-time") {
       return 230;
     } else if (path === "music-player") {
-      return 150;
+      return 230;
     } else if (path === "to-do") {
       return 300;
     } else if (path === "album") {

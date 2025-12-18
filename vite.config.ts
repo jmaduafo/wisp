@@ -18,6 +18,9 @@ export default defineConfig({
     fs: {
       allow: ['.'],
     },
+    allowedHosts: [
+      "yaretzi-unfluorescent-colleen.ngrok-free.dev",
+    ],
   },
   base: './',
 })

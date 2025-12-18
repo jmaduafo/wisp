@@ -15,6 +15,7 @@ import Timer from "./components/pages/misc/links/Timer";
 import Quote from "./components/pages/misc/links/Quote";
 import Quiz from "./components/pages/misc/links/Quiz";
 import Calculator from "./components/pages/misc/links/Calculator";
+import MusicCallback from "./components/pages/music-player/MusicCallback";
 
 function App() {
   const { pathname } = useLocation();
@@ -38,6 +39,7 @@ function App() {
           <Route path="/music-player" element={<MusicPlayer />} />
           <Route path="/to-do" element={<ToDo />} />
           <Route path="/album" element={<Album />} />
+          <Route path="/callback" element={<MusicCallback />} />
           <Route path="/misc/menu" element={<Misc />} />
           <Route path="/misc/game" element={<MiniGame />} />
           <Route path="/misc/calculator" element={<Calculator />} />

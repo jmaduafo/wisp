@@ -350,7 +350,7 @@ all_elements.forEach((element) => {
         icon: `/images/element_icons/${element.toLowerCase()}.png`,
     });
 });
-export const gameCombinations = [
+const combo_list = [
     {
         item1: "water",
         item2: "water",
@@ -647,3 +647,7 @@ export const gameCombinations = [
         result: "metal",
     },
 ];
+export const gameCombinations = [];
+combo_list.forEach((item, i) => {
+    gameCombinations.push({ ...item, id: i + 1 });
+});

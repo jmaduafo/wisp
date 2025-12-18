@@ -15,12 +15,13 @@ import Timer from "./components/pages/misc/links/Timer";
 import Quote from "./components/pages/misc/links/Quote";
 import Quiz from "./components/pages/misc/links/Quiz";
 import Calculator from "./components/pages/misc/links/Calculator";
+import MusicCallback from "./components/pages/music-player/MusicCallback";
 function App() {
     const { pathname } = useLocation();
     const { userData } = useAuth();
     return (_jsx("div", { className: `h-screen classic`, style: {
             backgroundColor: userData && (pathname !== "/" && !pathname.includes("menu")) ? userData.primary_color : "#F7EAE4",
             color: userData && (pathname !== "/" && !pathname.includes("menu")) ? userData.secondary_color : "#2D2929",
-        }, children: _jsxs("main", { className: `h-full`, children: [_jsxs(Routes, { children: [_jsx(Route, { path: "/", element: _jsx(MainMenu, {}) }), _jsx(Route, { path: "/weather", element: _jsx(Weather, {}) }), _jsx(Route, { path: "/date-time", element: _jsx(DateTime, {}) }), _jsx(Route, { path: "/music-player", element: _jsx(MusicPlayer, {}) }), _jsx(Route, { path: "/to-do", element: _jsx(ToDo, {}) }), _jsx(Route, { path: "/album", element: _jsx(Album, {}) }), _jsx(Route, { path: "/misc/menu", element: _jsx(Misc, {}) }), _jsx(Route, { path: "/misc/game", element: _jsx(MiniGame, {}) }), _jsx(Route, { path: "/misc/calculator", element: _jsx(Calculator, {}) }), _jsx(Route, { path: "/misc/calendar", element: _jsx(Calendar, {}) }), _jsx(Route, { path: "/misc/timer", element: _jsx(Timer, {}) }), _jsx(Route, { path: "/misc/quote", element: _jsx(Quote, {}) }), _jsx(Route, { path: "/misc/quiz", element: _jsx(Quiz, {}) })] }), _jsx(Toaster, {})] }) }));
+        }, children: _jsxs("main", { className: `h-full`, children: [_jsxs(Routes, { children: [_jsx(Route, { path: "/", element: _jsx(MainMenu, {}) }), _jsx(Route, { path: "/weather", element: _jsx(Weather, {}) }), _jsx(Route, { path: "/date-time", element: _jsx(DateTime, {}) }), _jsx(Route, { path: "/music-player", element: _jsx(MusicPlayer, {}) }), _jsx(Route, { path: "/to-do", element: _jsx(ToDo, {}) }), _jsx(Route, { path: "/album", element: _jsx(Album, {}) }), _jsx(Route, { path: "/callback", element: _jsx(MusicCallback, {}) }), _jsx(Route, { path: "/misc/menu", element: _jsx(Misc, {}) }), _jsx(Route, { path: "/misc/game", element: _jsx(MiniGame, {}) }), _jsx(Route, { path: "/misc/calculator", element: _jsx(Calculator, {}) }), _jsx(Route, { path: "/misc/calendar", element: _jsx(Calendar, {}) }), _jsx(Route, { path: "/misc/timer", element: _jsx(Timer, {}) }), _jsx(Route, { path: "/misc/quote", element: _jsx(Quote, {}) }), _jsx(Route, { path: "/misc/quiz", element: _jsx(Quiz, {}) })] }), _jsx(Toaster, {})] }) }));
 }
 export default App;
