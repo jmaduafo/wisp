@@ -92,6 +92,15 @@ button {
   cursor: pointer;
 }
 
+
+.hoverButton {
+  opacity: 1;
+  transition-duration: 300;
+}
+.hoverButton:hover {
+  opacity: 0.8
+}
+
 .classic {
   font-family: "Satoshi", sans-serif;
 }

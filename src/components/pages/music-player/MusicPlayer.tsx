@@ -27,9 +27,9 @@ function MusicPlayer() {
   }
 
   return (
-    <Widget>
-      <NowPlaying/>
-    </Widget>
+    <div className="h-full w-full">
+      <NowPlaying />
+    </div>
   );
 }
 

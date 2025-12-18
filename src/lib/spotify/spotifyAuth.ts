@@ -36,6 +36,7 @@ async function sha256(text: string) {
 export async function loginWithSpotify() {
   // Instead of localStorage, we’ll pass it via query string
   const challenge = base64urlencode(await sha256(verifier));
+  const uid = localStorage.getItem("wisp_uid")
 
   const params = new URLSearchParams({
     response_type: "code",
@@ -44,6 +45,7 @@ export async function loginWithSpotify() {
     redirect_uri: REDIRECT_URI,
     code_challenge_method: "S256",
     code_challenge: challenge,
+    uid: uid ?? "", 
     state: verifier, // pass PKCE verifier to callback
   });
 
@@ -54,7 +56,7 @@ export async function loginWithSpotify() {
 }
 
 // Step 2: Exchange code for tokens
-export async function exchangeCodeForTokens(code: string, verifier: string) {
+export async function exchangeCodeForTokens(code: string, verifier: string, uid: string) {
 
   const res = await fetch("https://accounts.spotify.com/api/token", {
     method: "POST",
@@ -78,6 +80,7 @@ export async function exchangeCodeForTokens(code: string, verifier: string) {
   }
 
   localStorage.setItem("spotify_access_token", data.access_token);
+  localStorage.setItem("wisp_uid", uid);
 
   if (data.refresh_token) {
     localStorage.setItem("spotify_refresh_token", data.refresh_token);
