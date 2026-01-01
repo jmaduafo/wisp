@@ -13,6 +13,6 @@ function MusicPlayer() {
                     color: userData?.primary_color,
                 }, children: "Connect Spotify" }) }));
     }
-    return (_jsx(Widget, { children: _jsx(NowPlaying, {}) }));
+    return (_jsx("div", { className: "h-full w-full", children: _jsx(NowPlaying, {}) }));
 }
 export default MusicPlayer;

@@ -49,6 +49,13 @@ export type AlchemyCollection = {
   result: string;
 }
 
+export type SpotifyDevice = {
+  id: string;
+  name: string;
+  type: string;
+  is_active: boolean;
+};
+
 export type Widget = {
   category:
     | "weather"

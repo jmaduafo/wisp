@@ -1,8 +1,12 @@
 import { refreshAccessToken } from "./spotifyAuth";
 const API = "https://api.spotify.com/v1";
 function authHeaders() {
+    const token = localStorage.getItem("spotify_access_token");
+    if (!token)
+        throw new Error("No access token found");
     return {
-        Authorization: `Bearer ${localStorage.getItem("spotify_access_token")}`,
+        'Authorization': `Bearer ${token}`,
+        "Content-Type": "application/json",
     };
 }
 // Get currently playing track
@@ -27,13 +31,33 @@ export async function getNowPlaying() {
         console.error("Error Playing: " + err);
     }
 }
-// Control playback
-export async function playPause() {
-    const state = await fetch(`${API}/me/player`, { headers: authHeaders() }).then((r) => r.json());
-    const endpoint = state.is_playing ? "pause" : "play";
-    await fetch(`${API}/me/player/${endpoint}`, {
-        method: "PUT",
+export async function getActiveDevice() {
+    const res = await fetch(`${API}/me/player/devices`, {
         headers: authHeaders(),
+    });
+    if (!res.ok)
+        return null;
+    const data = await res.json();
+    const active = data.devices.find((d) => d.is_active);
+    if (active) {
+        localStorage.setItem("spotify_active_device", active.id);
+        return active;
+    }
+    return null;
+}
+// Control playback
+export async function playPause(isPlaying) {
+    const deviceId = localStorage.getItem("spotify_active_device") ||
+        (await getActiveDevice())?.id;
+    if (!deviceId) {
+        throw new Error("No active Spotify device");
+    }
+    const endpoint = isPlaying ? "pause" : "play";
+    await fetch(`https://api.spotify.com/v1/me/player/${endpoint}?device_id=${deviceId}`, {
+        method: "PUT",
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("spotify_access_token")}`,
+        },
     });
 }
 export async function nextTrack() {
