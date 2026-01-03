@@ -19,9 +19,13 @@ Currently, two official plugins are available:
 
 https://github.com/user-attachments/assets/86a4128a-903f-4621-81a8-32301e1d5565
 
-### Album, Calculator, Timer, and Quiz
+### Calculator, Timer, and Quiz
 
 https://github.com/user-attachments/assets/a51094c5-b82f-41e3-942b-c8be5e615bf1
+
+### Album
+
+https://github.com/user-attachments/assets/bc1f1ee5-6a47-426d-9d20-06fcc7a8ae0b
 
 ### Quote and Mini Game
 
